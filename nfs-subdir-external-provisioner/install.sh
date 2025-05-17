@@ -11,4 +11,5 @@ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs
   --set storageClass.name=nfs-storage \
   --set storageClass.defaultClass=true \
   --set rbac.create=true \
-  --namespace kube-system
+  --namespace kube-system \
+  --create-namespace
