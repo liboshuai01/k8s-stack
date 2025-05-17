@@ -11,7 +11,7 @@ helm uninstall traefik-crd -n kube-system
 helm install ingress-nginx ingress-nginx/ingress-nginx \
   --set controller.hostNetwork=true \
   --set controller.dnsPolicy=ClusterFirstWithHostNet \
-  --set-string controller.nodeSelector.ingress=true \
+  --set-string controller.nodeSelector.ingress="true" \
   --set controller.kind=DaemonSet \
   --set controller.service.enabled=true \
   --set controller.service.type=NodePort \
