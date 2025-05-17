@@ -2,4 +2,4 @@
 
 set -x
 
-kubectl get ingress-nginx -n ingress-nginx
+kubectl get all -n ingress-nginx
