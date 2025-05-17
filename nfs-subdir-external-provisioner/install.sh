@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
   --set nfs.server=master \
   --set nfs.path=/data/nfs/k8s \
