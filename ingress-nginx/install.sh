@@ -5,6 +5,9 @@ set -x
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
 
+helm uninstall traefik -n kube-system
+helm uninstall traefik-crd -n kube-system
+
 helm install ingress-nginx ingress-nginx/ingress-nginx \
   --set controller.hostNetwork=true \
   --set controller.dnsPolicy=ClusterFirstWithHostNet \
