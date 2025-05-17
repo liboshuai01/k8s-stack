@@ -2,4 +2,4 @@
 
 set -x
 
-helm uninstall nfs-subdir-external-provisioner -n kube-system
+helm uninstall ingress-nginx -n ingress-nginx

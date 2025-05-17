@@ -2,4 +2,4 @@
 
 set -x
 
-kubectl get storageclass | grep nfs-storage
+kubectl get ingress-nginx -n ingress-nginx
