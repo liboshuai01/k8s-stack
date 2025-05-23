@@ -18,11 +18,13 @@ helm install kafka-cluster bitnami/kafka --version 32.2.6 \
   --set listeners.external.protocol=PLAINTEXT \
   --set listeners.external.sslClientAuth=none \
   --set controller.persistence.enabled=true \
-  --set controller.persistence.size=8Gi \
+  --set controller.persistence.size=16Gi \
   --set controller.logPersistence.enabled=true \
   --set controller.logPersistence.size=8Gi \
-  --set broker.persistence.enabled=true \
-  --set broker.persistence.size=20Gi \
-  --set broker.logPersistence.enabled=true \
-  --set broker.logPersistence.size=8Gi \
+  # broker相关配置生产环境可启动
+  # --set broker.replicaCount=3 \
+  # --set broker.persistence.enabled=true \
+  # --set broker.persistence.size=16Gi \
+  # --set broker.logPersistence.enabled=true \
+  # --set broker.logPersistence.size=8Gi \
   --set metrics.jmx.enabled=true
