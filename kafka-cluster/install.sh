@@ -17,9 +17,11 @@ helm install kafka-cluster bitnami/kafka --version 32.2.6 \
   --set listeners.interbroker.sslClientAuth=none \
   --set listeners.external.protocol=PLAINTEXT \
   --set listeners.external.sslClientAuth=none \
+  --set controller.persistence.enabled=true \
   --set controller.persistence.size=8Gi \
   --set controller.logPersistence.enabled=true \
   --set controller.logPersistence.size=8Gi \
+  --set broker.persistence.enabled=true \
   --set broker.persistence.size=20Gi \
   --set broker.logPersistence.enabled=true \
   --set broker.logPersistence.size=8Gi \
