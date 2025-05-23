@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x # 开启调试模式，打印执行的命令
-
 # 添加 Bitnami Helm 仓库并更新
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
