@@ -30,6 +30,6 @@ helm install kafka-cluster bitnami/kafka --version 32.2.6 \
   # --set broker.logPersistence.enabled=true \
   # --set broker.logPersistence.size=8Gi \
 
-echo "Kafka cluster installation process initiated."
-echo "Use 'kubectl get pods -n kafka-cluster -w' to monitor pod status."
-echo "Or use './status.sh' to check all resources in the namespace."
+echo "Kafka 集群安装过程已启动。"
+echo "使用 'kubectl get pods -n kafka-cluster -w' 来监控 pod 状态。"
+echo "或者使用 './status.sh' 来检查命名空间中的所有资源。"

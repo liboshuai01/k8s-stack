@@ -2,6 +2,6 @@
 
 helm uninstall kafka-cluster -n kafka-cluster
 
-echo "Kafka cluster uninstallation initiated."
-echo "Persistent Volume Claims (PVCs) might need to be manually deleted if reclaimPolicy is not Delete."
-echo "Check with: kubectl get pvc -n kafka-cluster"
+echo "Kafka 集群卸载过程已启动。"
+echo "如果 reclaimPolicy 不是 Delete，Persistent Volume Claims (PVCs) 可能需要手动删除。"
+echo "请使用以下命令检查：kubectl get pvc -n kafka-cluster"
