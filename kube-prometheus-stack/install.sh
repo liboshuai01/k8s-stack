@@ -7,7 +7,7 @@ helm repo update
 # Helm 安装相关
 RELEASE_NAME="kube-prom-stack"
 CHART_VERSION="72.6.2" # 请确认这是您希望使用的稳定版本，或注释掉以使用最新版
-NAMESPACE="monitoring"
+NAMESPACE="kube-prom-stack"
 
 # 存储类和Ingress类
 STORAGE_CLASS_NAME="nfs-storage"

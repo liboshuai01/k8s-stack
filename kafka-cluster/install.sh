@@ -13,7 +13,7 @@ STORAGE_CLASS="nfs-storage"
 
 # Prometheus Stack 的 Release 名称 (必须与你安装 kube-prometheus-stack 时使用的 RELEASE_NAME 一致)
 PROM_STACK_RELEASE_NAME="kube-prom-stack"
-PROM_STACK_NAMESPACE="monitoring" # ServiceMonitor将创建在这个命名空间
+PROM_STACK_NAMESPACE="kube-prom-stack" # ServiceMonitor将创建在这个命名空间
 
 # --- 安装 Kafka 集群 ---
 helm install ${KAFKA_RELEASE_NAME} bitnami/kafka --version ${KAFKA_CHART_VERSION} \
