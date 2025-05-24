@@ -8,7 +8,7 @@ helm repo update
 # Kafka 安装相关
 KAFKA_RELEASE_NAME="kafka-cluster"
 KAFKA_NAMESPACE="kafka-cluster"
-KAFKA_CHART_VERSION="32.2.6" # 请确认这是您希望使用的稳定版本
+KAFKA_CHART_VERSION="32.2.8" # 请确认这是您希望使用的稳定版本
 STORAGE_CLASS="nfs-storage"
 
 # Prometheus Stack 的 Release 名称 (必须与你安装 kube-prometheus-stack 时使用的 RELEASE_NAME 一致)
