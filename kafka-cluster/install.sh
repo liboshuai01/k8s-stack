@@ -55,7 +55,7 @@ echo "ServiceMonitor 将创建在命名空间 '${PROM_STACK_NAMESPACE}' 中，�
 echo "---------------------------------------------------------------------"
 echo "监控 Pod 状态: kubectl get pods -n ${KAFKA_NAMESPACE} -w"
 echo "检查 Service (JMX metrics): kubectl get svc -n ${KAFKA_NAMESPACE} | grep jmx"
-echo "检查 ServiceMonitor: kubectl get servicemonitor -n ${PROM_STACK_NAMESPACE} ${KAFKA_RELEASE_NAME}-kafka"
+echo "检查 ServiceMonitor: kubectl get servicemonitor -n ${PROM_STACK_NAMESPACE} ${KAFKA_RELEASE_NAME}-jmx-metrics"
 echo "检查 Prometheus Targets: 访问 http://${PROMETHEUS_HOST}/targets (其中 PROMETHEUS_HOST 是你的Prometheus Ingress主机名)"
 echo "---------------------------------------------------------------------"
 echo "如果遇到问题, 请检查 Prometheus Operator 日志: kubectl logs -n ${PROM_STACK_NAMESPACE} -l app.kubernetes.io/name=prometheus-operator -c prometheus-operator"
