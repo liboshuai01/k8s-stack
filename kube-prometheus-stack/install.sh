@@ -20,9 +20,9 @@ PROMETHEUS_HOST="prometheus.lbs.com"
 GRAFANA_HOST="grafana.lbs.com"
 
 # 持久化存储大小
-ALERTMANAGER_STORAGE_SIZE="10Gi"
-PROMETHEUS_STORAGE_SIZE="50Gi" # Prometheus 需要的存储通常比 Alertmanager 和 Grafana 多
-GRAFANA_STORAGE_SIZE="10Gi"
+ALERTMANAGER_STORAGE_SIZE="8Gi"
+PROMETHEUS_STORAGE_SIZE="32Gi" # Prometheus 需要的存储通常比 Alertmanager 和 Grafana 多
+GRAFANA_STORAGE_SIZE="8Gi"
 
 # Grafana 管理员密码 (生产环境建议修改或使用 Secret)
 GRAFANA_ADMIN_PASSWORD="YOUR_PASSWORD" # 这是 chart 的默认密码
