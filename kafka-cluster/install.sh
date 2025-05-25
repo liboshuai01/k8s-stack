@@ -34,9 +34,9 @@ helm install ${KAFKA_RELEASE_NAME} bitnami/kafka --version ${KAFKA_CHART_VERSION
   \
   --set controller.replicaCount=3 \
   --set controller.persistence.enabled=true \
-  --set controller.persistence.size=32Gi \
+  --set controller.persistence.size=8Gi \
   --set controller.logPersistence.enabled=true \
-  --set controller.logPersistence.size=8Gi \
+  --set controller.logPersistence.size=4Gi \
   --set controller.resources.requests.cpu=2 \
   --set controller.resources.requests.memory=512Mi \
   --set controller.resources.limits.cpu=3 \
