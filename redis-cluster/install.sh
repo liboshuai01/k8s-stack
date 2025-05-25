@@ -21,14 +21,14 @@ helm install "$RELEASE_NAME" bitnami/redis-cluster --version "$CHART_VERSION" \
   --set-string global.storageClass="$STORAGE_CLASS" \
   --set-string global.redis.password="$REDIS_PASSWORD" \
   \
-  --set redis.resources.requests.cpu=500m \
-  --set redis.resources.requests.memory=1024Mi \
-  --set redis.resources.limits.cpu=750m \
+  --set redis.resources.requests.cpu=250m \
+  --set redis.resources.requests.memory=512Mi \
+  --set redis.resources.limits.cpu=1000m \
   --set redis.resources.limits.memory=2048Mi \
   \
-  --set updateJob.resources.requests.cpu=500m \
-  --set updateJob.resources.requests.memory=1024Mi \
-  --set updateJob.resources.limits.cpu=750m \
+  --set updateJob.resources.requests.cpu=250m \
+  --set updateJob.resources.requests.memory=512Mi \
+  --set updateJob.resources.limits.cpu=1000m \
   --set updateJob.resources.limits.memory=2048Mi \
 
 echo "Redis Cluster 安装命令已执行。请使用 status.sh 检查状态。"
