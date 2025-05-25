@@ -14,7 +14,7 @@ CHART_VERSION="6.10.3"            # 根据需要调整到最新或兼容版本�
 REDIS_CLUSTER_ADDRESS="redis://my-redis-cluster:6379"
 
 # --- 安装/升级命令 ---
-helm upgrade --install ${RELEASE_NAME} prometheus-community/redis-exporter --version ${CHART_VERSION} \
+helm upgrade --install ${RELEASE_NAME} prometheus-community/prometheus-redis-exporter --version ${CHART_VERSION} \
   --namespace ${NAMESPACE} \
   --create-namespace \
   \
