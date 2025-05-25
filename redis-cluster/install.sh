@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # --- 可配置变量 ---
-HELM_RELEASE_NAME="redis-cluster"
-NAMESPACE="redis-cluster"
+NAMESPACE="redis"
+RELEASE_NAME="my-redis-cluster"
 CHART_VERSION="12.0.6" # Bitnami Redis Cluster Chart 版本，请按需选择
-STORAGE_CLASS="nfs-storage" # 替换为您的 StorageClass 名称
+STORAGE_CLASS="nfs" # 替换为您的 StorageClass 名称
 REDIS_PASSWORD="YOUR_PASSWORD" # 替换为您的强密码
 # ------------------
 
@@ -15,7 +15,7 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
 # 使用 Helm 安装 Redis Cluster
-helm install "$HELM_RELEASE_NAME" bitnami/redis-cluster --version "$CHART_VERSION" \
+helm install "$RELEASE_NAME" bitnami/redis-cluster --version "$CHART_VERSION" \
   --namespace "$NAMESPACE" \
   --create-namespace \
   --set-string global.storageClass="$STORAGE_CLASS" \

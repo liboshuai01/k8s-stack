@@ -9,4 +9,4 @@ echo "NFS Subdir External Provisioner uninstallation initiated."
 echo "You may also want to remove the Helm repository if no longer needed:"
 echo "helm repo remove nfs-subdir-external-provisioner"
 # 并且手动清理 StorageClass (如果helm uninstall 未自动删除)
-# kubectl delete storageclass nfs-storage
+# kubectl delete storageclass nfs

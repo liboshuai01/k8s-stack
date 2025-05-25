@@ -6,8 +6,8 @@ helm repo update
 
 # --- 配置变量 ---
 # Kafka 安装相关
-NAMESPACE="kafka"
 RELEASE_NAME="my-kafka-cluster"
+NAMESPACE="kafka"
 CHART_VERSION="32.2.8" # 请确认这是您希望使用的稳定版本 (与你提供的 values.yaml 对应)
 STORAGE_CLASS="nfs"
 

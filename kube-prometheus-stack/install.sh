@@ -5,12 +5,12 @@ helm repo update
 
 # --- 配置变量 ---
 # Helm 安装相关
+NAMESPACE="kube-prom-stack"
 RELEASE_NAME="kube-prom-stack"
 CHART_VERSION="72.6.2" # 请确认这是您希望使用的稳定版本，或注释掉以使用最新版
-NAMESPACE="kube-prom-stack"
 
 # 存储类和Ingress类
-STORAGE_CLASS_NAME="nfs-storage"
+STORAGE_CLASS_NAME="nfs"
 INGRESS_CLASS_NAME="nginx" # 确保您的集群中已安装并配置了Nginx Ingress Controller
 
 # Ingress 主机名 (请根据您的环境修改这些占位符)

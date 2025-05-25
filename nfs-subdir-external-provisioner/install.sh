@@ -12,7 +12,7 @@ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs
   --create-namespace \
   --set nfs.server=master \
   --set nfs.path=/data/nfs/k8s \
-  --set storageClass.name=nfs-storage \
+  --set storageClass.name=nfs \
   --set storageClass.defaultClass=true \
   --set rbac.create=true
 

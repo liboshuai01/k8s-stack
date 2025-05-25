@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-NAMESPACE="redis-cluster"
+NAMESPACE="redis"
 
 kubectl get all -n ${NAMESPACE}
 kubectl get pvc -n ${NAMESPACE}

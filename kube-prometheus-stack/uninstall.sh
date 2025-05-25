@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-helm uninstall kube-prom-stack -n kube-prom-stack
+NAMESPACE="kube-prom-stack"
+RELEASE_NAME="kube-prom-stack"
 
-echo "kube-prom-stack 卸载过程已启动。"
+helm uninstall ${RELEASE_NAME} -n ${NAMESPACE}
+
+echo "${RELEASE_NAME} 卸载过程已启动。"
 echo "如果 reclaimPolicy 不是 Delete，Persistent Volume Claims (PVCs) 可能需要手动删除。"
-echo "请使用以下命令检查：kubectl get pvc -n kube-prom-stack"
+echo "请使用以下命令检查：kubectl get pvc -n ${NAMESPACE}"

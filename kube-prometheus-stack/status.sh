@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-kubectl get all -n kube-prom-stack
-kubectl get pvc -n kube-prom-stack
+NAMESPACE="kube-prom-stack"
+
+kubectl get all -n ${NAMESPACE}
+kubectl get pvc -n ${NAMESPACE}
