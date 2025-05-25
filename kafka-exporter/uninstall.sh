@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-RELEASE_NAME="my-kafka-cluster"
 NAMESPACE="kafka"
+RELEASE_NAME="my-kafka-exporter"
 
 helm uninstall ${RELEASE_NAME} -n ${NAMESPACE}
 
