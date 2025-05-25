@@ -27,6 +27,11 @@ helm install ${KAFKA_RELEASE_NAME} bitnami/kafka --version ${KAFKA_CHART_VERSION
   --set listeners.external.protocol=PLAINTEXT \
   --set listeners.external.sslClientAuth=none \
   \
+  --set defaultInitContainers.prepareConfig.resources.requests.cpu=2 \
+  --set defaultInitContainers.prepareConfig.resources.requests.memory=512Mi \
+  --set defaultInitContainers.prepareConfig.resources.limits.cpu=3 \
+  --set defaultInitContainers.prepareConfig.resources.limits.memory=2048Mi \
+  \
   --set controller.replicaCount=3 \
   --set controller.persistence.enabled=true \
   --set controller.persistence.size=32Gi \
