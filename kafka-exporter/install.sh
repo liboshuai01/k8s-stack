@@ -17,7 +17,7 @@ helm install ${RELEASE_NAME} prometheus-community/prometheus-kafka-exporter --ve
   --set kafkaServer[0]="my-kafka-cluster:9092" \
   --set prometheus.serviceMonitor.enabled=true \
   --set prometheus.serviceMonitor.namespace=monitoring \
-  --set 'prometheus.serviceMonitor.additionalLabels={release:kube-prom-stack}' \
+  --set prometheus.serviceMonitor.additionalLabels.release=kube-prom-stack \
   \
   --set resources.requests.cpu=100m \
   --set resources.requests.memory=128Mi \
