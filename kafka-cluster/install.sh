@@ -29,16 +29,23 @@ helm install ${KAFKA_RELEASE_NAME} bitnami/kafka --version ${KAFKA_CHART_VERSION
   \
   --set controller.replicaCount=3 \
   --set controller.persistence.enabled=true \
-  --set controller.persistence.size=16Gi \
+  --set controller.persistence.size=32Gi \
   --set controller.logPersistence.enabled=true \
-  --set controller.logPersistence.size=8Gi
-
-  # 如果需要分离的 Broker 节点 (KRaft 提供的 Dedicated Broker Mode)，请取消注释并配置以下参数
+  --set controller.logPersistence.size=8Gi \
+  --set controller.resources.requests.cpu=2 \
+  --set controller.resources.requests.memory=512Mi \
+  --set controller.resources.limits.cpu=3 \
+  --set controller.resources.limits.memory=2048Mi \
+  # 如果需要分离的 Broker 节点 (KRaft 提供的 Dedicated Broker Mode)，请取消注释并配置以下参数 \
   # --set broker.replicaCount=3 \
   # --set broker.persistence.enabled=true \
-  # --set broker.persistence.size=16Gi \
+  # --set broker.persistence.size=32Gi \
   # --set broker.logPersistence.enabled=true \
   # --set broker.logPersistence.size=8Gi \
+  # --set broker.resources.requests.cpu=2 \
+  # --set broker.resources.requests.memory=512Mi \
+  # --set broker.resources.limits.cpu=3 \
+  # --set broker.resources.limits.memory=2048Mi \
 
 echo ""
 echo "Kafka 集群 (${KAFKA_RELEASE_NAME}) 安装/升级过程已启动到命名空间 '${KAFKA_NAMESPACE}'。"
