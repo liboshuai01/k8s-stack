@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-NAMESPACE="kube-prom-stack"
+NAMESPACE="monitoring"
 RELEASE_NAME="kube-prom-stack"
 
 helm uninstall ${RELEASE_NAME} -n ${NAMESPACE}

@@ -5,7 +5,7 @@ helm repo update
 
 # --- 配置变量 ---
 # Helm 安装相关
-NAMESPACE="kube-prom-stack"
+NAMESPACE="monitoring"
 RELEASE_NAME="kube-prom-stack"
 CHART_VERSION="72.6.2" # 请确认这是您希望使用的稳定版本，或注释掉以使用最新版
 
