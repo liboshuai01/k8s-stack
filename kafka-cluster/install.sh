@@ -28,17 +28,17 @@ helm install ${KAFKA_RELEASE_NAME} bitnami/kafka --version ${KAFKA_CHART_VERSION
   --set listeners.external.sslClientAuth=none \
   \
   --set defaultInitContainers.prepareConfig.resources.requests.cpu=2 \
-  --set defaultInitContainers.prepareConfig.resources.requests.memory=512Mi \
+  --set defaultInitContainers.prepareConfig.resources.requests.memory=Mi \
   --set defaultInitContainers.prepareConfig.resources.limits.cpu=3 \
-  --set defaultInitContainers.prepareConfig.resources.limits.memory=1024Mi \
+  --set defaultInitContainers.prepareConfig.resources.limits.memory=2048Mi \
   \
   --set controller.replicaCount=3 \
   --set controller.persistence.enabled=true \
-  --set controller.persistence.size=8Gi \
+  --set controller.persistence.size=16Gi \
   --set controller.logPersistence.enabled=true \
   --set controller.logPersistence.size=4Gi \
   --set controller.resources.requests.cpu=2 \
-  --set controller.resources.requests.memory=512Mi \
+  --set controller.resources.requests.memory=1024Mi \
   --set controller.resources.limits.cpu=3 \
   --set controller.resources.limits.memory=2048Mi \
   # 如果需要分离的 Broker 节点 (KRaft 提供的 Dedicated Broker Mode)，请取消注释并配置以下参数 \
