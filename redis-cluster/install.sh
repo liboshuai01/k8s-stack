@@ -19,9 +19,16 @@ helm install "$HELM_RELEASE_NAME" bitnami/redis-cluster --version "$CHART_VERSIO
   --namespace "$NAMESPACE" \
   --create-namespace \
   --set-string global.storageClass="$STORAGE_CLASS" \
-  --set-string global.redis.password="$REDIS_PASSWORD"
-
-  # --set cluster.nodes=6 # 默认3主3从，可以调整节点数
-  # --set cluster.replicas=1 # 每个主节点的从节点数量
+  --set-string global.redis.password="$REDIS_PASSWORD" \
+  \
+  --set master.resources.requests.cpu=1 \
+  --set master.resources.requests.memory=1024Mi \
+  --set master.resources.limits.cpu=2 \
+  --set master.resources.limits.memory=4096Mi \
+  \
+  --set replica.resources.requests.cpu=1 \
+  --set replica.resources.requests.memory=1024Mi \
+  --set replica.resources.limits.cpu=2 \
+  --set replica.resources.limits.memory=4096Mi \
 
 echo "Redis Cluster 安装命令已执行。请使用 status.sh 检查状态。"
