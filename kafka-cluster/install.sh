@@ -11,10 +11,6 @@ KAFKA_NAMESPACE="kafka-cluster"
 KAFKA_CHART_VERSION="32.2.8" # 请确认这是您希望使用的稳定版本 (与你提供的 values.yaml 对应)
 STORAGE_CLASS="nfs-storage"
 
-# Prometheus Stack 的 Release 名称 (必须与你安装 kube-prometheus-stack 时使用的 RELEASE_NAME 一致)
-PROM_STACK_RELEASE_NAME="kube-prom-stack"
-PROM_STACK_NAMESPACE="kube-prom-stack" # ServiceMonitor将创建在这个命名空间
-
 # --- 安装 Kafka 集群 ---
 helm install ${KAFKA_RELEASE_NAME} bitnami/kafka --version ${KAFKA_CHART_VERSION} \
   --namespace ${KAFKA_NAMESPACE} \
@@ -35,12 +31,8 @@ helm install ${KAFKA_RELEASE_NAME} bitnami/kafka --version ${KAFKA_CHART_VERSION
   --set controller.persistence.enabled=true \
   --set controller.persistence.size=16Gi \
   --set controller.logPersistence.enabled=true \
-  --set controller.logPersistence.size=8Gi \
-  \
-  --set metrics.jmx.enabled=true \
-  --set metrics.serviceMonitor.enabled=true \
-  --set metrics.serviceMonitor.namespace=${PROM_STACK_NAMESPACE} \
-  --set metrics.serviceMonitor.labels.release=${PROM_STACK_RELEASE_NAME}
+  --set controller.logPersistence.size=8Gi
+
   # 如果需要分离的 Broker 节点 (KRaft 提供的 Dedicated Broker Mode)，请取消注释并配置以下参数
   # --set broker.replicaCount=3 \
   # --set broker.persistence.enabled=true \
@@ -50,12 +42,6 @@ helm install ${KAFKA_RELEASE_NAME} bitnami/kafka --version ${KAFKA_CHART_VERSION
 
 echo ""
 echo "Kafka 集群 (${KAFKA_RELEASE_NAME}) 安装/升级过程已启动到命名空间 '${KAFKA_NAMESPACE}'。"
-echo "JMX metrics 已启用。"
-echo "ServiceMonitor 将创建在命名空间 '${PROM_STACK_NAMESPACE}' 中，并带有标签 'release: ${PROM_STACK_RELEASE_NAME}'。"
 echo "---------------------------------------------------------------------"
 echo "监控 Pod 状态: kubectl get pods -n ${KAFKA_NAMESPACE} -w"
-echo "检查 Service (JMX metrics): kubectl get svc -n ${KAFKA_NAMESPACE} | grep jmx"
-echo "检查 ServiceMonitor: kubectl get servicemonitor -n ${PROM_STACK_NAMESPACE} ${KAFKA_RELEASE_NAME}-jmx-metrics"
-echo "检查 Prometheus Targets: 访问 http://${PROMETHEUS_HOST}/targets (其中 PROMETHEUS_HOST 是你的Prometheus Ingress主机名)"
 echo "---------------------------------------------------------------------"
-echo "如果遇到问题, 请检查 Prometheus Operator 日志: kubectl logs -n ${PROM_STACK_NAMESPACE} -l app.kubernetes.io/name=prometheus-operator -c prometheus-operator"
