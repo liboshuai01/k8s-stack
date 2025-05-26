@@ -12,7 +12,7 @@ CHART_VERSION="32.2.8" # 请确认这是您希望使用的稳定版本 (与你�
 STORAGE_CLASS="nfs"
 
 # --- 安装 Kafka 集群 ---
-helm install ${RELEASE_NAME} bitnami/kafka --version ${CHART_VERSION} \
+helm upgrade --install ${RELEASE_NAME} bitnami/kafka --version ${CHART_VERSION} \
   --namespace ${NAMESPACE} \
   --create-namespace \
   \

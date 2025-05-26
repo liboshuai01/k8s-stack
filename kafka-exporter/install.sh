@@ -10,7 +10,7 @@ NAMESPACE="kafka"
 CHART_VERSION="2.12.1"
 
 # --- 安装命令 ---
-helm install ${RELEASE_NAME} prometheus-community/prometheus-kafka-exporter --version ${CHART_VERSION} \
+helm upgrade --install ${RELEASE_NAME} prometheus-community/prometheus-kafka-exporter --version ${CHART_VERSION} \
   --namespace ${NAMESPACE} \
   --create-namespace \
   \

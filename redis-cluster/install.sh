@@ -15,7 +15,7 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
 # 使用 Helm 安装 Redis Cluster
-helm install "$RELEASE_NAME" bitnami/redis-cluster --version "$CHART_VERSION" \
+helm upgrade --install "$RELEASE_NAME" bitnami/redis-cluster --version "$CHART_VERSION" \
   --namespace "$NAMESPACE" \
   --create-namespace \
   --set-string global.storageClass="$STORAGE_CLASS" \

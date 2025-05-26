@@ -11,7 +11,7 @@ helm uninstall traefik -n kube-system
 helm uninstall traefik-crd -n kube-system # Traefik CRDs 可能也需要单独卸载
 
 # 3. 使用 Helm 安装 Ingress-Nginx
-helm install ingress-nginx ingress-nginx/ingress-nginx --version 4.12.2 \
+helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --version 4.12.2 \
   --namespace ingress-nginx \
   --create-namespace \
   --set controller.hostNetwork=true \

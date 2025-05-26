@@ -13,6 +13,11 @@ CHART_VERSION="6.10.3"            # 根据需要调整到最新或兼容版本�
 # 格式为 redis://<service-name>.<namespace>:<port>
 REDIS_CLUSTER_ADDRESS="redis://my-redis-cluster-0.my-redis-cluster-headless.redis.svc.cluster.local:6379"
 
+# Secret 名称和其中密码的 Key
+REDIS_SECRET_NAME="my-redis-cluster"
+# 根据你的 Secret 输出，密码的 Key 是 'redis-password'
+REDIS_SECRET_KEY="redis-password"
+
 # --- 安装/升级命令 ---
 helm upgrade --install ${RELEASE_NAME} prometheus-community/prometheus-redis-exporter --version ${CHART_VERSION} \
   --namespace ${NAMESPACE} \
@@ -30,12 +35,8 @@ helm upgrade --install ${RELEASE_NAME} prometheus-community/prometheus-redis-exp
   --set resources.limits.memory=2048Mi \
   \
   --set auth.enabled=true \
-  --set auth.redisPassword="YOUR_PASSWORD" \
-  # --set auth.secret.name="my-redis-cluster" \
-  # --set auth.secret.key="redis-password-key-in-secret" \
-
-  # 如果需要更详细的日志，可以设置extraArgs
-  # --set extraArgs.log-level="debug" \
+  --set auth.secret.name="${REDIS_SECRET_NAME}" \
+  --set auth.secret.key="${REDIS_SECRET_KEY}" \
 
 echo ""
 echo "${RELEASE_NAME} 安装/升级过程已启动到命名空间 '${NAMESPACE}'。"

@@ -7,7 +7,7 @@ helm repo update
 
 # 使用 Helm 安装 nfs-subdir-external-provisioner
 # 注意：这里的 release 名称是 nfs-subdir-external-provisioner
-helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --version 4.0.18 \
+helm upgrade --install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --version 4.0.18 \
   --namespace kube-system \
   --create-namespace \
   --set nfs.server=master \

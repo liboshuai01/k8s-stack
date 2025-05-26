@@ -28,7 +28,7 @@ GRAFANA_STORAGE_SIZE="8Gi"
 GRAFANA_ADMIN_PASSWORD="YOUR_PASSWORD" # 这是 chart 的默认密码
 
 # --- 安装 kube-prometheus-stack ---
-helm install ${RELEASE_NAME} prometheus-community/kube-prometheus-stack \
+helm upgrade --install ${RELEASE_NAME} prometheus-community/kube-prometheus-stack \
   --version ${CHART_VERSION} \
   --namespace ${NAMESPACE} \
   --create-namespace \
