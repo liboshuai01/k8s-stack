@@ -11,7 +11,7 @@ CHART_VERSION="6.10.3"            # 根据需要调整到最新或兼容版本�
 
 # Redis Cluster 的服务地址，根据 'kubectl get service -n redis' 的输出
 # 格式为 redis://<service-name>.<namespace>:<port>
-REDIS_CLUSTER_ADDRESS="redis://my-redis-cluster:6379"
+REDIS_CLUSTER_ADDRESS="redis://my-redis-cluster-0.my-redis-cluster-headless.redis.svc.cluster.local:6379"
 
 # --- 安装/升级命令 ---
 helm upgrade --install ${RELEASE_NAME} prometheus-community/prometheus-redis-exporter --version ${CHART_VERSION} \
