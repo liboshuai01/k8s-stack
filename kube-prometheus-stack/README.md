@@ -51,8 +51,8 @@ bash status.sh
 
    ```shell
    # 查看pvc
-   kubectl get pvc -n kafka
+   kubectl get pvc -n monitoring
    
    # 删除pvc
-   kubectl delete pvc [pvc名称] -n kafka
+   kubectl delete pvc [pvc名称] -n monitoring
    ```
