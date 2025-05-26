@@ -41,6 +41,5 @@ helm upgrade --install ${RELEASE_NAME} prometheus-community/prometheus-redis-exp
 echo ""
 echo "${RELEASE_NAME} 安装/升级过程已启动到命名空间 '${NAMESPACE}'。"
 echo "---------------------------------------------------------------------"
-echo "监控 Pod 状态: kubectl get pods -n ${NAMESPACE} -l app.kubernetes.io/name=redis-exporter -w"
-echo "验证 ServiceMonitor: kubectl get servicemonitor -n ${NAMESPACE} ${RELEASE_NAME}"
+echo "监控 Pod 状态: kubectl get pods -n ${NAMESPACE} -l app.kubernetes.io/name=prometheus-redis-exporter -w"
 echo "---------------------------------------------------------------------"
