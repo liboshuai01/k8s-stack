@@ -15,6 +15,8 @@ helm upgrade --install ${RELEASE_NAME} prometheus-community/prometheus-kafka-exp
   --create-namespace \
   \
   --set kafkaServer[0]="my-kafka-cluster-controller-0.my-kafka-cluster-controller-headless.kafka.svc.cluster.local:9092" \
+  --set kafkaServer[1]="my-kafka-cluster-controller-1.my-kafka-cluster-controller-headless.kafka.svc.cluster.local:9092" \
+  --set kafkaServer[2]="my-kafka-cluster-controller-2.my-kafka-cluster-controller-headless.kafka.svc.cluster.local:9092" \
   --set prometheus.serviceMonitor.enabled=true \
   --set prometheus.serviceMonitor.namespace=monitoring \
   --set prometheus.serviceMonitor.additionalLabels.release=kube-prom-stack \
