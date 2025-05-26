@@ -1,3 +1,5 @@
+> 更详细的教程请查看：[K8s采用Helm部署Ingress-Nginx实战指南](https://lbs.wiki/pages/ffec2a5/)
+
 准备
 ---
 
