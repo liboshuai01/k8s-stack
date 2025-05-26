@@ -1,6 +1,6 @@
 > 更详细的教程请查看：[K8s采用Helm部署Ingress-Nginx实战指南](https://lbs.wiki/pages/ffec2a5/)
 
-准备
+前提准备
 ---
 
 1. 确保`k8s`集群中的各节点中的`80/443`端口均没有被占用。
@@ -9,9 +9,9 @@
     helm uninstall traefik -n kube-system
     helm uninstall traefik-crd -n kube-system
     ```
-3. 修改`install.sh`脚本中的配置变量为自需内容，如安装的命名空间、helm实例名称、char版本号等（可选）。
+3. 修改`.env`文件中配置的变量为自定义内容，如安装的命名空间、helm实例名称、char版本号等（可选）。
 
-安装
+安装应用
 ---
 
 1. **执行安装脚本**
@@ -30,18 +30,17 @@
    # kubectl label node k8s-node-1 ingress=true --overwrite
    ```
 
-验证
+初步验证
 ---
 
-1. **执行状态脚本**
+```shell
+bash status.sh
+```
+   
+进阶验证
+---
 
-   ```shell
-   bash status.sh
-   ```
-
-2. **安装应用进行测试**
-
-   进一步验证，可以创建一个测试应用，并使用`ingress`访问。
+1. 进一步验证，可以创建一个测试应用，并使用`ingress`访问。
    ```shell
    helm upgrade --install nginx-test-app bitnami/nginx \
      --version 20.0.3 --namespace default \
@@ -59,7 +58,7 @@
      --set resources.limits.memory=512Mi
    ```
    
-   配置`hosts`文件，添加一下内容：
+2. 配置`hosts`文件，添加一下内容：
    ```
    nginx.lbs.com  [任意ingress-nginx节点IP]
    
@@ -67,19 +66,19 @@
    # nginx.lbs.com  192.168.6.202
    ```
    
-   访问`nginx.lbs.com`，如果访问成功，则说明安装成功。
+3. 访问`nginx.lbs.com`，如果访问成功，则说明安装成功。
    
-   测试成功后，删除测试应用。
+4. 测试成功后，删除测试应用。
    ```shell
    helm uninstall nginx-test-app -n default
    ```
 
-更新
+更新应用
 ---
 
-修改`install.sh`脚本中的配置内容，后重新执行`install.sh`脚本即可。
+修改`.env`或`install.sh`文件中的内容，后重新执行`install.sh`脚本即可。
 
-卸载
+卸载应用
 ---
 
 1. **执行卸载脚本**
