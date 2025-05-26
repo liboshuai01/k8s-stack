@@ -60,10 +60,10 @@ bash status.sh
    
 2. 配置`hosts`文件，添加一下内容：
    ```
-   nginx.lbs.com  [任意ingress-nginx节点IP]
+   [任意ingress-nginx节点IP]    nginx.lbs.com
    
    # 例如
-   # nginx.lbs.com  192.168.6.202
+   # 192.168.6.202    nginx.lbs.com
    ```
    
 3. 访问`nginx.lbs.com`，如果访问成功，则说明安装成功。
