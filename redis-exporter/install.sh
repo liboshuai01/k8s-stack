@@ -22,8 +22,7 @@ helm upgrade --install ${RELEASE_NAME} prometheus-community/prometheus-redis-exp
   \
   --set serviceMonitor.enabled=true \
   --set serviceMonitor.namespace=monitoring \
-  --set serviceMonitor.additionalLabels.release=kube-prom-stack \
-  --set serviceMonitor.multipleTarget=false \
+  --set serviceMonitor.labels.release="kube-prom-stack" \
   \
   --set resources.requests.cpu=100m \
   --set resources.requests.memory=128Mi \
