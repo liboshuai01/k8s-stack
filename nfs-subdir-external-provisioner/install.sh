@@ -1,21 +1,22 @@
 #!/usr/bin/env bash
 
-# 添加 nfs-subdir-external-provisioner 的 Helm 仓库
+# --- 加载变量 ---
+if [ -f .env ]; then
+    export $(grep -v '^#' .env | sed 's/\r$//' | xargs)
+else
+    echo "错误: .env 文件不存在!"
+    exit 1
+fi
+
+# --- 添加仓库并更新 ---
 helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
-# 更新本地 Helm 仓库列表
 helm repo update
 
-# 使用 Helm 安装 nfs-subdir-external-provisioner
-# 注意：这里的 release 名称是 nfs-subdir-external-provisioner
-helm upgrade --install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --version 4.0.18 \
-  --namespace kube-system \
-  --create-namespace \
-  --set nfs.server=master \
-  --set nfs.path=/data/nfs/k8s \
-  --set storageClass.name=nfs \
+# --- 安装 / 升级 ---
+helm upgrade --install ${RELEASE_NAME} nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+  --version ${CHART_VERSION} --namespace ${NAMESPACE} --create-namespace \
+  --set nfs.server="${NFS_SERVER}" \
+  --set nfs.path="${NFS_PATH}" \
+  --set storageClass.name="${STORAGE_CLASS_NAME}" \
   --set storageClass.defaultClass=true \
   --set rbac.create=true
-
-echo "NFS Subdir External Provisioner installation initiated."
-echo "Run 'kubectl get pods -n kube-system -l app.kubernetes.io/name=nfs-subdir-external-provisioner' to check pod status."
-echo "Run 'kubectl get storageclass' to check the StorageClass."
