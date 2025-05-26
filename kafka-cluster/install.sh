@@ -1,22 +1,20 @@
 #!/usr/bin/env bash
 
-# 添加 Bitnami Helm 仓库并更新
+# --- 添加仓库并更新 ---
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
 # --- 配置变量 ---
-# Kafka 安装相关
 NAMESPACE="kafka"
 RELEASE_NAME="my-kafka-cluster"
-CHART_VERSION="32.2.8" # 请确认这是您希望使用的稳定版本 (与你提供的 values.yaml 对应)
-STORAGE_CLASS="nfs"
+CHART_VERSION="32.2.8"
 
-# --- 安装 Kafka 集群 ---
+# --- 安装 / 升级 ---
 helm upgrade --install ${RELEASE_NAME} bitnami/kafka --version ${CHART_VERSION} \
   --namespace ${NAMESPACE} \
   --create-namespace \
   \
-  --set-string global.defaultStorageClass="${STORAGE_CLASS}" \
+  --set-string global.defaultStorageClass="nfs" \
   \
   --set listeners.client.protocol=PLAINTEXT \
   --set listeners.client.sslClientAuth=none \
@@ -51,9 +49,3 @@ helm upgrade --install ${RELEASE_NAME} bitnami/kafka --version ${CHART_VERSION} 
   # --set broker.resources.requests.memory=512Mi \
   # --set broker.resources.limits.cpu=1000m \
   # --set broker.resources.limits.memory=2048Mi \
-
-echo ""
-echo "Kafka 集群 (${RELEASE_NAME}) 安装/升级过程已启动到命名空间 '${NAMESPACE}'。"
-echo "---------------------------------------------------------------------"
-echo "监控 Pod 状态: kubectl get pods -n ${NAMESPACE} -w"
-echo "---------------------------------------------------------------------"
