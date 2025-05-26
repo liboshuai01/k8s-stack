@@ -8,11 +8,11 @@ else
     exit 1
 fi
 
-# 添加库并更新
+# --- 添加仓库并更新 ---
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 
-# --- 安装命令 ---
+# --- 安装 / 升级 ---
 helm upgrade --install ${RELEASE_NAME} prometheus-community/prometheus-kafka-exporter \
   --version ${CHART_VERSION} --namespace ${NAMESPACE} --create-namespace \
   \
