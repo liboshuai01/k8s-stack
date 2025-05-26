@@ -1,5 +1,3 @@
-> 更详细的教程请查看：[K8s采用Helm部署nfs-subdir-external-provisioner实现动态存储](https://lbs.wiki/pages/e3673e0e/)
-
 前提准备
 ---
 
@@ -85,3 +83,5 @@ bash status.sh
 ```shell
 bash uninstall.sh
 ```
+
+> 更详细的教程请查看：[K8s采用Helm部署nfs-subdir-external-provisioner实现动态存储](https://lbs.wiki/pages/e3673e0e/)

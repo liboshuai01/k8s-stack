@@ -1,5 +1,3 @@
-> 更详细的教程请查看：[K8s采用Helm部署kube-prometheus-stack实战指南](https://lbs.wiki/pages/9958a6cd/)
-
 前提准备
 ---
 
@@ -58,3 +56,5 @@ bash status.sh
    # 删除pvc
    kubectl delete pvc [pvc名称] -n monitoring
    ```
+
+> 更详细的教程请查看：[K8s采用Helm部署kube-prometheus-stack实战指南](https://lbs.wiki/pages/9958a6cd/)

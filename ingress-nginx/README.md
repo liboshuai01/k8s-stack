@@ -1,5 +1,3 @@
-> 更详细的教程请查看：[K8s采用Helm部署Ingress-Nginx实战指南](https://lbs.wiki/pages/ffec2a5/)
-
 前提准备
 ---
 
@@ -95,3 +93,5 @@ bash status.sh
    # 例如
    kubectl label node k8s-node-1 ingress-
    ```
+
+> 更详细的教程请查看：[K8s采用Helm部署Ingress-Nginx实战指南](https://lbs.wiki/pages/ffec2a5/)

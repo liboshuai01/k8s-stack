@@ -1,5 +1,3 @@
-> 更详细的教程请查看：[K8s采用Helm部署kafka-exporter实战指南](https://lbs.wiki/pages/64683bd3/)
-
 前提准备
 ---
 
@@ -50,3 +48,5 @@ bash status.sh
 ```shell
 bash uninstall.sh
 ```
+
+> 更详细的教程请查看：[K8s采用Helm部署kafka-exporter实战指南](https://lbs.wiki/pages/64683bd3/)
