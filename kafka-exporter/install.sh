@@ -16,7 +16,9 @@ helm repo update
 helm upgrade --install ${RELEASE_NAME} prometheus-community/prometheus-kafka-exporter \
   --version ${CHART_VERSION} --namespace ${NAMESPACE} --create-namespace \
   \
-  --set kafkaServer[0]="${KAFKA_SERVER}" \
+  --set kafkaServer[0]="${KAFKA_SERVER_0}" \
+  --set kafkaServer[1]="${KAFKA_SERVER_1}" \
+  --set kafkaServer[2]="${KAFKA_SERVER_2}" \
   --set prometheus.serviceMonitor.enabled=true \
   --set prometheus.serviceMonitor.namespace="${MONITOR_NAMESPACE}" \
   --set prometheus.serviceMonitor.additionalLabels.release="${MONITOR_RELEASE_NAME}" \
