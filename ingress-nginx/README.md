@@ -27,7 +27,7 @@
    kubectl label node [节点名称] ingress=true --overwrite
    
    # 例如
-   kubectl label node k8s-node-1 ingress=true --overwrite
+   # kubectl label node k8s-node-1 ingress=true --overwrite
    ```
 
 验证
@@ -64,7 +64,7 @@
    nginx.lbs.com  [任意ingress-nginx节点IP]
    
    # 例如
-   nginx.lbs.com  192.168.6.202
+   # nginx.lbs.com  192.168.6.202
    ```
    
    访问`nginx.lbs.com`，如果访问成功，则说明安装成功。
