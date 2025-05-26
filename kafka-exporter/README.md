@@ -35,6 +35,10 @@ bash status.sh
 
 2. 访问`prometheus`的`/targets`页面，查看`kafka-exporter`是否正常 scrape metrics
 
+3. 访问`grafana`并导入面板`7589`，查看`kafka-exporter`的dashboard是否正常显示。
+
+> 注意：必须先使用非控制台生产者、消费者进行生产和消费数据，否则grafana面板会无数据
+
 更新应用
 ---
 
