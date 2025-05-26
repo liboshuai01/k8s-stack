@@ -1,3 +1,5 @@
+> 更详细的教程请查看：[K8s采用Helm部署kafka-exporter实战指南](https://lbs.wiki/pages/64683bd3/)
+
 前提准备
 ---
 
@@ -20,9 +22,18 @@ bash status.sh
 进阶验证
 ---
 
-访问`http://[service].[namespace].svc.cluster.local:[端口号]`，
-例如`http://my-kafka-exporter-prometheus-kafka-exporter.kafka.svc.cluster.local:9308`。
-如果访问成功，则说明`kafak-exporter`安装成功。
+1. 创建临时应用，访问`kafka-exporter`的metrics地址
+
+    ```shell
+    # 启动一个临时pod用于测试 (例如在 default 命名空间)
+    kubectl run -i --tty --rm debug --image=curlimages/curl --restart=Never -- sh
+    
+    # 在临时pod的shell中执行，有值响应即可
+    # 格式为：curl http://${RELEASE_NAME}-prometheus-kafka-exporter.${NAMESPACE}.svc.cluster.local:9308/metrics
+    curl http://my-kafka-exporter-prometheus-kafka-exporter.kafka.svc.cluster.local:9308/metrics
+    ```
+
+2. 访问`prometheus`的`/targets`页面，查看`kafka-exporter`是否正常 scrape metrics
 
 更新应用
 ---
