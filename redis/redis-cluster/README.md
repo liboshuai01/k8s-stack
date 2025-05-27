@@ -22,13 +22,13 @@ bash status.sh
 
 1. 首先，获取 Redis 密码 (假设 Release 名称为 redis-cluster，密码 Key 为 redis-password)
     ```shell
-    export REDIS_PASSWORD=$(kubectl get secret --namespace redis-cluster redis-cluster -o jsonpath="{.data.redis-password}" | base64 --decode)
+    export REDIS_PASSWORD=$(kubectl get secret --namespace redis my-redis-cluster -o jsonpath="{.data.redis-password}" | base64 --decode)
     echo "Redis Password: $REDIS_PASSWORD"
     ```
    
 2. 启动一个临时的 Redis 客户端 Pod 来连接集群
     ```shell
-    kubectl run redis-client --namespace redis-cluster --rm --tty -i \
+    kubectl run redis-client --namespace redis --rm --tty -i \
       --env REDIS_PASSWORD_ENV="$REDIS_PASSWORD" \
       --image docker.io/bitnami/redis-cluster:7.0.15 \
       -- bash
