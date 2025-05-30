@@ -1,4 +1,4 @@
-# k8s-cookbook: 常用服务 Kubernetes (K8s) 部署清单
+# 个人 K8s 应用部署方案集合
 
 ## 项目简介
 
@@ -26,7 +26,7 @@
 
 ## 项目结构
 
-项目根目录 `k8s-cookbook` 下包含了各个服务的独立子目录。每个服务目录的命名通常对应于服务的名称（例如 `redis`, `kafka`）。
+项目根目录 `k8s-stack` 下包含了各个服务的独立子目录。每个服务目录的命名通常对应于服务的名称（例如 `redis`, `kafka`）。
 
 对于复杂的服务或需要特定配置的部署，可能在服务名称目录下进一步包含子目录，每个子目录代表一个具体的部署场景或组件（例如 `kafka/kafka-cluster`, `redis/redis-cluster`）。
 
@@ -45,9 +45,9 @@
 
 1.  **克隆本项目** (如果尚未克隆):
     ```bash
-    git clone https://github.com/liboshuai01/k8s-cookbook
-    # git clone https://gitee.com/liboshuai01/k8s-cookbook
-    cd k8s-cookbook
+    git clone https://github.com/liboshuai01/k8s-stack
+    # git clone https://gitee.com/liboshuai01/k8s-stack
+    cd k8s-stack
     ```
 
 2.  **进入您想要部署的服务或组件目录**:
