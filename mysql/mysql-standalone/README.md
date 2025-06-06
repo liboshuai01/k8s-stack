@@ -62,4 +62,4 @@ kubectl get pvc -n [namespace名称]
 kubectl delete pvc [pvc名称] -n [namespace名称]
 ```
 
-> 更详细的教程请查看：[K8s采用Helm部署Kafka集群实战指南](https://lbs.wiki/pages/84c192a2/)
+> 更详细的教程请查看：[K8s采用Helm部署mysql-standalone实战指南](https://lbs.wiki/pages/a668abcf/)
