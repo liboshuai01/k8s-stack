@@ -12,21 +12,21 @@
 安装应用
 ---
 
-1. **执行安装脚本**
+**1. 执行安装脚本**
 
-   ```shell
-   bash install.sh
-   ```
+```shell
+bash install.sh
+```
 
-2. **给对应节点打调度标签**
+**2. 给对应节点打调度标签**
 
-   执行完`install.sh`脚本后，请手动执行下面的命令选择指定节点让`ingress controller`调度到对应的节点。
-   ```shell
-   kubectl label node [节点名称] ingress=true --overwrite
-   
-   # 例如
-   # kubectl label node k8s-node-1 ingress=true --overwrite
-   ```
+执行完`install.sh`脚本后，请手动执行下面的命令选择指定节点让`ingress controller`调度到对应的节点。
+```shell
+kubectl label node [节点名称] ingress=true --overwrite
+
+# 例如
+# kubectl label node k8s-node-1 ingress=true --overwrite
+```
 
 初步验证
 ---
@@ -38,38 +38,41 @@ bash status.sh
 进阶验证
 ---
 
-1. 进一步验证，可以创建一个测试应用，并使用`ingress`访问。
-   ```shell
-   helm upgrade --install nginx-test-app bitnami/nginx \
-     --version 20.0.3 --namespace default \
-     \
-     --set service.type=ClusterIP \
-     \
-     --set ingress.enabled=true \
-     --set ingress.ingressClassName=nginx \
-     --set ingress.hostname="nginx.lbs.com" \
-     --set ingress.path="/" \
-     \
-     --set resources.requests.cpu=100m \
-     --set resources.requests.memory=128Mi \
-     --set resources.limits.cpu=250m \
-     --set resources.limits.memory=512Mi
-   ```
+**1. 进一步验证，可以创建一个测试应用，并使用`ingress`访问**
+
+```shell
+helm upgrade --install nginx-test-app bitnami/nginx \
+  --version 20.0.3 --namespace default \
+  \
+  --set service.type=ClusterIP \
+  \
+  --set ingress.enabled=true \
+  --set ingress.ingressClassName=nginx \
+  --set ingress.hostname="nginx.lbs.com" \
+  --set ingress.path="/" \
+  \
+  --set resources.requests.cpu=100m \
+  --set resources.requests.memory=128Mi \
+  --set resources.limits.cpu=250m \
+  --set resources.limits.memory=512Mi
+```
    
-2. 配置`hosts`文件，添加一下内容：
-   ```
-   [任意ingress-nginx节点IP]    nginx.lbs.com
+**2. 配置`hosts`文件，添加一下内容**
+
+```
+[任意ingress-nginx节点IP]    nginx.lbs.com
+
+# 例如
+# 192.168.6.202    nginx.lbs.com
+```
    
-   # 例如
-   # 192.168.6.202    nginx.lbs.com
-   ```
+**3. 访问`nginx.lbs.com`，如果访问成功，则说明安装成功**
    
-3. 访问`nginx.lbs.com`，如果访问成功，则说明安装成功。
-   
-4. 测试成功后，删除测试应用。
-   ```shell
-   helm uninstall nginx-test-app -n default
-   ```
+**4. 测试成功后，删除测试应用**
+
+```shell
+helm uninstall nginx-test-app -n default
+```
 
 更新应用
 ---
@@ -79,19 +82,19 @@ bash status.sh
 卸载应用
 ---
 
-1. **执行卸载脚本**
+**1. 执行卸载脚本**
 
-   ```shell
-   bash uninstall.sh
-   ```
+```shell
+bash uninstall.sh
+```
 
-2. **（可选）将`ingress`标签从节点上删除**
+**2. （可选）将`ingress`标签从节点上删除**
 
-   ```shell
-   kubectl label node [节点名称] ingress-
-   
-   # 例如
-   kubectl label node k8s-node-1 ingress-
-   ```
+```shell
+kubectl label node [节点名称] ingress-
+
+# 例如
+kubectl label node k8s-node-1 ingress-
+```
 
 > 更详细的教程请查看：[K8s采用Helm部署Ingress-Nginx实战指南](https://lbs.wiki/pages/ffec2a5/)
