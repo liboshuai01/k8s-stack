@@ -18,6 +18,8 @@ helm upgrade --install "${RELEASE_NAME}" bitnami/redis-cluster \
   --set-string global.storageClass="${STORAGE_CLASS_NAME}" \
   --set-string global.redis.password="${REDIS_PASSWORD}" \
   \
+  --set persistence.size=6Gi \
+  \
   --set redis.resources.requests.cpu=250m \
   --set redis.resources.requests.memory=512Mi \
   --set redis.resources.limits.cpu=1000m \
