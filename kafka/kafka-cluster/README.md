@@ -83,11 +83,14 @@ bash uninstall.sh
 **2. （可选）删除pvc**
 
 ```shell
-# 查看pvc
-kubectl get pvc -n [namespace名称]
+# 加载变量
+source .env
 
-# 删除pvc
-kubectl delete pvc [pvc名称] -n [namespace名称]
+# 查看pvc
+kubectl get pvc -n ${NAMESPACE}
+
+# 删除pvc（可能有多个pvc要删除）
+kubectl delete pvc [pvc名称] -n ${NAMESPACE}
 ```
 
 > 更详细的教程请查看：[K8s采用Helm部署Kafka集群实战指南](https://lbs.wiki/pages/84c192a2/)

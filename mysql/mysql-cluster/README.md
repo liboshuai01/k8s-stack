@@ -23,19 +23,25 @@ bash status.sh
 **1. 获取root用户密码**
 
 ```shell
-MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace mysql-standalone my-mysql-standalone -o jsonpath="{.data.mysql-root-password}" | base64 -d)
+MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace mysql my-mysql-cluster -o jsonpath="{.data.mysql-root-password}" | base64 -d)
 ```
 
 **2. 启动MySQL客户端Pod**
 
 ```shell
-kubectl run my-mysql-standalone-client --rm --tty -i --restart='Never' --image  docker.io/bitnami/mysql:8.0.37-debian-12-r2 --namespace mysql-standalone --env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --command -- bash
+kubectl run my-mysql-cluster-client --rm --tty -i --restart='Never' --image  docker.io/bitnami/mysql:8.0.37-debian-12-r2 --namespace mysql --env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --command -- bash
 ```
 
-**3. 连接MySQL**
+**3. 连接MySQL主节点**
 
 ```shell
-mysql -h my-mysql-standalone.mysql-standalone.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+mysql -h my-mysql-cluster-primary.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+```
+
+**4. 连接MySQL从节点**
+
+```shell
+mysql -h my-mysql-cluster-secondary.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
 ```
 
 更新应用
@@ -55,11 +61,14 @@ bash uninstall.sh
 **2. （可选）删除pvc**
 
 ```shell
-# 查看pvc
-kubectl get pvc -n [namespace名称]
+# 加载变量
+source .env
 
-# 删除pvc
-kubectl delete pvc [pvc名称] -n [namespace名称]
+# 查看pvc
+kubectl get pvc -n ${NAMESPACE}
+
+# 删除pvc（可能有多个pvc要删除）
+kubectl delete pvc [pvc名称] -n ${NAMESPACE}
 ```
 
-> 更详细的教程请查看：[K8s采用Helm部署mysql-standalone实战指南](https://lbs.wiki/pages/a668abcf/)
+> 更详细的教程请查看：[K8s采用Helm部署mysql-cluster实战指南](https://lbs.wiki/pages/a668abcf/)
