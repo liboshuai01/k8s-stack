@@ -17,6 +17,7 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mysql --version ${CHART_VERSION} 
   --namespace ${NAMESPACE} \
   --create-namespace \
   \
+  --set architecture=standalone \
   --set-string global.storageClass="${STORAGE_CLASS_NAME}" \
   \
   --set-string auth.rootPassword=${MYSQL_ROOT_PASSWORD} \
@@ -25,7 +26,6 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mysql --version ${CHART_VERSION} 
   --set-string auth.password=${MYSQL_PASSWORD} \
   \
   --set primary.persistence.size=16Gi \
-  \
   --set primary.resources.requests.cpu=250m \
   --set primary.resources.requests.memory=512Mi \
   --set primary.resources.limits.cpu=2000m \
