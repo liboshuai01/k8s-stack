@@ -2,7 +2,7 @@
 
 # --- 加载变量 ---
 if [ -f .env ]; then
-    export $(grep -v '^#' .env | sed 's/\r$//' | xargs)
+    source .env
 else
     echo "错误: .env 文件不存在!"
     exit 1
