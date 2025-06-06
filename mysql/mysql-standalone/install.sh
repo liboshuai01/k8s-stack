@@ -24,7 +24,7 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mysql --version ${CHART_VERSION} 
   --set-string auth.username=${MYSQL_USERNAME} \
   --set-string auth.password=${MYSQL_PASSWORD} \
   \
-  --set primary.persistence.size=8Gi \
+  --set primary.persistence.size=16Gi \
   \
   --set primary.resources.requests.cpu=250m \
   --set primary.resources.requests.memory=512Mi \
