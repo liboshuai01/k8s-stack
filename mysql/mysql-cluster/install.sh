@@ -9,12 +9,10 @@ else
 fi
 
 # --- 添加仓库并更新 ---
-echo "INFO: Adding Bitnami Helm repo..."
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
 # --- 安装 / 升级 ---
-echo "INFO: Starting MySQL cluster installation/upgrade for release '${RELEASE_NAME}' in namespace '${NAMESPACE}'..."
 helm upgrade --install ${RELEASE_NAME} bitnami/mysql --version ${CHART_VERSION} \
   --namespace ${NAMESPACE} \
   --create-namespace \
