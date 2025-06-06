@@ -44,33 +44,35 @@ bash status.sh
 进阶验证
 ---
 
-1. 编写测试 PVC 资源配置
+**1. 编写测试 PVC 资源配置**
 
-    > pvc-test.yaml
-    ```yaml
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: pvc-test
-    spec:
-      storageClassName: "nfs" # 存储类名称
-      accessModes:
-        - ReadWriteMany
-      resources:
-        requests:
-          storage: 10Mi
-    ```
+> pvc-test.yaml
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-test
+spec:
+  storageClassName: "nfs" # 存储类名称
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Mi
+```
 
-2. 创建测试 PVC
-    ```shell
-    kubectl apply -f pvc-test.yaml
-    ```
+**2. 创建测试 PVC**
+
+```shell
+kubectl apply -f pvc-test.yaml
+```
    
-3. 查看测试 PVC 状态
-    ```shell
-    kubectl get pvc pvc-test
-    ```
-    理想状态为 Bound，表示 PVC 已成功绑定底层 PV。
+**3. 查看测试 PVC 状态**
+
+```shell
+kubectl get pvc pvc-test
+```
+理想状态为 Bound，表示 PVC 已成功绑定底层 PV。
 
 更新应用
 ---

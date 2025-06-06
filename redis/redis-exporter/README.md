@@ -20,20 +20,20 @@ bash status.sh
 进阶验证
 ---
 
-1. 创建临时应用，访问`redis-exporter`的metrics地址
+**1. 创建临时应用，访问`redis-exporter`的metrics地址**
 
-    ```shell
-    # 启动一个临时pod用于测试 (例如在 default 命名空间)
-    kubectl run -i --tty --rm debug --image=curlimages/curl --restart=Never -- sh
-    
-    # 在临时pod的shell中执行，有值响应即可
-    # 格式为：curl http://${RELEASE_NAME}-prometheus-redis-exporter.${NAMESPACE}.svc.cluster.local:9121/metrics
-    curl http://my-redis-exporter-prometheus-redis-exporter.redis.svc.cluster.local:9121/metrics
-    ```
+```shell
+# 启动一个临时pod用于测试 (例如在 default 命名空间)
+kubectl run -i --tty --rm debug --image=curlimages/curl --restart=Never -- sh
 
-2. 访问`prometheus`的`/targets`页面，查看`redis-exporter`是否正常 scrape metrics
+# 在临时pod的shell中执行，有值响应即可
+# 格式为：curl http://${RELEASE_NAME}-prometheus-redis-exporter.${NAMESPACE}.svc.cluster.local:9121/metrics
+curl http://my-redis-exporter-prometheus-redis-exporter.redis.svc.cluster.local:9121/metrics
+```
 
-3. 访问`grafana`并导入面板`11835`，查看`redis-exporter`的dashboard是否正常显示。
+**2. 访问`prometheus`的`/targets`页面，查看`redis-exporter`是否正常 scrape metrics**
+
+**3. 访问`grafana`并导入面板`11835`，查看`redis-exporter`的dashboard是否正常显示。**
 
 更新应用
 ---

@@ -6,18 +6,20 @@
 安装应用
 ---
 
-1. 执行安装脚本
-    ```shell
-    bash install.sh
-    ```
+**1. 执行安装脚本**
 
-2. 配置`hosts`文件，添加以下内容
-   ```
-   [任意ingress-nginx节点IP] http://prometheus.lbs.com http://grafana.lbs.com http://alertmanager.lbs.com
-   
-   # 例如
-   # 192.168.6.202 http://prometheus.lbs.com http://grafana.lbs.com http://alertmanager.lbs.comm
-   ```
+ ```shell
+ bash install.sh
+ ```
+
+**2. 配置`hosts`文件，添加以下内容**
+
+```
+[任意ingress-nginx节点IP] http://prometheus.lbs.com http://grafana.lbs.com http://alertmanager.lbs.com
+
+# 例如
+# 192.168.6.202 http://prometheus.lbs.com http://grafana.lbs.com http://alertmanager.lbs.comm
+```
 
 初步验证
 ---
@@ -41,20 +43,20 @@ bash status.sh
 卸载应用
 ---
 
-1. **执行卸载脚本**
+**1. 执行卸载脚本**
 
-   ```shell
-   bash uninstall.sh
-   ```
+```shell
+bash uninstall.sh
+```
 
-2. **（可选）删除pvc**
+**2. （可选）删除pvc**
 
-   ```shell
-   # 查看pvc
-   kubectl get pvc -n monitoring
-   
-   # 删除pvc
-   kubectl delete pvc [pvc名称] -n monitoring
-   ```
+```shell
+# 查看pvc
+kubectl get pvc -n monitoring
+
+# 删除pvc
+kubectl delete pvc [pvc名称] -n monitoring
+```
 
 > 更详细的教程请查看：[K8s采用Helm部署kube-prometheus-stack实战指南](https://lbs.wiki/pages/9958a6cd/)

@@ -46,20 +46,20 @@ mysql -h my-mysql-standalone.mysql-standalone.svc.cluster.local -uroot -p"$MYSQL
 卸载应用
 ---
 
-1. **执行卸载脚本**
+**1. 执行卸载脚本**
 
-   ```shell
-   bash uninstall.sh
-   ```
+```shell
+bash uninstall.sh
+```
 
-2. **（可选）删除pvc**
+**2. （可选）删除pvc**
 
-   ```shell
-   # 查看pvc
-   kubectl get pvc -n kafka
-   
-   # 删除pvc
-   kubectl delete pvc [pvc名称] -n kafka
-   ```
+```shell
+# 查看pvc
+kubectl get pvc -n kafka
+
+# 删除pvc
+kubectl delete pvc [pvc名称] -n kafka
+```
 
 > 更详细的教程请查看：[K8s采用Helm部署Kafka集群实战指南](https://lbs.wiki/pages/84c192a2/)
