@@ -20,29 +20,20 @@ bash status.sh
 进阶验证
 ---
 
-**1. 获取root用户密码**
+**1. 创建临时应用，访问`mysql-exporter`的metrics地址**
 
 ```shell
-MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace mysql my-mysql-cluster -o jsonpath="{.data.mysql-root-password}" | base64 -d)
+# 启动一个临时pod用于测试 (例如在 default 命名空间)
+kubectl run -i --tty --rm debug --image=curlimages/curl --restart=Never -- sh
+
+# 在临时pod的shell中执行，有值响应即可
+# 格式为：curl http://${RELEASE_NAME}-prometheus-kafka-exporter.${NAMESPACE}.svc.cluster.local:9104/metrics
+curl http://my-mysql-exporter-standalone-prometheus-mysql-exporter.mysql.svc.cluster.local:9104/metrics
 ```
 
-**2. 启动MySQL客户端Pod**
+**2. 访问`prometheus`的`/targets`页面，查看`mysql-exporter`是否正常 scrape metrics**
 
-```shell
-kubectl run my-mysql-cluster-client --rm --tty -i --restart='Never' --image  docker.io/bitnami/mysql:8.0.37-debian-12-r2 --namespace mysql --env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --command -- bash
-```
-
-**3. 连接MySQL主节点**
-
-```shell
-mysql -h my-mysql-cluster-primary.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
-```
-
-**4. 连接MySQL从节点**
-
-```shell
-mysql -h my-mysql-cluster-secondary.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
-```
+**3. 访问`grafana`并导入面板`14057`，查看`kafka-exporter`的dashboard是否正常显示。**
 
 更新应用
 ---
@@ -52,23 +43,8 @@ mysql -h my-mysql-cluster-secondary.mysql.svc.cluster.local -uroot -p"$MYSQL_ROO
 卸载应用
 ---
 
-**1. 执行卸载脚本**
-
 ```shell
 bash uninstall.sh
 ```
 
-**2. （可选）删除pvc**
-
-```shell
-# 加载变量
-source .env
-
-# 查看pvc
-kubectl get pvc -n ${NAMESPACE}
-
-# 删除pvc（可能有多个pvc要删除）
-kubectl delete pvc [pvc名称] -n ${NAMESPACE}
-```
-
-> 更详细的教程请查看：[K8s采用Helm部署mysql-cluster实战指南](https://lbs.wiki/pages/99c439e4/)
+> 更详细的教程请查看：[K8s采用Helm部署mysql-exporter实战指南](https://lbs.wiki/pages/64683bd3/)
