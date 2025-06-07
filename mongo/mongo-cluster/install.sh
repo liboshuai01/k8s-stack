@@ -18,14 +18,18 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mongodb --version ${CHART_VERSION
   --namespace ${NAMESPACE} \
   --create-namespace \
   \
-  --set architecture=standalone \
-  --set useStatefulSet=true \
+  --set architecture=replicaset \
+  --set replicaCount=${REPLICA_COUNT} \
+  --set replicaSetName="${MONGO_REPLICA_SET_NAME}" \
   --set-string global.storageClass="${STORAGE_CLASS_NAME}" \
   \
+  --set-string auth.replicaSetKey="${MONGO_REPLICA_SET_KEY}" \
   --set-string auth.rootPassword="${MONGO_ROOT_PASSWORD}" \
   --set-string auth.databases[0]="${MONGO_DATABASE}" \
   --set-string auth.usernames[0]="${MONGO_USER}" \
   --set-string auth.passwords[0]="${MONGO_PASSWORD}" \
+  \
+  --set podAntiAffinityPreset=hard \
   \
   --set persistence.size=16Gi \
   \
