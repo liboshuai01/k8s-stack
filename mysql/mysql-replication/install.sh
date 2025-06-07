@@ -38,4 +38,9 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mysql --version ${CHART_VERSION} 
   --set secondary.resources.requests.cpu=250m \
   --set secondary.resources.requests.memory=512Mi \
   --set secondary.resources.limits.cpu=2000m \
-  --set secondary.resources.limits.memory=4096Mi
+  --set secondary.resources.limits.memory=4096Mi \
+  \
+  --set metrics.enabled=true \
+  --set metrics.serviceMonitor.enabled=true \
+  --set metrics.serviceMonitor.namespace=${PROMETHEUS_NAMESPACE} \
+  --set metrics.serviceMonitor.selector.release=${PROMETHEUS_RELEASE_LABEL}

@@ -10,39 +10,48 @@
 bash install.sh
 ```
 
-初步验证
+验证应用
 ---
+
+### 初步验证
 
 ```shell
 bash status.sh
 ```
 
-进阶验证
----
+### 进阶验证
 
 **1. 获取root用户密码**
 
 ```shell
-MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace mysql my-mysql-cluster -o jsonpath="{.data.mysql-root-password}" | base64 -d)
+MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace mysql my-mysql-replication -o jsonpath="{.data.mysql-root-password}" | base64 -d)
 ```
 
 **2. 启动MySQL客户端Pod**
 
 ```shell
-kubectl run my-mysql-cluster-client --rm --tty -i --restart='Never' --image  docker.io/bitnami/mysql:8.0.37-debian-12-r2 --namespace mysql --env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --command -- bash
+kubectl run my-mysql-replication-client --rm --tty -i --restart='Never' --image  docker.io/bitnami/mysql:8.0.37-debian-12-r2 --namespace mysql --env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --command -- bash
 ```
 
 **3. 连接MySQL主节点**
 
 ```shell
-mysql -h my-mysql-cluster-primary.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+mysql -h my-mysql-replication-primary.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
 ```
 
 **4. 连接MySQL从节点**
 
 ```shell
-mysql -h my-mysql-cluster-secondary.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+mysql -h my-mysql-replication-secondary.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
 ```
+
+### 监控验证
+
+### 监控验证
+
+**1. 访问`prometheus`的`/targets`页面，查看`mysql-exporter`是否正常 scrape metrics**
+
+**2. 访问`grafana`并导入面板`14057`，查看`mysql-exporter`的dashboard是否正常显示。**
 
 更新应用
 ---
