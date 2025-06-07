@@ -23,19 +23,19 @@ bash status.sh
 **1. 获取root用户密码**
 
 ```shell
-MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace mysql-standalone my-mysql-standalone -o jsonpath="{.data.mysql-root-password}" | base64 -d)
+export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongo my-mongo-cluster-mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
 ```
 
-**2. 启动MySQL客户端Pod**
+**2. 启动MongoDB客户端Pod**
 
 ```shell
-kubectl run my-mysql-standalone-client --rm --tty -i --restart='Never' --image  docker.io/bitnami/mysql:8.0.37-debian-12-r2 --namespace mysql-standalone --env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --command -- bash
+kubectl run --namespace mongo my-mongo-cluster-mongodb-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash
 ```
 
-**3. 连接MySQL**
+**3. 连接MongoDB**
 
 ```shell
-mysql -h my-mysql-standalone.mysql-standalone.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+mongosh admin --host "my-mongo-cluster-mongodb-0.my-mongo-cluster-mongodb-headless.mongo.svc.cluster.local:27017,my-mongo-cluster-mongodb-1.my-mongo-cluster-mongodb-headless.mongo.svc.cluster.local:27017,my-mongo-cluster-mongodb-2.my-mongo-cluster-mongodb-headless.mongo.svc.cluster.local:27017" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
 ```
 
 更新应用
@@ -65,4 +65,4 @@ kubectl get pvc -n ${NAMESPACE}
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
 ```
 
-> 更详细的教程请查看：[K8s采用Helm部署mysql-standalone实战指南](https://lbs.wiki/pages/a668abcf/)
+> 更详细的教程请查看：[K8s采用Helm部署mysql-cluster实战指南](https://lbs.wiki/pages/a668abcf/)
