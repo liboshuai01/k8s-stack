@@ -28,15 +28,16 @@ kubectl label node [节点名称] ingress=true --overwrite
 # kubectl label node k8s-node-1 ingress=true --overwrite
 ```
 
-初步验证
+验证应用
 ---
+
+### 初步验证
 
 ```shell
 bash status.sh
 ```
    
-进阶验证
----
+### 进阶验证
 
 **1. 进一步验证，可以创建一个测试应用，并使用`ingress`访问**
 

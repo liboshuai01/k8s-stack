@@ -21,15 +21,16 @@
 # 192.168.6.202 http://prometheus.lbs.com http://grafana.lbs.com http://alertmanager.lbs.comm
 ```
 
-初步验证
+验证应用
 ---
+
+### 初步验证
 
 ```shell
 bash status.sh
 ```
 
-进阶验证
----
+### 进阶验证
 
 1. 访问`http://prometheus.lbs.com`，如果访问成功，则说明`prometheus`安装成功。
 2. 访问`http://grafana.lbs.com`，如果访问成功，则说明`grafana`安装成功。

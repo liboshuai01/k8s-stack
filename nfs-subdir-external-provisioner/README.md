@@ -33,16 +33,17 @@
     sudo systemctl daemon-reload
     sudo systemctl restart k3s
     ```
-
-初步验证
+   
+验证应用
 ---
+
+### 初步验证
 
 ```shell
 bash status.sh
 ```
 
-进阶验证
----
+### 进阶验证
 
 **1. 编写测试 PVC 资源配置**
 
