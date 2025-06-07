@@ -33,7 +33,7 @@ echo "Redis Password: $REDIS_PASSWORD"
 ```shell
 kubectl run redis-client --namespace redis --rm --tty -i \
 --env REDIS_PASSWORD_ENV="$REDIS_PASSWORD" \
---image docker.io/bitnami/redis:7.0.15 \
+--image docker.io/bitnami/redis:8.0.2 \
 -- bash
 ```
    
