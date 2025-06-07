@@ -41,7 +41,13 @@ helm upgrade --install ${RELEASE_NAME} bitnami/kafka --version ${CHART_VERSION} 
   --set controller.resources.requests.cpu=250m \
   --set controller.resources.requests.memory=512Mi \
   --set controller.resources.limits.cpu=1000m \
-  --set controller.resources.limits.memory=2048Mi
+  --set controller.resources.limits.memory=2048Mi \
+  \
+  --set metrics.jmx.enabled=true \
+  --set metrics.serviceMonitor.enabled=true \
+  --set metrics.serviceMonitor.namespace="${NAMESPACE}" \
+  --set metrics.serviceMonitor.selector.release="${PROMETHEUS_RELEASE_LABEL}"
+
   # 如果需要分离的 Broker 节点 (KRaft 提供的 Dedicated Broker Mode)，请取消注释并配置以下参数 \
   # --set broker.replicaCount=3 \
   # --set broker.persistence.enabled=true \

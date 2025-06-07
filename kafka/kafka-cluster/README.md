@@ -10,15 +10,16 @@
 bash install.sh
 ```
 
-初步验证
+验证应用
 ---
+
+### 初步验证
 
 ```shell
 bash status.sh
 ```
 
-进阶验证
----
+### 进阶验证
 
 **1. 启动客户端 Pod**
 
@@ -65,6 +66,12 @@ kafka-console-consumer.sh \
     --from-beginning
 ```
 你应该能看到发送的消息。
+
+### 监控验证
+
+**1. 访问`prometheus`的`/targets`页面，查看`kafka-exporter`是否正常 scrape metrics**
+
+**2. 访问`grafana`并导入面板`7589`，查看`kafka-exporter`的dashboard是否正常显示。**
 
 更新应用
 ---
