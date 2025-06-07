@@ -32,4 +32,9 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mongodb --version ${CHART_VERSION
   --set resources.requests.cpu=250m \
   --set resources.requests.memory=512Mi \
   --set resources.limits.cpu=2000m \
-  --set resources.limits.memory=4096Mi
+  --set resources.limits.memory=4096Mi \
+  \
+  --set metrics.enabled=true \
+  --set metrics.serviceMonitor.enabled=true \
+  --set metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
+  --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL_VALUE}"
