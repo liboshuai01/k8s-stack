@@ -47,8 +47,6 @@ mysql -h my-mysql-replication-secondary.mysql.svc.cluster.local -uroot -p"$MYSQL
 
 ### 监控验证
 
-### 监控验证
-
 **1. 访问`prometheus`的`/targets`页面，查看`mysql-exporter`是否正常 scrape metrics**
 
 **2. 访问`grafana`并导入面板`14057`，查看`mysql-exporter`的dashboard是否正常显示。**

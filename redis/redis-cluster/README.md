@@ -10,15 +10,16 @@
 bash install.sh
 ```
 
-初步验证
+验证应用
 ---
+
+### 初步验证
 
 ```shell
 bash status.sh
 ```
 
-进阶验证
----
+### 进阶验证
 
 **1. 首先，获取 Redis 密码 (假设 Release 名称为 redis-cluster，密码 Key 为 redis-password)**
 
@@ -65,6 +66,12 @@ redis-cli -c -h my-redis-cluster -a "$REDIS_PASSWORD_ENV"
 > 大多数 Redis Cluster 客户端库只需要这个地址和密码即可自动发现所有节点。
 
 格式为：`<service>.<namespace>.svc.cluster.local`，例如：`my-redis-cluster.redis.svc.cluster.local`。
+
+### 监控验证
+
+**1. 访问`prometheus`的`/targets`页面，查看`redis-exporter`是否正常 scrape metrics**
+
+**2. 访问`grafana`并导入面板`11835`，查看`redis-exporter`的dashboard是否正常显示。**
     
 
 更新应用

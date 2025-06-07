@@ -37,4 +37,4 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mongodb --version ${CHART_VERSION
   --set metrics.enabled=true \
   --set metrics.serviceMonitor.enabled=true \
   --set metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
-  --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL_VALUE}"
+  --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL}"
