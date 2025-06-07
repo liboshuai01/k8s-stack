@@ -65,4 +65,4 @@ kubectl get pvc -n ${NAMESPACE}
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
 ```
 
-> 更详细的教程请查看：[K8s采用Helm部署mongodb-standalone实战指南](https://lbs.wiki/pages/a668abcf/)
+> 更详细的教程请查看：[K8s采用Helm部署mongodb-standalone实战指南](https://lbs.wiki/pages/1ec68299/)
