@@ -10,15 +10,16 @@
 bash install.sh
 ```
 
-初步验证
+验证应用
 ---
+
+### 初步验证
 
 ```shell
 bash status.sh
 ```
 
-进阶验证
----
+### 进阶验证
 
 **1. 获取root用户密码**
 
@@ -37,6 +38,12 @@ kubectl run --namespace mongo my-mongo-cluster-mongodb-client --rm --tty -i --re
 ```shell
 mongosh admin --host "my-mongo-cluster-mongodb-0.my-mongo-cluster-mongodb-headless.mongo.svc.cluster.local:27017,my-mongo-cluster-mongodb-1.my-mongo-cluster-mongodb-headless.mongo.svc.cluster.local:27017,my-mongo-cluster-mongodb-2.my-mongo-cluster-mongodb-headless.mongo.svc.cluster.local:27017" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
 ```
+
+### 监控验证
+
+**1. 访问`prometheus`的`/targets`页面，查看`mongodb-exporter`是否正常 scrape metrics**
+
+**2. 访问`grafana`并导入面板`20867`，查看`mongodb-exporter`的dashboard是否正常显示。**
 
 更新应用
 ---

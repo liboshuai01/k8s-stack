@@ -10,15 +10,16 @@
 bash install.sh
 ```
 
-初步验证
+验证应用
 ---
+
+### 初步验证
 
 ```shell
 bash status.sh
 ```
 
-进阶验证
----
+### 进阶验证
 
 **1. 获取root用户密码**
 
@@ -37,6 +38,12 @@ kubectl run --namespace mongo my-mongo-standalone-mongodb-client --rm --tty -i -
 ```shell
 mongosh admin --host "my-mongo-standalone-mongodb" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
 ```
+
+### 监控验证
+
+**1. 访问`prometheus`的`/targets`页面，查看`mongodb-exporter`是否正常 scrape metrics**
+
+**2. 访问`grafana`并导入面板`20867`，查看`mongodb-exporter`的dashboard是否正常显示。**
 
 更新应用
 ---
