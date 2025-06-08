@@ -9,7 +9,7 @@ sudo systemctl enable rpcbind
 sudo systemctl start rpcbind
 
 sudo mkdir -p /data/nfs/k8s
-sduo tee -a /etc/exports <<'EOF'
+sudo tee -a /etc/exports <<'EOF'
 /data/nfs/k8s *(insecure,rw,sync,no_root_squash)
 EOF
 
@@ -25,9 +25,9 @@ sudo exportfs
 ```shell
 sudo yum install -y nfs-utils
 
-mkdir -p /data/nfs/k8s 
+sudo mkdir -p /data/nfs/k8s 
 
-mount -t nfs master:/data/nfs/k8s /data/nfs/k8s
+sudo mount -t nfs master:/data/nfs/k8s /data/nfs/k8s
 
 df -h | grep /data/nfs/k8s
 ```
