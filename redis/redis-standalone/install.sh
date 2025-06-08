@@ -24,14 +24,18 @@ helm upgrade --install "${RELEASE_NAME}" bitnami/redis \
   \
   --set master.persistence.enabled=true \
   --set-string master.persistence.storageClass="${STORAGE_CLASS_NAME}" \
-  --set master.persistence.size=6Gi \
+  --set master.persistence.size=8Gi \
   \
-  --set master.resources.requests.cpu=250m \
-  --set master.resources.requests.memory=512Mi \
-  --set master.resources.limits.cpu=1000m \
+  --set master.resources.requests.cpu=100m \
+  --set master.resources.requests.memory=128Mi \
+  --set master.resources.limits.cpu=512m \
   --set master.resources.limits.memory=2048Mi \
   \
   --set metrics.enabled=true \
   --set metrics.serviceMonitor.enabled=true \
   --set metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
-  --set metrics.serviceMonitor.additionalLabels.release="${PROMETHEUS_RELEASE_LABEL}"
+  --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL}" \
+  --set metrics.resources.requests.cpu=100m \
+  --set metrics.resources.requests.memory=128Mi \
+  --set metrics.resources.limits.cpu=256m \
+  --set metrics.resources.limits.memory=1024Mi

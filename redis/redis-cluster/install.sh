@@ -20,19 +20,23 @@ helm upgrade --install "${RELEASE_NAME}" bitnami/redis-cluster \
   --set-string global.storageClass="${STORAGE_CLASS_NAME}" \
   --set-string global.redis.password="${REDIS_PASSWORD}" \
   \
-  --set persistence.size=6Gi \
+  --set persistence.size=8Gi \
   \
-  --set redis.resources.requests.cpu=250m \
-  --set redis.resources.requests.memory=512Mi \
-  --set redis.resources.limits.cpu=1000m \
+  --set redis.resources.requests.cpu=100m \
+  --set redis.resources.requests.memory=128Mi \
+  --set redis.resources.limits.cpu=512m \
   --set redis.resources.limits.memory=2048Mi \
   \
-  --set updateJob.resources.requests.cpu=250m \
-  --set updateJob.resources.requests.memory=512Mi \
-  --set updateJob.resources.limits.cpu=1000m \
+  --set updateJob.resources.requests.cpu=100m \
+  --set updateJob.resources.requests.memory=128Mi \
+  --set updateJob.resources.limits.cpu=512m \
   --set updateJob.resources.limits.memory=2048Mi \
   \
   --set metrics.enabled=true \
   --set metrics.serviceMonitor.enabled=true \
   --set metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
-  --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL}"
+  --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL}" \
+  --set metrics.resources.requests.cpu=100m \
+  --set metrics.resources.requests.memory=128Mi \
+  --set metrics.resources.limits.cpu=256m \
+  --set metrics.resources.limits.memory=1024Mi
