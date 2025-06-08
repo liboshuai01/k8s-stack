@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # --- 加载变量 ---
 if [ -f .env ]; then
     source .env
