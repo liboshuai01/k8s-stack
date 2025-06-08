@@ -24,26 +24,26 @@ bash status.sh
 **1. 获取root用户密码**
 
 ```shell
-export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongodb my-mongodb-replica-mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
+export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongodb my-mongodb-replica -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
 ```
 
 **2. 启动MongoDB客户端Pod**
 
 ```shell
-kubectl run --namespace mongodb my-mongodb-replica-mongodb-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash
+kubectl run --namespace mongodb my-mongodb-replica-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash
 ```
 
 **3. 连接MongoDB**
 
 ```shell
-mongosh admin --host "my-mongodb-replica-mongodb-0.my-mongodb-replica-mongodb-headless.mongo.svc.cluster.local:27017,my-mongodb-replica-mongodb-1.my-mongodb-replica-mongodb-headless.mongo.svc.cluster.local:27017,my-mongodb-replica-mongodb-2.my-mongodb-replica-mongodb-headless.mongo.svc.cluster.local:27017" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+mongosh admin --host "my-mongodb-replica-0.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017,my-mongodb-replica-1.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017,my-mongodb-replica-2.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
 ```
 
 ### 监控验证
 
 **1. 访问`prometheus`的`/targets`页面，查看`mongodb-exporter`是否正常 scrape metrics**
 
-**2. 访问`grafana`并导入面板`20867`，查看`mongodb-exporter`的dashboard是否正常显示。**
+**2. 访问`grafana`并导入面板`12079`，查看`mongodb-exporter`的dashboard是否正常显示。**
 
 更新应用
 ---
