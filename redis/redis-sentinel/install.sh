@@ -42,10 +42,15 @@ helm upgrade --install "${RELEASE_NAME}" bitnami/redis \
   --set replica.resources.limits.memory=2048Mi \
   \
   --set sentinel.enabled=true \
+  --set sentinel.persistence.enabled=true \
+  --set sentinel.persistence.size=1Gi \
   --set sentinel.quorum=${SENTINEL_QUORUM} \
-  --set sentinel.getMasterTimeout=10 \
+  --set sentinel.resources.requests.cpu=100m \
+  --set sentinel.resources.requests.memory=128Mi \
+  --set sentinel.resources.limits.cpu=512m \
+  --set sentinel.resources.limits.memory=2048Mi \
+  \
   --set rbac.create=true \
-  --set-string serviceAccount.name="redis-sentinel-sa" \
   \
   --set metrics.enabled=true \
   --set metrics.serviceMonitor.enabled=true \

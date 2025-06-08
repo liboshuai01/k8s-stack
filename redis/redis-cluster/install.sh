@@ -32,6 +32,8 @@ helm upgrade --install "${RELEASE_NAME}" bitnami/redis-cluster \
   --set updateJob.resources.limits.cpu=512m \
   --set updateJob.resources.limits.memory=2048Mi \
   \
+  --set rbac.create=true \
+  \
   --set metrics.enabled=true \
   --set metrics.serviceMonitor.enabled=true \
   --set metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
