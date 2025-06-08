@@ -24,19 +24,19 @@ bash status.sh
 **1. 获取root用户密码**
 
 ```shell
-export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongo my-mongo-replica-mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
+export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongodb my-mongodb-replica-mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
 ```
 
 **2. 启动MongoDB客户端Pod**
 
 ```shell
-kubectl run --namespace mongo my-mongo-replica-mongodb-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash
+kubectl run --namespace mongodb my-mongodb-replica-mongodb-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash
 ```
 
 **3. 连接MongoDB**
 
 ```shell
-mongosh admin --host "my-mongo-replica-mongodb-0.my-mongo-replica-mongodb-headless.mongo.svc.cluster.local:27017,my-mongo-replica-mongodb-1.my-mongo-replica-mongodb-headless.mongo.svc.cluster.local:27017,my-mongo-replica-mongodb-2.my-mongo-replica-mongodb-headless.mongo.svc.cluster.local:27017" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+mongosh admin --host "my-mongodb-replica-mongodb-0.my-mongodb-replica-mongodb-headless.mongo.svc.cluster.local:27017,my-mongodb-replica-mongodb-1.my-mongodb-replica-mongodb-headless.mongo.svc.cluster.local:27017,my-mongodb-replica-mongodb-2.my-mongodb-replica-mongodb-headless.mongo.svc.cluster.local:27017" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
 ```
 
 ### 监控验证
