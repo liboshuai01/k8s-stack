@@ -49,11 +49,20 @@ redis-cli -c -h my-redis-cluster -a $REDIS_PASSWORD
 > cluster nodes
 ```
    
-**5. k8s 集群内部访问直接通过 service 访问 Redis 集群**
+**5. k8s 内部访问 Redis 集群**
 
-> 大多数 Redis Cluster 客户端库只需要这个地址和密码即可自动发现所有节点。
+```shell
+# 方式一：<service>.<namespace>.svc.cluster.local:6379（大多数 Redis Cluster 客户端库只需要这个地址和密码即可自动发现所有节点）
+my-redis-cluster.redis.svc.cluster.local:6379
 
-格式为：`<service>.<namespace>.svc.cluster.local`，例如：`my-redis-cluster.redis.svc.cluster.local`。
+# 方式二：<pod>.<headless-service>.<namespace>.svc.cluster.local:6379
+my-redis-cluster-0.my-redis-cluster-headless.redis.svc.cluster.local:6379
+my-redis-cluster-1.my-redis-cluster-headless.redis.svc.cluster.local:6379
+my-redis-cluster-2.my-redis-cluster-headless.redis.svc.cluster.local:6379
+my-redis-cluster-3.my-redis-cluster-headless.redis.svc.cluster.local:6379
+my-redis-cluster-4.my-redis-cluster-headless.redis.svc.cluster.local:6379
+my-redis-cluster-5.my-redis-cluster-headless.redis.svc.cluster.local:6379
+```
 
 ### 监控验证
 
