@@ -6,33 +6,37 @@
 安装应用
 ---
 
-1. 执行安装脚本
-    ```shell
-    bash install.sh
-    ```
+**1. 执行安装脚本**
 
-2. 取消`local-path`存储类的默认值设置
-    ```shell
-    kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
-    ```
+ ```shell
+ bash install.sh
+ ```
 
-3. 卸载`local-path`存储类
-    ```shell
-    kubectl delete storageclass local-path
-    ```
+**2. 取消`local-path`存储类的默认值设置**
 
-4. 禁用k3s的`local-path`组件
-    ```shell
-    # sudo vim /etc/systemd/system/k3s.service
-    ExecStart=/usr/local/bin/k3s \
-        server \
-        # 添加此行到最后（不要添加注释）
-        --disable local-storage \
-    
-    # 重新加载 systemd 配置并重启 K3s 服务
-    sudo systemctl daemon-reload
-    sudo systemctl restart k3s
-    ```
+```shell
+kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
+```
+
+**3. 卸载`local-path`存储类**
+
+```shell
+kubectl delete storageclass local-path
+```
+
+**4. 禁用k3s的`local-path`组件**
+
+```shell
+# sudo vim /etc/systemd/system/k3s.service
+ExecStart=/usr/local/bin/k3s \
+  server \
+  # 添加此行到最后（不要添加注释）
+  --disable local-storage \
+
+# 重新加载 systemd 配置并重启 K3s 服务
+sudo systemctl daemon-reload
+sudo systemctl restart k3s
+```
    
 验证应用
 ---
