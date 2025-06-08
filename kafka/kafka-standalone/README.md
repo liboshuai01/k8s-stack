@@ -21,23 +21,16 @@ bash status.sh
 
 ### 进阶验证
 
-**1. 启动客户端 Pod**
+**1. 启动临时 Pod**
 
 ```shell
 # 请根据您helm install输出的NOTES部分提供的镜像名和标签进行调整
-kubectl run kafka-test-client --rm --tty -i --restart='Never' --image docker.io/bitnami/kafka:4.0.0-debian-12-r3 --namespace kafka --command -- bash
+kubectl run my-kafka-standalone-client --rm --tty -i --restart='Never' --image docker.io/bitnami/kafka:4.0.0-debian-12-r5 --namespace kafka --command -- bash
 ```
     
-**2. 进入客户端 Pod 的 shell**
+*2. 创建一个测试topic**
 
 ```shell
-kubectl exec --tty -i kafka-test-client --namespace kafka -- bash
-```
-    
-**3. 在客户端 Pod 内，创建一个测试topic**
-
-```shell
-# 修改`my-kafka-standalone:9092`为您的kafka-standalone的bootstrap地址
 kafka-topics.sh \
     --create \
     --bootstrap-server my-kafka-standalone:9092 \
@@ -46,32 +39,31 @@ kafka-topics.sh \
     --replication-factor 1 # 对于1节点的combined mode-standalone，副本因子最大为1
 ```
     
-**4. 在客户端 Pod 内，启动生产者发送消息**
+**3. 启动生产者发送消息**
 
 ```shell
-# 修改`my-kafka-standalone:9092`为您的kafka-standalone的bootstrap地址
 kafka-console-producer.sh \
     --bootstrap-server my-kafka-standalone:9092 \
     --topic test_topic
 ```
-输入消息: `>Hello Kafka from New Script`
 
-**5. 在客户端 Pod 内，启动消费者接收消息 (新开一个终端执行 kubectl exec...)**
+**4. 启动消费者接收消息**
 
 ```shell
-# 修改`my-kafka-standalone:9092`为您的kafka-standalone的bootstrap地址
 kafka-console-consumer.sh \
     --bootstrap-server my-kafka-standalone:9092 \
     --topic test_topic \
     --from-beginning
 ```
-你应该能看到发送的消息。
 
-**6. k8s 内部访问 Kafka 实例**
+**5. k8s 内部访问 Kafka 实例**
 
 ```shell
-# <pod>.<headless-service>.<namespace>.svc.cluster.local:9092
-my-redis-standalone-master-0.my-redis-standalone-headless.redis.svc.cluster.local:6379
+# 方式一：<service>.<namespace>.svc.cluster.local:9092
+my-kafka-standalone.kafka.svc.cluster.local:9092
+
+# 方式二：<pod>.<headless-service>.<namespace>.svc.cluster.local:9092
+my-kafka-standalone-controller-0.my-kafka-standalone-controller-headless.kafka.svc.cluster.local:9092
 ```
 
 ### 监控验证
