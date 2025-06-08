@@ -35,7 +35,7 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mongodb-sharded --version ${CHART
   --set mongos.resources.limits.memory=2048Mi \
   \
   --set configsvr.replicaCount=${CONFIGSVR_REPLICA_COUNT} \
-  --set configsvr.podAntiAffinityPreset=hard \
+  --set configsvr.podAntiAffinityPreset=soft \
   --set configsvr.persistence.enabled=true \
   --set configsvr.persistence.size=8Gi \
   --set configsvr.resources.requests.cpu=250m \
@@ -44,7 +44,7 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mongodb-sharded --version ${CHART
   --set configsvr.resources.limits.memory=2048Mi \
   \
   --set shardsvr.dataNode.replicaCount=${SHARDSVR_REPLICA_COUNT} \
-  --set shardsvr.dataNode.podAntiAffinityPreset=hard \
+  --set shardsvr.dataNode.podAntiAffinityPreset=soft \
   --set shardsvr.persistence.enabled=true \
   --set shardsvr.persistence.size=16Gi \
   --set shardsvr.dataNode.resources.requests.cpu=500m \
