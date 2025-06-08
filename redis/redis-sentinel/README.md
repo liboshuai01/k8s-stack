@@ -57,6 +57,21 @@ redis-cli -h my-redis-ha -p 26379 -a "$REDIS_PASSWORD_ENV"
 > sentinel slaves mymaster
 ```
 
+**5. k8s 内部应用访问 Redis 哨兵集群**
+
+```
+# 方式一：<service>.<namespace>.svc.cluster.local:26379（大多数 Redis 客户端库只需要这个地址和密码即可自动发现所有节点）
+- sentinel-master名称：mymaster
+- 地址：my-redis-ha.redis.svc.cluster.local:26379
+
+# 方式二：<pod>.<headless-service>.<namespace>.svc.cluster.local:26379
+- sentinel-master名称：mymaster
+- 地址：
+my-redis-ha-node-0.my-redis-ha-headless.redis.svc.cluster.local:26379
+my-redis-ha-node-1.my-redis-ha-headless.redis.svc.cluster.local:26379
+my-redis-ha-node-2.my-redis-ha-headless.redis.svc.cluster.local:26379
+```
+
 ### 监控验证
 
 **1. 访问`prometheus`的`/targets`页面，查看`redis-exporter`是否正常 scrape metrics**
