@@ -29,30 +29,34 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mongodb-sharded --version ${CHART
   \
   --set mongos.replicaCount=${MONGOS_REPLICA_COUNT} \
   --set mongos.podAntiAffinityPreset=soft \
-  --set mongos.resources.requests.cpu=250m \
-  --set mongos.resources.requests.memory=512Mi \
-  --set mongos.resources.limits.cpu=1000m \
+  --set mongos.resources.requests.cpu=100m \
+  --set mongos.resources.requests.memory=128Mi \
+  --set mongos.resources.limits.cpu=512m \
   --set mongos.resources.limits.memory=2048Mi \
   \
   --set configsvr.replicaCount=${CONFIGSVR_REPLICA_COUNT} \
   --set configsvr.podAntiAffinityPreset=soft \
   --set configsvr.persistence.enabled=true \
   --set configsvr.persistence.size=8Gi \
-  --set configsvr.resources.requests.cpu=250m \
-  --set configsvr.resources.requests.memory=512Mi \
-  --set configsvr.resources.limits.cpu=1000m \
+  --set configsvr.resources.requests.cpu=100m \
+  --set configsvr.resources.requests.memory=128Mi \
+  --set configsvr.resources.limits.cpu=512m \
   --set configsvr.resources.limits.memory=2048Mi \
   \
   --set shardsvr.dataNode.replicaCount=${SHARDSVR_REPLICA_COUNT} \
   --set shardsvr.dataNode.podAntiAffinityPreset=soft \
   --set shardsvr.persistence.enabled=true \
   --set shardsvr.persistence.size=16Gi \
-  --set shardsvr.dataNode.resources.requests.cpu=500m \
-  --set shardsvr.dataNode.resources.requests.memory=1024Mi \
-  --set shardsvr.dataNode.resources.limits.cpu=2000m \
-  --set shardsvr.dataNode.resources.limits.memory=4096Mi \
+  --set shardsvr.dataNode.resources.requests.cpu=100m \
+  --set shardsvr.dataNode.resources.requests.memory=128Mi \
+  --set shardsvr.dataNode.resources.limits.cpu=512m \
+  --set shardsvr.dataNode.resources.limits.memory=2048Mi \
   \
   --set metrics.enabled=true \
-  --set metrics.podMonitor.enabled=true \
-  --set metrics.podMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
-  --set metrics.podMonitor.additionalLabels.release="${PROMETHEUS_RELEASE_LABEL}"
+  --set metrics.serviceMonitor.enabled=true \
+  --set metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
+  --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL}" \
+  --set metrics.resources.requests.cpu=100m \
+  --set metrics.resources.requests.memory=128Mi \
+  --set metrics.resources.limits.cpu=256m \
+  --set metrics.resources.limits.memory=1024Mi
