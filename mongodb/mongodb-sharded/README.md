@@ -36,14 +36,14 @@ kubectl run --namespace mongodb my-mongodb-sharded-client --rm --tty -i --restar
 **3. 连接MongoDB**
 
 ```shell
-mongosh admin --host "my-mongodb-sharded-0.my-mongodb-sharded-headless.mongodb.svc.cluster.local:27017,my-mongodb-sharded-1.my-mongodb-sharded-headless.mongodb.svc.cluster.local:27017,my-mongodb-sharded-2.my-mongodb-sharded-headless.mongodb.svc.cluster.local:27017" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+mongosh admin --host my-mongodb-sharded --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
 ```
 
 ### 监控验证
 
 **1. 访问`prometheus`的`/targets`页面，查看`mongodb-exporter`是否正常 scrape metrics**
 
-**2. 访问`grafana`并导入面板`12079`，查看`mongodb-exporter`的dashboard是否正常显示。**
+**2. 访问`grafana`并导入面板`12079`或`20867`，查看`mongodb-exporter`的dashboard是否正常显示。**
 
 更新应用
 ---

@@ -43,7 +43,7 @@ mongosh admin --host "my-mongodb-replica-0.my-mongodb-replica-headless.mongodb.s
 
 **1. 访问`prometheus`的`/targets`页面，查看`mongodb-exporter`是否正常 scrape metrics**
 
-**2. 访问`grafana`并导入面板`12079`，查看`mongodb-exporter`的dashboard是否正常显示。**
+**2. 访问`grafana`并导入面板`12079`或`20867`，查看`mongodb-exporter`的dashboard是否正常显示。**
 
 更新应用
 ---
