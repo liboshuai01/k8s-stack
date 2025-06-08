@@ -24,7 +24,6 @@ bash status.sh
 **1. 启动临时 Pod**
 
 ```shell
-# 请根据您helm install输出的NOTES部分提供的镜像名和标签进行调整
 kubectl run my-kafka-standalone-client --rm --tty -i --restart='Never' --image docker.io/bitnami/kafka:4.0.0-debian-12-r5 --namespace kafka --command -- bash
 ```
     
@@ -49,6 +48,7 @@ kafka-console-producer.sh \
 
 **4. 启动消费者接收消息**
 
+> 可能会出现卡住的情况，请使用其他客户端验证消费
 ```shell
 kafka-console-consumer.sh \
     --bootstrap-server my-kafka-standalone:9092 \
