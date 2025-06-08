@@ -41,6 +41,10 @@ mongosh admin --host "my-mongodb-replica-0.my-mongodb-replica-headless.mongodb.s
 
 **4. k8s 内部访问 Mongodb 实例**
 ```
+# 副本集名称：${MONGO_REPLICA_SET_NAME}
+rs0
+
+# mongodb地址：<pod>.<headless-service>.<namespace>.svc.cluster.local:27017
 my-mongodb-replica-0.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017
 my-mongodb-replica-1.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017
 my-mongodb-replica-2.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017
