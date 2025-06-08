@@ -39,6 +39,13 @@ kubectl run --namespace mongodb my-mongodb-sharded-client --rm --tty -i --restar
 mongosh admin --host my-mongodb-sharded --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
 ```
 
+**4. k8s 内部访问 Mongodb 实例**
+
+```shell
+# <service>.<namespace>.svc.cluster.local:27017
+my-mongodb-sharded.mongodb.svc.cluster.local:27017
+```
+
 ### 监控验证
 
 **1. 访问`prometheus`的`/targets`页面，查看`mongodb-exporter`是否正常 scrape metrics**
