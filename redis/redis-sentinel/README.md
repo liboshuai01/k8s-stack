@@ -30,7 +30,7 @@ export REDIS_PASSWORD=$(kubectl get secret --namespace redis my-redis-ha -o json
 **2. 启动一个临时的 Redis 客户端 Pod 来连接实例**
 
 ```shell
-kubectl run redis-client --namespace redis --rm --tty -i \
+kubectl run my-redis-sentinel-client --namespace redis --rm --tty -i \
 --env REDIS_PASSWORD_ENV="$REDIS_PASSWORD" \
 --image docker.io/bitnami/redis:8.0.2-debian-12-r3 \
 -- bash

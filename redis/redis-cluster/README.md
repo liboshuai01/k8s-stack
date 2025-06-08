@@ -24,41 +24,29 @@ bash status.sh
 **1. 首先，获取 Redis 密码 (假设 Release 名称为 redis-cluster，密码 Key 为 redis-password)**
 
 ```shell
-export REDIS_PASSWORD=$(kubectl get secret --namespace redis my-redis-cluster -o jsonpath="{.data.redis-password}" | base64 --decode)
-echo "Redis Password: $REDIS_PASSWORD"
+export REDIS_PASSWORD=$(kubectl get secret --namespace "redis" my-redis-cluster -o jsonpath="{.data.redis-password}" | base64 -d)
 ```
    
 **2. 启动一个临时的 Redis 客户端 Pod 来连接集群**
 
 ```shell
-kubectl run redis-client --namespace redis --rm --tty -i \
---env REDIS_PASSWORD_ENV="$REDIS_PASSWORD" \
---image docker.io/bitnami/redis-cluster:8.0.2 \
--- bash
+kubectl run --namespace redis my-redis-cluster-client --rm --tty -i --restart='Never' \
+ --env REDIS_PASSWORD=$REDIS_PASSWORD \
+--image docker.io/bitnami/redis-cluster:8.0.2-debian-12-r2 -- bash
 ```
    
 **3. 在临时 Pod 中连接到 Redis 集群**
 
 ```shell
-# 在 redis-client Pod 内部执行（my-redis-cluster为clusterIP类型的service）
-redis-cli -c -h my-redis-cluster -a "$REDIS_PASSWORD_ENV"
+redis-cli -c -h my-redis-cluster -a $REDIS_PASSWORD
 ```
 
 **4. 连接成功后，您可以执行 Redis 命令来验证集群状态**
 
 ```shell
 # 在 redis-cli 提示符下执行
-> cluster info
-# 期望看到: cluster_state:ok, cluster_slots_assigned:16384, cluster_size:3 (主节点数), ...
-
+> info
 > cluster nodes
-# 期望看到: 列出所有节点的信息，及其角色和连接状态。
-
-> set mykey "Hello K8s Redis Cluster"
-# > GET mykey
-# "Hello K8s Redis Cluster"
-
-> exit
 ```
    
 **5. k8s 集群内部访问直接通过 service 访问 Redis 集群**
