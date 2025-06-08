@@ -32,7 +32,7 @@ export REDIS_PASSWORD=$(kubectl get secret --namespace redis my-redis-standalone
 ```shell
 kubectl run redis-client --namespace redis --rm --tty -i \
 --env REDIS_PASSWORD_ENV="$REDIS_PASSWORD" \
---image docker.io/bitnami/redis:8.0.2 \
+--image docker.io/bitnami/redis:8.0.2-debian-12-r3 \
 -- bash
 ```
    

@@ -24,8 +24,7 @@ bash status.sh
 **1. 首先，获取 Redis 密码 (假设 Release 名称为 my-redis-sentinel，密码 Key 为 redis-password)**
 
 ```shell
-export REDIS_PASSWORD=$(kubectl get secret --namespace redis my-redis-sentinel -o jsonpath="{.data.redis-password}" | base64 --decode)
-echo "Redis Password: $REDIS_PASSWORD"
+export REDIS_PASSWORD=$(kubectl get secret --namespace redis my-redis-ha -o jsonpath="{.data.redis-password}" | base64 -d)
 ```
    
 **2. 启动一个临时的 Redis 客户端 Pod 来连接实例**
@@ -33,39 +32,30 @@ echo "Redis Password: $REDIS_PASSWORD"
 ```shell
 kubectl run redis-client --namespace redis --rm --tty -i \
 --env REDIS_PASSWORD_ENV="$REDIS_PASSWORD" \
---image docker.io/bitnami/redis:8.0.2 \
+--image docker.io/bitnami/redis:8.0.2-debian-12-r3 \
 -- bash
 ```
    
 **3. 在临时 Pod 中连接到 Redis 实例**
 
 ```shell
-# 在 redis-client Pod 内部执行（my-redis-sentinel为clusterIP类型的service）
-redis-cli -c -h my-redis-sentinel -a "$REDIS_PASSWORD_ENV"
+# 连接到只读节点
+redis-cli -h my-redis-ha -p 6379 -a "$REDIS_PASSWORD_ENV"
+# 连接到哨兵节点
+redis-cli -h my-redis-ha -p 26379 -a "$REDIS_PASSWORD_ENV"
 ```
 
 **4. 连接成功后，您可以执行 Redis 命令来验证实例状态**
 
 ```shell
-# 在 redis-cli 提示符下执行
+# 连接到只读节点后，在 redis-cli 提示符下执行
 > info
 
-> sentinel  masters
-
+# 连接到哨兵节点后，在 redis-cli 提示符下执行
+> sentinel masters
 > sentinel master mymaster
-
-> sentinel  slaves  mymaster
-
-> set mykey "Hello K8s Redis"
-# > GET mykey
-# "Hello K8s Redis"
-
-> exit
+> sentinel slaves mymaster
 ```
-   
-**5. k8s 集群内部访问直接通过 service 访问 Redis 实例**
-
-格式为：`<service>.<namespace>.svc.cluster.local`，例如：`my-redis-sentinel.redis.svc.cluster.local`。
 
 ### 监控验证
 
