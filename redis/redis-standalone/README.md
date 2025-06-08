@@ -49,6 +49,16 @@ redis-cli -c -h my-redis-standalone-master -a "$REDIS_PASSWORD_ENV"
 > info
 ```
 
+**5. k8s 内部访问 Redis 实例**
+
+```shell
+# 方式一：<service>.<namespace>.svc.cluster.local:6379（大多数 Redis Cluster 客户端库只需要这个地址和密码即可自动发现所有节点）
+my-redis-standalone-master.redis.svc.cluster.local:6379
+
+# 方式二：<pod>.<headless-service>.<namespace>.svc.cluster.local:6379
+my-redis-standalone-master-0.my-redis-standalone-headless.redis.svc.cluster.local:6379
+```
+
 ### 监控验证
 
 **1. 访问`prometheus`的`/targets`页面，查看`redis-exporter`是否正常 scrape metrics**
