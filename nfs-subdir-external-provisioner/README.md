@@ -1,7 +1,38 @@
 前提准备
 ---
 
-修改`.env`文件中配置的变量为自定义内容，如安装的命名空间、helm实例名称、char版本号等（可选）。
+**1. 搭建NFS服务端**
+
+```shell
+sudo yum install -y nfs-utils rpcbind
+sudo systemctl enable rpcbind
+sudo systemctl start rpcbind
+
+sudo mkdir -p /data/nfs/k8s
+sduo tee -a /etc/exports <<'EOF'
+/data/nfs/k8s *(insecure,rw,sync,no_root_squash)
+EOF
+
+sudo systemctl enable nfs-server
+sudo systemctl start nfs-server
+
+sudo exportfs -r
+sudo exportfs
+```
+
+**2. 挂载NFS客户端**
+
+```shell
+sudo yum install -y nfs-utils
+
+mkdir -p /data/nfs/k8s 
+
+mount -t nfs master:/data/nfs/k8s /data/nfs/k8s
+
+df -h | grep /data/nfs/k8s
+```
+
+**3. 修改`.env`文件中配置的变量为自定义内容，如安装的命名空间、helm实例名称、char版本号等（可选）。**
 
 安装应用
 ---
