@@ -24,12 +24,12 @@ helm upgrade --install "${RELEASE_NAME}" bitnami/redis-cluster \
   \
   --set redis.resources.requests.cpu=100m \
   --set redis.resources.requests.memory=128Mi \
-  --set redis.resources.limits.cpu=512m \
+  --set redis.resources.limits.cpu=1024m \
   --set redis.resources.limits.memory=2048Mi \
   \
   --set updateJob.resources.requests.cpu=100m \
   --set updateJob.resources.requests.memory=128Mi \
-  --set updateJob.resources.limits.cpu=512m \
+  --set updateJob.resources.limits.cpu=1024m \
   --set updateJob.resources.limits.memory=2048Mi \
   \
   --set rbac.create=true \
