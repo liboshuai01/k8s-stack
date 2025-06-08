@@ -67,6 +67,13 @@ kafka-console-consumer.sh \
 ```
 你应该能看到发送的消息。
 
+**6. k8s 内部访问 Kafka 实例**
+
+```shell
+# <pod>.<headless-service>.<namespace>.svc.cluster.local:9092
+my-redis-standalone-master-0.my-redis-standalone-headless.redis.svc.cluster.local:6379
+```
+
 ### 监控验证
 
 **1. 访问`prometheus`的`/targets`页面，查看`kafka-exporter`是否正常 scrape metrics**
