@@ -24,19 +24,19 @@ bash status.sh
 **1. 获取root用户密码**
 
 ```shell
-export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongo my-mongo-standalone-mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
+export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongodb my-mongodb-standalone-mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
 ```
 
 **2. 启动MongoDB客户端Pod**
 
 ```shell
-kubectl run --namespace mongo my-mongo-standalone-mongodb-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash
+kubectl run --namespace mongodb my-mongodb-standalone-mongodb-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash
 ```
 
 **3. 连接MongoDB**
 
 ```shell
-mongosh admin --host "my-mongo-standalone-mongodb" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+mongosh admin --host "my-mongodb-standalone-mongodb" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
 ```
 
 ### 监控验证
