@@ -40,6 +40,11 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mongodb --version ${CHART_VERSION
   --set resources.limits.cpu=512m \
   --set resources.limits.memory=2048Mi \
   \
+  --set arbiter.resources.requests.cpu=100m \
+  --set arbiter.resources.requests.memory=128Mi \
+  --set arbiter.resources.limits.cpu=512m \
+  --set arbiter.resources.limits.memory=2048Mi \
+  \
   --set rbac.create=true \
   \
   --set metrics.enabled=true \
