@@ -8,9 +8,9 @@
 
 **1. 执行安装脚本**
 
- ```shell
- bash install.sh
- ```
+```shell
+bash install.sh
+```
 
 **2. 取消`local-path`存储类的默认值设置**
 
