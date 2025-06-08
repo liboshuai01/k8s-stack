@@ -30,13 +30,20 @@ export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongodb my-mongodb
 **2. 启动MongoDB客户端Pod**
 
 ```shell
-kubectl run --namespace mongodb my-mongodb-standalone-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash
+kubectl run --namespace mongodb my-mongodb-standalone-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash 
 ```
 
 **3. 连接MongoDB**
 
 ```shell
 mongosh admin --host "my-mongodb-standalone" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+```
+
+**4. k8s 内部访问 Mongodb 实例**
+
+```shell
+# <service>.<namespace>.svc.cluster.local:27017
+my-mongodb-standalone.mongodb.svc.cluster.local:27017
 ```
 
 ### 监控验证
