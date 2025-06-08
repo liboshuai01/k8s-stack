@@ -24,8 +24,7 @@ bash status.sh
 **1. 首先，获取 Redis 密码 (假设 Release 名称为 my-redis-standalone，密码 Key 为 redis-password)**
 
 ```shell
-export REDIS_PASSWORD=$(kubectl get secret --namespace redis my-redis-standalone -o jsonpath="{.data.redis-password}" | base64 --decode)
-echo "Redis Password: $REDIS_PASSWORD"
+export REDIS_PASSWORD=$(kubectl get secret --namespace redis my-redis-standalone -o jsonpath="{.data.redis-password}" | base64 -d)
 ```
    
 **2. 启动一个临时的 Redis 客户端 Pod 来连接实例**
@@ -40,8 +39,7 @@ kubectl run redis-client --namespace redis --rm --tty -i \
 **3. 在临时 Pod 中连接到 Redis 实例**
 
 ```shell
-# 在 redis-client Pod 内部执行（my-redis-standalone为clusterIP类型的service）
-redis-cli -c -h my-redis-standalone -a "$REDIS_PASSWORD_ENV"
+redis-cli -c -h my-redis-standalone-master -a "$REDIS_PASSWORD_ENV"
 ```
 
 **4. 连接成功后，您可以执行 Redis 命令来验证实例状态**
@@ -49,17 +47,7 @@ redis-cli -c -h my-redis-standalone -a "$REDIS_PASSWORD_ENV"
 ```shell
 # 在 redis-cli 提示符下执行
 > info
-
-> set mykey "Hello K8s Redis"
-# > GET mykey
-# "Hello K8s Redis"
-
-> exit
 ```
-   
-**5. k8s 集群内部访问直接通过 service 访问 Redis 实例**
-
-格式为：`<service>.<namespace>.svc.cluster.local`，例如：`my-redis-standalone.redis.svc.cluster.local`。
 
 ### 监控验证
 
