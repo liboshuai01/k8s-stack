@@ -28,12 +28,18 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mysql --version ${CHART_VERSION} 
   --set-string auth.password=${MYSQL_PASSWORD} \
   \
   --set primary.persistence.size=16Gi \
-  --set primary.resources.requests.cpu=250m \
-  --set primary.resources.requests.memory=512Mi \
-  --set primary.resources.limits.cpu=2000m \
-  --set primary.resources.limits.memory=4096Mi \
+  --set primary.resources.requests.cpu=100m \
+  --set primary.resources.requests.memory=128Mi \
+  --set primary.resources.limits.cpu=512m \
+  --set primary.resources.limits.memory=2048Mi \
+  \
+  --set rbac.create=true \
   \
   --set metrics.enabled=true \
   --set metrics.serviceMonitor.enabled=true \
-  --set metrics.serviceMonitor.namespace=${PROMETHEUS_NAMESPACE} \
-  --set metrics.serviceMonitor.selector.release=${PROMETHEUS_RELEASE_LABEL}
+  --set metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
+  --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL}" \
+  --set metrics.resources.requests.cpu=100m \
+  --set metrics.resources.requests.memory=128Mi \
+  --set metrics.resources.limits.cpu=256m \
+  --set metrics.resources.limits.memory=1024Mi
