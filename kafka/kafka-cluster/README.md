@@ -25,13 +25,13 @@ bash status.sh
 
 ```shell
 # 请根据您helm install输出的NOTES部分提供的镜像名和标签进行调整
-kubectl run kafka-test-client --rm --tty -i --restart='Never' --image docker.io/bitnami/kafka:4.0.0-debian-12-r3 --namespace kafka --command -- bash
+kubectl run my-kafka-cluster-client  --rm --tty -i --restart='Never' --image docker.io/bitnami/kafka:4.0.0-debian-12-r5 --namespace kafka --command -- bash
 ```
     
 **2. 进入客户端 Pod 的 shell**
 
 ```shell
-kubectl exec --tty -i kafka-test-client --namespace kafka -- bash
+kubectl exec --tty -i my-kafka-cluster-client  --namespace kafka -- bash
 ```
     
 **3. 在客户端 Pod 内，创建一个测试topic**
