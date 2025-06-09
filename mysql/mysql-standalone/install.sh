@@ -33,6 +33,11 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mysql --version ${CHART_VERSION} 
   --set primary.resources.limits.cpu=512m \
   --set primary.resources.limits.memory=2048Mi \
   \
+  --set secondary.resources.requests.cpu=250m \
+  --set secondary.resources.requests.memory=512Mi \
+  --set secondary.resources.limits.cpu=2000m \
+  --set secondary.resources.limits.memory=4096Mi \
+  \
   --set rbac.create=true \
   \
   --set metrics.enabled=true \

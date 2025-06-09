@@ -24,7 +24,7 @@ bash status.sh
 **1. 获取root用户密码**
 
 ```shell
-MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace mysql-standalone my-mysql-standalone -o jsonpath="{.data.mysql-root-password}" | base64 -d)
+MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace mysql my-mysql-standalone -o jsonpath="{.data.mysql-root-password}" | base64 -d)
 ```
 
 **2. 启动MySQL客户端Pod**
@@ -37,6 +37,16 @@ kubectl run my-mysql-standalone-client --rm --tty -i --restart='Never' --image  
 
 ```shell
 mysql -h my-mysql-standalone.mysql-standalone.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+```
+
+**4. k8s 内部访问 MySQL 实例**
+
+```shell
+# 方式一：<service>.<namespace>.svc.cluster.local:3306
+my-mysql-standalone.mysql.svc.cluster.local:3306
+
+# 方式二：<pod>.<headless-service>.<namespace>.svc.cluster.local:3306
+my-mysql-standalone-0.my-mysql-standalone-headless.mysql.svc.cluster.local:3306
 ```
 
 ### 监控验证
