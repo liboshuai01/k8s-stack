@@ -48,6 +48,10 @@ helm upgrade --install ${RELEASE_NAME} bitnami/kafka --version ${CHART_VERSION} 
   --set rbac.create=true \
   \
   --set metrics.jmx.enabled=true \
+  --set metrics.jmx.resources.requests.cpu=100m \
+  --set metrics.jmx.resources.requests.memory=128Mi \
+  --set metrics.jmx.resources.limits.cpu=256m \
+  --set metrics.jmx.resources.limits.memory=1024Mi \
   --set metrics.serviceMonitor.enabled=true \
   --set metrics.serviceMonitor.namespace="${NAMESPACE}" \
   --set metrics.serviceMonitor.selector.release="${PROMETHEUS_RELEASE_LABEL}" \
