@@ -51,11 +51,6 @@ mysql -h my-mysql-replication-secondary.mysql.svc.cluster.local -uroot -p"$MYSQL
 # <service>.<namespace>.svc.cluster.local:3306
 - 主节点：my-mysql-replication-primary.mysql.svc.cluster.local:3306
 - 从节点：my-mysql-replication-secondary.mysql.svc.cluster.local:3306
-
-# 方式二：<pod>.<headless-service>.<namespace>.svc.cluster.local:3306
-- 主节点一：my-mysql-replication-primary-0.my-mysql-replication-primary-headless.mysql.svc.cluster.local:3306
-- 从节点一：my-mysql-replication-secondary-0.my-mysql-replication-secondary-headless.mysql.svc.cluster.local:3306
-- 从节点二：my-mysql-replication-secondary-1.my-mysql-replication-secondary-headless.mysql.svc.cluster.local:3306
 ```
 
 ### 监控验证

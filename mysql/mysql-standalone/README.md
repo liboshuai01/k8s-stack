@@ -42,11 +42,8 @@ mysql -h my-mysql-standalone.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSW
 **4. k8s 内部访问 MySQL 实例**
 
 ```shell
-# 方式一：<service>.<namespace>.svc.cluster.local:3306
+# <service>.<namespace>.svc.cluster.local:3306
 my-mysql-standalone.mysql.svc.cluster.local:3306
-
-# 方式二：<pod>.<headless-service>.<namespace>.svc.cluster.local:3306
-my-mysql-standalone-0.my-mysql-standalone-headless.mysql.svc.cluster.local:3306
 ```
 
 ### 监控验证
