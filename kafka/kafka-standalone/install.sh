@@ -35,7 +35,7 @@ helm upgrade --install ${RELEASE_NAME} bitnami/kafka --version ${CHART_VERSION} 
   --set defaultInitContainers.prepareConfig.resources.limits.cpu=250m \
   --set defaultInitContainers.prepareConfig.resources.limits.memory=1024Mi \
   \
-  --set controller.replicaCount=1 \
+  --set controller.replicaCount=${CONTROLLER_REPLICA_COUNT} \
   --set controller.persistence.enabled=true \
   --set controller.persistence.size=16Gi \
   --set controller.logPersistence.enabled=true \
@@ -59,3 +59,14 @@ helm upgrade --install ${RELEASE_NAME} bitnami/kafka --version ${CHART_VERSION} 
   --set metrics.resources.requests.memory=128Mi \
   --set metrics.resources.limits.cpu=256m \
   --set metrics.resources.limits.memory=1024Mi
+
+  # 如果需要分离的 Broker 节点 (KRaft 提供的 Dedicated Broker Mode)，请取消注释并配置以下参数 \
+  # --set broker.replicaCount=3 \
+  # --set broker.persistence.enabled=true \
+  # --set broker.persistence.size=32Gi \
+  # --set broker.logPersistence.enabled=true \
+  # --set broker.logPersistence.size=8Gi \
+  # --set broker.resources.requests.cpu=250m \
+  # --set broker.resources.requests.memory=512Mi \
+  # --set broker.resources.limits.cpu=1000m \
+  # --set broker.resources.limits.memory=2048Mi \
