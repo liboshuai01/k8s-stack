@@ -30,13 +30,13 @@ MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace mysql my-mysql-standalone -
 **2. 启动MySQL客户端Pod**
 
 ```shell
-kubectl run my-mysql-standalone-client --rm --tty -i --restart='Never' --image  docker.io/bitnami/mysql:8.0.37-debian-12-r2 --namespace mysql-standalone --env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --command -- bash
+kubectl run my-mysql-standalone-client --rm --tty -i --restart='Never' --image  docker.io/bitnami/mysql:8.0.37-debian-12-r2 --namespace mysql --env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --command -- bash
 ```
 
 **3. 连接MySQL**
 
 ```shell
-mysql -h my-mysql-standalone.mysql-standalone.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+mysql -h my-mysql-standalone.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
 ```
 
 **4. k8s 内部访问 MySQL 实例**
