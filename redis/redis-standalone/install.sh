@@ -31,6 +31,11 @@ helm upgrade --install "${RELEASE_NAME}" bitnami/redis \
   --set master.resources.limits.cpu=512m \
   --set master.resources.limits.memory=2048Mi \
   \
+  --set replica.resources.requests.cpu=100m \
+  --set replica.resources.requests.memory=128Mi \
+  --set replica.resources.limits.cpu=512m \
+  --set replica.resources.limits.memory=2048Mi \
+  \
   --set rbac.create=true \
   \
   --set metrics.enabled=true \
