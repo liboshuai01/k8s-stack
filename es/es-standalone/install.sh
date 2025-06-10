@@ -46,7 +46,7 @@ helm upgrade --install "${RELEASE_NAME}" bitnami/elasticsearch \
   --set sysctlImage.resources.requests.cpu=100m \
   --set sysctlImage.resources.requests.memory=128Mi \
   --set sysctlImage.resources.limits.cpu=256m \
-  --set sysctlImage.resources.limits.memory=1024Mi
+  --set sysctlImage.resources.limits.memory=1024Mi \
   \
   --set metrics.enabled=true \
   --set metrics.serviceMonitor.enabled=true \
