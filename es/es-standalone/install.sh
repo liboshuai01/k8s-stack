@@ -40,7 +40,7 @@ helm upgrade --install "${RELEASE_NAME}" bitnami/elasticsearch \
   \
   --set metrics.enabled=true \
   --set metrics.serviceMonitor.enabled=true \
-  --set-string metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
+  --set metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
   --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL}" \
   --set metrics.resources.requests.cpu=100m \
   --set metrics.resources.requests.memory=128Mi \
