@@ -122,4 +122,4 @@ kubectl get pvc pvc-test
 bash uninstall.sh
 ```
 
-> 更详细的教程请查看：[K8s采用Helm部署nfs-subdir-external-provisioner实现动态存储](https://lbs.wiki/pages/e3673e0e/)
+> 更详细的教程请查看：[K8s采用Helm部署nfs-subdir-external-provisioner](https://lbs.wiki/pages/cebdd494/)

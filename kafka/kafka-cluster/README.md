@@ -100,4 +100,4 @@ kubectl get pvc -n ${NAMESPACE}
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
 ```
 
-> 更详细的教程请查看：[K8s采用Helm部署Kafka集群实战指南](https://lbs.wiki/pages/84c192a2/)
+> 更详细的教程请查看：[K8s采用Helm部署kafka-cluster](https://lbs.wiki/pages/c4730ed2/)

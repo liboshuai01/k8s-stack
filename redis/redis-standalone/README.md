@@ -93,4 +93,4 @@ kubectl get pvc -n ${NAMESPACE}
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
 ```
 
-> 更详细的教程请查看：[K8s采用Helm部署redis-standalone实战指南](https://lbs.wiki/pages/5c36b781/)
+> 更详细的教程请查看：[K8s采用Helm部署redis-standalone](https://lbs.wiki/pages/fb011a6c/)

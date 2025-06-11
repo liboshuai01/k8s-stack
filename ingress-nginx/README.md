@@ -98,4 +98,4 @@ kubectl label node [节点名称] ingress-
 kubectl label node k8s-node-1 ingress-
 ```
 
-> 更详细的教程请查看：[K8s采用Helm部署Ingress-Nginx实战指南](https://lbs.wiki/pages/ffec2a5/)
+> 更详细的教程请查看：[K8s采用Helm部署ingress-nginx](https://lbs.wiki/pages/ad80c258/)

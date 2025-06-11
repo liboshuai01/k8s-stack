@@ -86,4 +86,4 @@ kubectl get pvc -n ${NAMESPACE}
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
 ```
 
-> 更详细的教程请查看：[K8s采用Helm部署mysql-cluster实战指南](https://lbs.wiki/pages/99c439e4/)
+> 更详细的教程请查看：[K8s采用Helm部署mysql-replication](https://lbs.wiki/pages/e9954717/)
