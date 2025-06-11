@@ -38,7 +38,7 @@ bash status.sh
 
 **1. 访问`prometheus`的`/targets`页面，查看`nginx-exporter`是否正常 scrape metrics**
 
-**2. 访问`grafana`并导入面板文件`dashboard.json`，查看`kafka-exporter`的dashboard是否正常显示。**
+**2. 访问`grafana`并导入面板文件`dashboard.json`中的内容，查看`kafka-exporter`的dashboard是否正常显示。**
 
 更新应用
 ---
