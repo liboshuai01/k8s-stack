@@ -31,6 +31,11 @@ helm upgrade --install ${RELEASE_NAME} bitnami/nginx \
   --set ingress.hostname=${NGINX_HOST} \
   --set ingress.path="/" \
   \
+  --set cloneStaticSiteFromGit.gitSync.resources.requests.cpu=100m \
+  --set cloneStaticSiteFromGit.gitSync.resources.requests.memory=128Mi \
+  --set cloneStaticSiteFromGit.gitSync.resources.limits.cpu=256m \
+  --set cloneStaticSiteFromGit.gitSync.resources.limits.memory=1024Mi \
+  \
   --set metrics.enabled=true \
   --set metrics.serviceMonitor.enabled=true \
   --set metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
