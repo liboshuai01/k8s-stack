@@ -11,4 +11,3 @@ else
 fi
 
 kubectl get all -n ${NAMESPACE}
-kubectl get pvc -n ${NAMESPACE}

@@ -54,14 +54,4 @@ bash status.sh
 bash uninstall.sh
 ```
 
-**2. （可选）删除pvc**
-
-```shell
-# 加载变量
-source .env
-
-# 查看pvc
-kubectl get pvc -n ${NAMESPACE}
-```
-
-> 更详细的教程请查看：[K8s采用Helm部署nginx-standalone](https://lbs.wiki/pages/32b0bac/)
+> 更详细的教程请查看：[K8s采用Helm部署nginx(https://lbs.wiki/pages/fdb2064a/)
