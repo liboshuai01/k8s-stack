@@ -32,9 +32,7 @@ bash status.sh
 
 ### 进阶验证
 
-1. 访问`http://prometheus.lbs.com`，如果访问成功，则说明`prometheus`安装成功。
-2. 访问`http://grafana.lbs.com`，如果访问成功，则说明`grafana`安装成功。
-3. 访问`http://alertmanager.lbs.com`，如果访问成功，则说明`alertmanager`安装成功。
+1. 访问`http://harbor.lbs.com`，如果访问成功，则说明`harbor`安装成功。
 
 更新应用
 ---
@@ -63,4 +61,4 @@ kubectl get pvc -n ${NAMESPACE}
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
 ```
 
-> 更详细的教程请查看：[K8s采用Helm部署kube-prometheus-stack](https://lbs.wiki/pages/32b0bac/)
+> 更详细的教程请查看：[K8s采用Helm部署harbor](https://lbs.wiki/pages/32b0bac/)
