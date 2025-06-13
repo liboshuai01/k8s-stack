@@ -31,7 +31,7 @@ kubectl get all -n flink
 
 **1. 部署测试应用**
 ```shell
-kubectl create -f https://raw.githubusercontent.com/apache/flink-kubernetes-operator/release-1.12/examples/basic.yaml -n flink
+kubectl create -f ./examples/basic.yaml -n flink
 ```
 
 **2. 查看测试应用日志**
