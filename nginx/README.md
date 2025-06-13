@@ -15,10 +15,10 @@ bash install.sh
 **2. 配置`hosts`文件，添加以下内容**
 
 ```
-[任意ingress-nginx节点IP] http://nginx.lbs.com
+[任意ingress-nginx节点IP] nginx.lbs.com
 
 # 例如
-# 192.168.6.202 http://nginx.lbs.com
+# 192.168.6.202 nginx.lbs.com
 ```
 
 验证应用

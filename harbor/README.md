@@ -15,10 +15,10 @@ bash install.sh
 **2. 配置`hosts`文件，添加以下内容**
 
 ```
-[任意ingress-nginx节点IP] http://prometheus.lbs.com http://grafana.lbs.com http://alertmanager.lbs.com
+[任意ingress-nginx节点IP] harbor.lbs.com
 
 # 例如
-# 192.168.6.202 http://prometheus.lbs.com http://grafana.lbs.com http://alertmanager.lbs.comm
+# 192.168.6.202 harbor.lbs.com
 ```
 
 验证应用
