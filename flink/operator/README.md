@@ -13,7 +13,9 @@ kubectl get all -n cert-manager
 ---
 
 ```shell
-bash install.sh
+helm repo add flink-operator-repo https://downloads.apache.org/flink/flink-kubernetes-operator-1.12.0/
+helm repo update
+helm install flink-kubernetes-operator flink-operator-repo/flink-kubernetes-operator -n flink --create-namespace
 ```
 
 验证应用
@@ -22,7 +24,7 @@ bash install.sh
 ### 初步验证
 
 ```shell
-bash status.sh
+kubectl get all -n flink
 ```
 
 ### 进阶验证
@@ -46,24 +48,24 @@ kubectl delete -f https://raw.githubusercontent.com/apache/flink-kubernetes-oper
 更新应用
 ---
 
-无
+先卸载旧operator，然后安装新的operator。
 
 卸载应用
 ---
 
-**1. 执行卸载脚本**
+**1. 卸载operator**
 
 ```shell
-bash uninstall.sh
+helm uninstall flink-kubernetes-operator -n flink
 ```
 
-**2. 删除cert-manager**
+**2. 卸载cert-manager**
 
 ```shell
 kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
 ```
 
-**3. （可选）完全删除**
+**3. 删除命名空间（可选）**
 
 ```shell
 kubectl delete ns flink
