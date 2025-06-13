@@ -1,7 +1,13 @@
 前提准备
 ---
 
-无
+**1. 首先安装`cert-manager`**
+```shell
+kubectl create -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
+kubectl get all -n cert-manager
+```
+
+> 安装`cert-manger`等待所有pod处于running后，再多等待一会哦，不然直接部署flink-operator会报错！
 
 安装应用
 ---
@@ -51,7 +57,13 @@ kubectl delete -f https://raw.githubusercontent.com/apache/flink-kubernetes-oper
 bash uninstall.sh
 ```
 
-**2. （可选）完全删除**
+**2. 删除cert-manager**
+
+```shell
+kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
+```
+
+**3. （可选）完全删除**
 
 ```shell
 kubectl delete ns flink
