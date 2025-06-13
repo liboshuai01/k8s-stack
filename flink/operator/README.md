@@ -42,7 +42,7 @@ kubectl logs -f deploy/basic-example -n flink
 
 **3. 删除测试应用**
 ```shell
-kubectl delete -f https://raw.githubusercontent.com/apache/flink-kubernetes-operator/release-1.12/examples/basic.yaml -n flink
+kubectl delete -f ./examples/basic.yaml -n flink
 ```
 
 更新应用
