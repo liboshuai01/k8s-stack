@@ -19,10 +19,16 @@
 apiVersion: flink.apache.org/v1beta1
 kind: FlinkDeployment
 metadata:
+  namespace: flink
   name: basic-session-deployment-example
 spec:
   image: flink:1.20
   flinkVersion: v1_20
+  ingress:
+    template: "flink.k8s.io/{{namespace}}/{{name}}(/|$)(.*)"
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
   jobManager:
     resource:
       memory: "2048m"
