@@ -59,7 +59,10 @@ helm upgrade --install ${RELEASE_NAME} bitnami/kafka --version ${CHART_VERSION} 
   --set metrics.resources.requests.cpu=100m \
   --set metrics.resources.requests.memory=128Mi \
   --set metrics.resources.limits.cpu=256m \
-  --set metrics.resources.limits.memory=1024Mi
+  --set metrics.resources.limits.memory=1024Mi \
+  \
+  --set extraEnvVars[0].name=TZ \
+  --set extraEnvVars[0].value=Asia/Shanghai
 
   # 如果需要分离的 Broker 节点 (KRaft 提供的 Dedicated Broker Mode)，请取消注释并配置以下参数 \
   # --set broker.replicaCount=3 \

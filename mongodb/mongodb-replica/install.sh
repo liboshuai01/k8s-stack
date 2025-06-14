@@ -55,4 +55,7 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mongodb --version ${CHART_VERSION
   --set metrics.resources.requests.cpu=100m \
   --set metrics.resources.requests.memory=128Mi \
   --set metrics.resources.limits.cpu=256m \
-  --set metrics.resources.limits.memory=1024Mi
+  --set metrics.resources.limits.memory=1024Mi \
+  \
+  --set extraEnvVars[0].name=TZ \
+  --set extraEnvVars[0].value=Asia/Shanghai

@@ -62,4 +62,7 @@ helm upgrade --install "${RELEASE_NAME}" stevehipwell/nexus3 \
   --set metrics.enabled=true \
   --set metrics.serviceMonitor.enabled=true \
   --set metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
-  --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL}"
+  --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL}" \
+  \
+  --set env[0].name=TZ \
+  --set env[0].value=Asia/Shanghai
