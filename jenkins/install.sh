@@ -35,4 +35,9 @@ helm upgrade --install ${RELEASE_NAME} bitnami/jenkins \
   --set resources.requests.cpu=100m \
   --set resources.requests.memory=128Mi \
   --set resources.limits.cpu=1000m \
-  --set resources.limits.memory=4096Mi
+  --set resources.limits.memory=4096Mi \
+  \
+  --set tls.resources.requests.cpu=100m \
+  --set tls.resources.requests.memory=128Mi \
+  --set tls.resources.limits.cpu=256m \
+  --set tls.resources.limits.memory=1024Mi
