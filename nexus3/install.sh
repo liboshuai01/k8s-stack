@@ -14,6 +14,14 @@ fi
 helm repo add stevehipwell https://stevehipwell.github.io/helm-charts/
 helm repo update
 
+# -- 创建  namespace --
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${NAMESPACE}
+EOF
+
 # -- 创建 secret --
 kubectl create secret generic "${RELEASE_NAME}-secret" \
   --from-literal=password="${NEXUS_ADMIN_PASSWORD}" \
