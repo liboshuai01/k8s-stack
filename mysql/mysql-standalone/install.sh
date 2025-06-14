@@ -20,7 +20,7 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mysql --version ${CHART_VERSION} 
   --create-namespace \
   \
   --set architecture=standalone \
-  --set-string global.storageClass="${STORAGE_CLASS_NAME}" \
+  --set-string global.defaultStorageClass="${STORAGE_CLASS_NAME}" \
   \
   --set-string auth.rootPassword=${MYSQL_ROOT_PASSWORD} \
   --set-string auth.database=${MYSQL_DATABASE} \

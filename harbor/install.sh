@@ -19,7 +19,6 @@ helm upgrade --install ${RELEASE_NAME} bitnami/harbor \
   --version ${CHART_VERSION} --namespace ${NAMESPACE} --create-namespace \
   \
   --set-string global.defaultStorageClass=${STORAGE_CLASS_NAME} \
-  --set-string global.storageClass=${STORAGE_CLASS_NAME} \
   \
   --set externalURL="https://${HARBOR_HOST}" \
   --set adminPassword=${HARBOR_ADMIN_PASSWORD} \

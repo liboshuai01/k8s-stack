@@ -17,7 +17,7 @@ helm repo update
 # --- 安装 / 升级 ---
 helm upgrade --install "${RELEASE_NAME}" bitnami/redis-cluster \
   --version "${CHART_VERSION}" --namespace "${NAMESPACE}" --create-namespace \
-  --set-string global.storageClass="${STORAGE_CLASS_NAME}" \
+  --set-string global.defaultStorageClass="${STORAGE_CLASS_NAME}" \
   --set-string global.redis.password="${REDIS_PASSWORD}" \
   \
   --set persistence.size=8Gi \

@@ -20,7 +20,7 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mongodb-sharded --version ${CHART
   --namespace ${NAMESPACE} \
   --create-namespace \
   \
-  --set-string global.storageClass="${STORAGE_CLASS_NAME}" \
+  --set-string global.defaultStorageClass="${STORAGE_CLASS_NAME}" \
   --set auth.enabled=true \
   --set-string auth.rootPassword="${MONGO_ROOT_PASSWORD}" \
   --set-string auth.replicaSetKey="${MONGO_REPLICA_SET_KEY}" \

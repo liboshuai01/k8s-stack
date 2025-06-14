@@ -22,7 +22,7 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mongodb --version ${CHART_VERSION
   \
   --set architecture=standalone \
   --set useStatefulSet=true \
-  --set-string global.storageClass="${STORAGE_CLASS_NAME}" \
+  --set-string global.defaultStorageClass="${STORAGE_CLASS_NAME}" \
   \
   --set-string auth.rootPassword="${MONGO_ROOT_PASSWORD}" \
   --set-string auth.databases[0]="${MONGO_DATABASE}" \

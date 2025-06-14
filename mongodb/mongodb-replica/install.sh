@@ -23,7 +23,7 @@ helm upgrade --install ${RELEASE_NAME} bitnami/mongodb --version ${CHART_VERSION
   --set architecture=replicaset \
   --set replicaCount=${REPLICA_COUNT} \
   --set replicaSetName="${MONGO_REPLICA_SET_NAME}" \
-  --set-string global.storageClass="${STORAGE_CLASS_NAME}" \
+  --set-string global.defaultStorageClass="${STORAGE_CLASS_NAME}" \
   \
   --set-string auth.replicaSetKey="${MONGO_REPLICA_SET_KEY}" \
   --set-string auth.rootPassword="${MONGO_ROOT_PASSWORD}" \
