@@ -27,6 +27,8 @@ helm upgrade --install "${RELEASE_NAME}" stevehipwell/nexus-repository-manager \
   --set ingress.ingressClassName="${INGRESS_CLASS_NAME}" \
   --set "ingress.hosts[0]=${NEXUS_HOST}" \
   \
+  --set replicas=${REPLICAS} \
+  \
   --set persistence.enabled=true \
   --set persistence.storageClass="${STORAGE_CLASS_NAME}" \
   --set persistence.size=32Gi \
