@@ -11,15 +11,16 @@ else
     exit 1
 fi
 
-# --- 添加 Bitnami 仓库并更新 ---
+# --- 添加仓库并更新 ---
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
-# --- 安装 / 升级 Jenkins ---
+# --- 安装 / 升级 ---
 helm upgrade --install ${RELEASE_NAME} bitnami/jenkins \
   --version ${CHART_VERSION} --namespace ${NAMESPACE} --create-namespace \
   \
   --set global.defaultStorageClass=${STORAGE_CLASS_NAME} \
+  --set replicaCount=${REPLICA_COUNT} \
   \
   --set jenkinsPassword=${JENKINS_ADMIN_PASSWORD} \
   \
@@ -29,12 +30,9 @@ helm upgrade --install ${RELEASE_NAME} bitnami/jenkins \
   --set ingress.ingressClassName=${INGRESS_CLASS_NAME} \
   --set ingress.hostname=${JENKINS_HOST} \
   \
-  --set persistence.size=8Gi \
+  --set persistence.size=16Gi \
   \
   --set resources.requests.cpu=100m \
   --set resources.requests.memory=128Mi \
   --set resources.limits.cpu=1000m \
-  --set resources.limits.memory=4096Mi \
-  \
-  --set rbac.create=true \
-  --set serviceAccount.create=true
+  --set resources.limits.memory=4096Mi

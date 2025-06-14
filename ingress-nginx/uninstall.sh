@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -o pipefail
 
 # --- 加载变量 ---
 if [ -f .env ]; then
