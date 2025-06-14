@@ -90,4 +90,7 @@ helm upgrade --install ${RELEASE_NAME} bitnami/harbor \
   --set redis.master.resources.requests.cpu=100m \
   --set redis.master.resources.requests.memory=128Mi \
   --set redis.master.resources.limits.cpu=256m \
-  --set redis.master.resources.limits.memory=1024Mi
+  --set redis.master.resources.limits.memory=1024Mi \
+  \
+  --set extraEnvVars[0].name=TZ \
+  --set extraEnvVars[0].value=Asia/Shanghai
