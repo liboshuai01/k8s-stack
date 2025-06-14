@@ -32,7 +32,9 @@ bash status.sh
 
 ### 进阶验证
 
-1. 访问`http://jenkins.lbs.com`，如果访问成功，则说明`jenkins`安装成功。
+**1. 访问`http://jenkins.lbs.com`，如果访问成功，则说明`jenkins`安装成功。**
+
+> 默认用户：user，密码：`$(kubectl get secret --namespace jenkins jenkins -o jsonpath="{.data.jenkins-password}" | base64 -d)`
 
 更新应用
 ---
