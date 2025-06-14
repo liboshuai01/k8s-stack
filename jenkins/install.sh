@@ -40,4 +40,7 @@ helm upgrade --install ${RELEASE_NAME} bitnami/jenkins \
   --set tls.resources.requests.cpu=100m \
   --set tls.resources.requests.memory=128Mi \
   --set tls.resources.limits.cpu=256m \
-  --set tls.resources.limits.memory=1024Mi
+  --set tls.resources.limits.memory=1024Mi \
+  \
+  --set extraEnvVars[0].name=TZ \
+  --set extraEnvVars[0].value=Asia/Shanghai
