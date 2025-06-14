@@ -15,10 +15,10 @@ bash install.sh
 **2. 配置`hosts`文件，添加以下内容**
 
 ```
-[任意ingress-nginx节点IP] prometheus.lbs.com grafana.lbs.com alertmanager.lbs.com
+[任意ingress-nginx节点IP] nexus.lbs.com
 
 # 例如
-# 192.168.6.202 prometheus.lbs.com grafana.lbs.com alertmanager.lbs.com
+# 192.168.6.202 nexus.lbs.com
 ```
 
 验证应用
@@ -32,9 +32,7 @@ bash status.sh
 
 ### 进阶验证
 
-1. 访问`http://prometheus.lbs.com`，如果访问成功，则说明`prometheus`安装成功。
-2. 访问`http://grafana.lbs.com`，如果访问成功，则说明`grafana`安装成功。
-3. 访问`http://alertmanager.lbs.com`，如果访问成功，则说明`alertmanager`安装成功。
+1. 访问`http://nexus.lbs.com`，如果访问成功，则说明`nexus`安装成功。
 
 更新应用
 ---
@@ -63,4 +61,4 @@ kubectl get pvc -n ${NAMESPACE}
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
 ```
 
-> 更详细的教程请查看：[K8s采用Helm部署kube-prometheus-stack](https://lbs.wiki/pages/32b0bac/)
+> 更详细的教程请查看：[K8s采用Helm部署nexus](https://lbs.wiki/pages/32b0bac/)
