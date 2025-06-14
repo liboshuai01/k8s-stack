@@ -28,7 +28,7 @@ kubectl create secret generic "${RELEASE_NAME}-secret" \
   --namespace "${NAMESPACE}" --dry-run=client -o yaml | kubectl apply -f -
 
 # --- 安装 / 升级 ---
-helm upgrade --install "${RELEASE_NAME}" stevehipwell/nexus-repository-manager \
+helm upgrade --install "${RELEASE_NAME}" stevehipwell/nexus3 \
   --version "${CHART_VERSION}" --namespace "${NAMESPACE}" --create-namespace \
   \
   --set ingress.enabled=true \
