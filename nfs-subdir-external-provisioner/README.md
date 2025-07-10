@@ -32,7 +32,7 @@ sudo mount -t nfs master:/data/nfs/k8s /data/nfs/k8s
 df -h | grep /data/nfs/k8s
 ```
 
-**3. 修改`.env`文件中配置的变量为自定义内容，如安装的命名空间、helm实例名称、char版本号等（可选）。**
+**3. 复制文件`.env.example`为`.env`，并根据需求修改配置（重点修改`特有配置`为自定义内容）**
 
 安装应用
 ---

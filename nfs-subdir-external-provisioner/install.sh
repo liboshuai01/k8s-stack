@@ -21,5 +21,5 @@ helm upgrade --install ${RELEASE_NAME} nfs-subdir-external-provisioner/nfs-subdi
   --set nfs.server="${NFS_SERVER}" \
   --set nfs.path="${NFS_PATH}" \
   --set storageClass.name="${STORAGE_CLASS_NAME}" \
-  --set storageClass.defaultClass=true \
-  --set rbac.create=true
+  --set storageClass.defaultClass="${DEFAULT_CLASS}" \
+  --set rbac.create="${RBAC}"
