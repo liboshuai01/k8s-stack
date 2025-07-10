@@ -1,7 +1,7 @@
 前提准备
 ---
 
-复制文件`.env.example`为`.env`，复制文件`values.yml.example`为`values.yml`，并根据需求修改配置内容。
+复制文件`.env.example`为`.env`，复制文件`values-example.yml`为`values.yml`，并根据需求修改配置内容。
 
 安装应用
 ---

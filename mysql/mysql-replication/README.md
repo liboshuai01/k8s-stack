@@ -48,7 +48,9 @@ mysql -h my-mysql-replication-secondary.mysql.svc.cluster.local -uroot -p"$MYSQL
 **5. k8s 内部访问 MySQL 实例**
 
 ```
-# <service>.<namespace>.svc.cluster.local:3306
+# 格式
+<service>.<namespace>.svc.cluster.local:3306
+# 示例
 - 主节点：my-mysql-replication-primary.mysql.svc.cluster.local:3306
 - 从节点：my-mysql-replication-secondary.mysql.svc.cluster.local:3306
 ```
