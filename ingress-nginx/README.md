@@ -1,13 +1,15 @@
 前提准备
 ---
 
-1. 确保`k8s`集群中的各节点中的`80/443`端口均没有被占用。
-2. 如果应该存在了其他`ingress controller`请先卸载，下面为卸载`traefik`的示例命令。
-    ```shell
-    helm uninstall traefik -n kube-system
-    helm uninstall traefik-crd -n kube-system
-    ```
-3. 修改`.env`文件中配置的变量为自定义内容，如安装的命名空间、helm实例名称、char版本号等（可选）。
+**1. 确保`k8s`集群中的各节点中的`80/443`端口均没有被占用。**
+
+**2. 如果应该存在了其他`ingress controller`请先卸载，下面为卸载`traefik`的示例命令。**
+```shell
+helm uninstall traefik -n kube-system
+helm uninstall traefik-crd -n kube-system
+```
+
+**3. 修改`.env`文件中配置的变量为自定义内容，如安装的命名空间、helm实例名称、char版本号等（可选）。**
 
 安装应用
 ---
