@@ -18,4 +18,4 @@ helm repo update
 # --- 安装 / 升级 ---
 helm upgrade --install "${RELEASE_NAME}" nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
   --version "${CHART_VERSION}" --namespace "${NAMESPACE}" --create-namespace \
-  "${HELM_ARGS_ARRAY}"
+  "${HELM_SET_ARGS}"
