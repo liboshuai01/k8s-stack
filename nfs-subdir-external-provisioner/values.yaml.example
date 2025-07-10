@@ -1,0 +1,28 @@
+# -------------------------------------------------------------------
+# Helm Chart 的自定义配置值
+# -------------------------------------------------------------------
+
+# NFS 服务器配置
+# 指定你的 NFS 服务器地址和共享目录路径
+nfs:
+  # NFS 服务器的 IP 地址或主机名
+  server: master
+
+  # NFS 服务器上导出的共享目录路径
+  path: /data/nfs/k8s
+
+# StorageClass 配置
+# 定义由此 Provisioner 创建的 StorageClass 的行为
+storageClass:
+  # StorageClass 的名称
+  name: nfs
+
+  # 是否将此 StorageClass 设置为集群的默认存储类
+  # 如果设置为 true，没有指定 storageClassName 的 PVC 将自动使用此类
+  defaultClass: true
+
+# RBAC (Role-Based Access Control) 配置
+# 控制是否为 Provisioner 创建所需的 ServiceAccount, Role, 和 RoleBinding
+rbac:
+  # 设置为 true 来自动创建 RBAC 相关的资源
+  create: true
