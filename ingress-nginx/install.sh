@@ -27,4 +27,3 @@ helm upgrade --install ${RELEASE_NAME} ingress-nginx/ingress-nginx \
   -f values.yml
 
 echo "Helm Chart '${RELEASE_NAME}' 已成功部署到命名空间 '${NAMESPACE}' 中。"
-
