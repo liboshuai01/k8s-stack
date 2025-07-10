@@ -32,7 +32,7 @@ sudo mount -t nfs master:/data/nfs/k8s /data/nfs/k8s
 df -h | grep /data/nfs/k8s
 ```
 
-**3. 复制文件`.env.example`为`.env`，复制文件`values.yaml.example`为`values.yaml`，并根据需求修改配置内容**
+**3. 复制文件`.env.example`为`.env`，复制文件`values.yml.example`为`values.yml`，并根据需求修改配置内容**
 
 安装应用
 ---
@@ -82,8 +82,8 @@ bash status.sh
 
 **1. 编写测试 PVC 资源配置**
 
-> pvc-test.yaml
-```yaml
+> pvc-test.yml
+```yml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -100,7 +100,7 @@ spec:
 **2. 创建测试 PVC**
 
 ```shell
-kubectl apply -f pvc-test.yaml
+kubectl apply -f pvc-test.yml
 ```
    
 **3. 查看测试 PVC 状态**
@@ -113,7 +113,7 @@ kubectl get pvc pvc-test
 更新应用
 ---
 
-修改`.env`或`install.sh`文件中的内容，后重新执行`install.sh`脚本即可。
+修改`env`、`values.yml`文件内容后，重新执行`install.sh`脚本即可。
 
 卸载应用
 ---
