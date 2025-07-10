@@ -1,7 +1,7 @@
 前提准备
 ---
 
-修改`.env`文件中配置的变量为自定义内容，如安装的命名空间、helm实例名称、char版本号等（可选）。
+复制文件`.env.example`为`.env`，复制文件`values-example.yml`为`values.yml`，并根据需求修改配置内容。
 
 安装应用
 ---
@@ -21,33 +21,28 @@ bash status.sh
 
 ### 进阶验证
 
-**1. 获取root用户密码**
+**1. 加载环境变量**
 
 ```shell
-export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongodb my-mongodb-replica -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
+source .env
 ```
 
-**2. 启动MongoDB客户端Pod**
+**2. 获取root用户密码**
 
 ```shell
-kubectl run --namespace mongodb my-mongodb-replica-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash
+export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace ${NAMESPACE} ${RELEASE_NAME} -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
 ```
 
-**3. 连接MongoDB**
+**3. 启动MongoDB客户端Pod**
 
 ```shell
-mongosh admin --host "my-mongodb-replica-0.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017,my-mongodb-replica-1.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017,my-mongodb-replica-2.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+kubectl run --namespace ${NAMESPACE} ${RELEASE_NAME}-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash
 ```
 
-**4. k8s 内部访问 Mongodb 实例**
-```
-# 副本集名称：${MONGO_REPLICA_SET_NAME}
-rs0
+**4. 连接MongoDB**
 
-# mongodb地址：<pod>.<headless-service>.<namespace>.svc.cluster.local:27017
-my-mongodb-replica-0.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017
-my-mongodb-replica-1.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017
-my-mongodb-replica-2.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017
+```shell
+mongosh admin --host "${RELEASE_NAME}-0.${RELEASE_NAME}-headless.${NAMESPACE}.svc.cluster.local:27017,${RELEASE_NAME}-1.${RELEASE_NAME}-headless.${NAMESPACE}.svc.cluster.local:27017,${RELEASE_NAME}-2.${RELEASE_NAME}-headless.${NAMESPACE}.svc.cluster.local:27017" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
 ```
 
 ### 监控验证
@@ -59,7 +54,7 @@ my-mongodb-replica-2.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017
 更新应用
 ---
 
-修改`.env`或`install.sh`文件中的内容，后重新执行`install.sh`脚本即可。
+修改`env`、`values.yml`文件内容后，重新执行`install.sh`脚本即可。
 
 卸载应用
 ---
@@ -81,6 +76,26 @@ kubectl get pvc -n ${NAMESPACE}
 
 # 删除pvc（可能有多个pvc要删除）
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
+```
+
+## 如何访问
+
+```markdown
+副本集名称
+---
+> values.yml配置项
+MONGO_REPLICA_SET_NAME
+> 示例
+rs0
+
+mongodb地址
+---
+> 格式
+<pod>.<headless-service>.<namespace>.svc.cluster.local:27017
+> 示例
+my-mongodb-replica-0.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017
+my-mongodb-replica-1.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017
+my-mongodb-replica-2.my-mongodb-replica-headless.mongodb.svc.cluster.local:27017
 ```
 
 > 更详细的教程请查看：[K8s采用Helm部署mongodb-replica](https://lbs.wiki/pages/9d2481ad/)
