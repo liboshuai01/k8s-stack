@@ -2,22 +2,12 @@
 # Helm Chart 的自定义配置值
 # -------------------------------------------------------------------
 
-# 存储类名称，用于持久化存储
-storageClassName: nfs
-
-# Ingress Controller 的 Class 名称，用于 Ingress 资源
-ingressClassName: nginx
-
-# Grafana 管理员密码
-# !! 生产环境请务必修改为强密码，并考虑使用 Kubernetes Secret 管理 !!
-grafanaAdminPassword: YOUR_PASSWORD
-
 # Alertmanager 配置
 alertmanager:
   enabled: true
   ingress:
     enabled: true
-    ingressClassName: "{{ .Values.ingressClassName }}" # 使用上面定义的ingressClassName
+    ingressClassName: "nginx"
     hosts:
       - alertmanager.lbs.com
     paths:
@@ -26,7 +16,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: "{{ .Values.storageClassName }}" # 使用上面定义的storageClassName
+          storageClassName: "nfs"
           accessModes:
             - ReadWriteOnce
           resources:
@@ -38,7 +28,7 @@ prometheus:
   enabled: true
   ingress:
     enabled: true
-    ingressClassName: "{{ .Values.ingressClassName }}" # 使用上面定义的ingressClassName
+    ingressClassName: "nginx"
     hosts:
       - prometheus.lbs.com
     paths:
@@ -47,7 +37,7 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: "{{ .Values.storageClassName }}" # 使用上面定义的storageClassName
+          storageClassName: "nfs"
           accessModes:
             - ReadWriteOnce
           resources:
@@ -57,16 +47,16 @@ prometheus:
 # Grafana 配置
 grafana:
   enabled: true
-  adminPassword: "{{ .Values.grafanaAdminPassword }}" # 使用上面定义的grafanaAdminPassword
+  adminPassword: "YOUR_PASSWORD"
   ingress:
     enabled: true
-    ingressClassName: "{{ .Values.ingressClassName }}" # 使用上面定义的ingressClassName
+    ingressClassName: "nginx"
     hosts:
       - grafana.lbs.com
-    path: "/" # 注意这里是 path，不是 paths
+    path: "/"
   persistence:
     enabled: true
-    storageClassName: "{{ .Values.storageClassName }}" # 使用上面定义的storageClassName
+    storageClassName: "nfs"
     accessModes:
       - ReadWriteOnce
     size: 8Gi
@@ -74,4 +64,3 @@ grafana:
 # Prometheus Operator 配置
 prometheusOperator:
   enabled: true
-
