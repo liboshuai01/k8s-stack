@@ -32,7 +32,7 @@ sudo mount -t nfs master:/data/nfs/k8s /data/nfs/k8s
 df -h | grep /data/nfs/k8s
 ```
 
-**3. 复制文件`.env.example`为`.env`，并根据需求修改配置（重点修改`特有配置`为自定义内容）**
+**3. 复制文件`.env.example`为`.env`，并根据需求修改配置（重点修改`参数配置`为自定义内容）**
 
 安装应用
 ---
