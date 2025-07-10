@@ -11,9 +11,6 @@ else
     exit 1
 fi
 
-# --- 字符串解析为数组 ---
-readarray -t HELM_ARGS_ARRAY < <(echo "$HELM_SET_ARGS" | sed '/^\s*$/d')
-
 # --- 添加仓库并更新 ---
 helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
 helm repo update
@@ -21,4 +18,4 @@ helm repo update
 # --- 安装 / 升级 ---
 helm upgrade --install "${RELEASE_NAME}" nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
   --version "${CHART_VERSION}" --namespace "${NAMESPACE}" --create-namespace \
-  "${HELM_ARGS_ARRAY[@]}"
+  "${HELM_ARGS_ARRAY}"
