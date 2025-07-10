@@ -71,6 +71,8 @@ rbac:
 # Metrics (监控) 配置
 metrics:
   enabled: true
+  service:
+    enabled: true
   # Prometheus ServiceMonitor 配置
   serviceMonitor:
     enabled: true

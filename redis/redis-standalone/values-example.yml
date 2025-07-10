@@ -45,11 +45,13 @@ rbac:
 # Metrics (Prometheus) 配置
 metrics:
   enabled: true
+  service:
+    enabled: true
   # ServiceMonitor 配置，用于 Prometheus 自动发现
   serviceMonitor:
     enabled: true
     namespace: monitoring # Prometheus 监控组件所在的命名空间
-    labels:
+    additionalLabels:
       release: kube-prom-stack # Prometheus Operator 用于发现 ServiceMonitor 的标签值
 
   # Metrics exporter 的资源请求与限制
