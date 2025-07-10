@@ -46,7 +46,7 @@ kubectl run --namespace ${NAMESPACE} ${RELEASE_NAME}-client --rm --tty -i --rest
 **4. 在临时 Pod 中连接到 Redis 集群**
 
 ```shell
-redis-cli -c -h ${$RELEASE_NAME}.${NAMESPACE}.svc.cluster.local -a $REDIS_PASSWORD
+redis-cli -c -h ${RELEASE_NAME}.${NAMESPACE}.svc.cluster.local -a $REDIS_PASSWORD
 ```
 
 **5. 连接成功后，您可以执行 Redis 命令来验证集群状态**
