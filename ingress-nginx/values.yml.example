@@ -1,0 +1,26 @@
+# -------------------------------------------------------------------
+# Helm Chart 的自定义配置值
+# -------------------------------------------------------------------
+
+controller:
+  # 设置为主机网络模式，使得 Pod 可以直接使用主机网络接口
+  hostNetwork: true
+
+  # 当使用 hostNetwork 时，设置 DNS 策略以确保 DNS 解析正常工作
+  dnsPolicy: ClusterFirstWithHostNet
+
+  # 通过节点选择器，将 Ingress Controller Pod 部署到特定的节点上
+  nodeSelector:
+    ingress: "true"
+
+  # 将 Ingress Controller 部署为 DaemonSet 类型
+  # 这确保了每个符合 nodeSelector 的节点上都运行一个 Ingress Controller 实例
+  kind: DaemonSet
+
+  # 配置 Ingress Controller 的 Service
+  service:
+    # 启用 Service
+    enabled: true
+    # 将 Service 类型设置为 NodePort，以便通过节点 IP 和端口暴露服务
+    type: NodePort
+
