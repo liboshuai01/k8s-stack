@@ -27,13 +27,13 @@ bash status.sh
 source .env
 ```
 
-**1. 获取 Redis 密码**
+**2. 获取 Redis 密码**
 
 ```shell
 REDIS_PASSWORD=$(kubectl get secret --namespace ${NAMESPACE} ${RELEASE_NAME} -o jsonpath="{.data.redis-password}" | base64 -d)
 ```
    
-**2. 启动一个临时的 Redis 客户端 Pod 来连接集群**
+**3. 启动一个临时的 Redis 客户端 Pod 来连接集群**
 
 ```shell
 kubectl run --namespace ${NAMESPACE} ${RELEASE_NAME}-client --rm --tty -i --restart='Never' \
@@ -43,13 +43,13 @@ kubectl run --namespace ${NAMESPACE} ${RELEASE_NAME}-client --rm --tty -i --rest
 --image docker.io/bitnami/redis-cluster:8.0.2-debian-12-r2 -- bash
 ```
    
-**3. 在临时 Pod 中连接到 Redis 集群**
+**4. 在临时 Pod 中连接到 Redis 集群**
 
 ```shell
 redis-cli -c -h ${$RELEASE_NAME}.${NAMESPACE}.svc.cluster.local -a $REDIS_PASSWORD
 ```
 
-**4. 连接成功后，您可以执行 Redis 命令来验证集群状态**
+**5. 连接成功后，您可以执行 Redis 命令来验证集群状态**
 
 ```shell
 # 在 redis-cli 提示符下执行
