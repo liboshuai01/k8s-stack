@@ -50,7 +50,7 @@ kubectl run ${RELEASE_NAME}-client --namespace ${NAMESPACE} --rm --tty -i \
 redis-cli -c -h ${RELEASE_NAME}-master.${NAMESPACE}.svc.cluster.local -a "$REDIS_PASSWORD_ENV"
 ```
 
-**5. 执行 info 命令**
+**5. 查看 redis 信息**
 
 ```shell
 info

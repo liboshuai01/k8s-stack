@@ -53,6 +53,12 @@ kubectl run ${RELEASE_NAME}-client --rm --tty -i --restart='Never' \
 mysql -h ${RELEASE_NAME}.${NAMESPACE}.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
 ```
 
+**5. 查看数据库列表**
+
+```shell
+show databases;
+```
+
 ### 监控验证
 
 **1. 访问`prometheus`的`/targets`页面，查看`mysql-exporter`是否正常 scrape metrics**
