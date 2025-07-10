@@ -1,0 +1,73 @@
+# -------------------------------------------------------------------
+# Helm Chart 的自定义配置值
+# -------------------------------------------------------------------
+
+# Redis 架构设置
+architecture: standalone
+
+# 全局配置 (例如密码)
+global:
+  redis:
+    # Redis 连接密码
+    password: YOUR_PASSWORD
+
+# Master 节点配置
+master:
+  # 是否启用持久化
+  persistence:
+    enabled: true
+    # 存储类名称
+    storageClass: nfs
+    # 持久化存储大小
+    size: 8Gi
+  # Master 节点资源请求与限制
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 512m
+      memory: 2048Mi
+
+# Replica 节点配置 (如果 architecture 不是 standalone，这个部分会生效，但 standalone 模式下可以保留或移除)
+replica:
+  # Replica 节点资源请求与限制
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 512m
+      memory: 2048Mi
+
+# RBAC (Role-Based Access Control) 配置
+rbac:
+  # 是否创建 RBAC 相关的资源
+  create: true
+
+# Metrics 监控配置 (Prometheus Exporter)
+metrics:
+  # 是否启用指标导出
+  enabled: true
+  # ServiceMonitor 配置 (Prometheus Operator)
+  serviceMonitor:
+    # 是否启用 ServiceMonitor
+    enabled: true
+    # ServiceMonitor 所在的命名空间
+    namespace: monitoring
+    # ServiceMonitor 用于发现服务的标签
+    labels:
+      release: kube-prom-stack
+  # Metrics Exporter 资源请求与限制
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 1024Mi
+
+# 额外环境变量
+extraEnvVars:
+  - name: TZ
+    value: Asia/Shanghai

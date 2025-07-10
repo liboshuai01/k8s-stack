@@ -1,7 +1,7 @@
 前提准备
 ---
 
-修改`.env`文件中配置的变量为自定义内容，如安装的命名空间、helm实例名称、char版本号等（可选）。
+复制文件`.env.example`为`.env`，复制文件`values-example.yml`为`values.yml`，并根据需求修改配置内容。
 
 安装应用
 ---
@@ -21,32 +21,33 @@ bash status.sh
 
 ### 进阶验证
 
-**1. 首先，获取 Redis 密码 (假设 Release 名称为 my-redis-standalone，密码 Key 为 redis-password)**
+**1. 加载环境变量**
 
 ```shell
-export REDIS_PASSWORD=$(kubectl get secret --namespace redis my-redis-standalone -o jsonpath="{.data.redis-password}" | base64 -d)
+source .env
+```
+
+**2. 获取 Redis 密码**
+
+```shell
+REDIS_PASSWORD=$(kubectl get secret --namespace ${NAMESPACE} ${RELEASE_NAME} -o jsonpath="{.data.redis-password}" | base64 -d)
 ```
    
-**2. 启动一个临时的 Redis 客户端 Pod 来连接实例**
+**3. 启动一个临时的 Redis 客户端 Pod 来连接实例**
 
 ```shell
-kubectl run my-redis-standalone-client --namespace redis --rm --tty -i \
+kubectl run ${RELEASE_NAME}-client --namespace ${NAMESPACE} --rm --tty -i \
+--env NAMESPACE="$NAMESPACE" \
+--env RELEASE_NAME="$RELEASE_NAME" \
 --env REDIS_PASSWORD_ENV="$REDIS_PASSWORD" \
 --image docker.io/bitnami/redis:8.0.2-debian-12-r3 \
 -- bash
 ```
    
-**3. 在临时 Pod 中连接到 Redis 实例**
+**4. 在临时 Pod 中连接到 Redis 实例**
 
 ```shell
-redis-cli -c -h my-redis-standalone-master -a "$REDIS_PASSWORD_ENV"
-```
-
-**4. 连接成功后，您可以执行 Redis 命令来验证实例状态**
-
-```shell
-# 在 redis-cli 提示符下执行
-> info
+redis-cli -c -h ${RELEASE_NAME}-master.${NAMESPACE}.svc.cluster.local -a "$REDIS_PASSWORD_ENV"
 ```
 
 **5. k8s 内部访问 Redis 实例**
@@ -69,7 +70,7 @@ my-redis-standalone-master-0.my-redis-standalone-headless.redis.svc.cluster.loca
 更新应用
 ---
 
-修改`.env`或`install.sh`文件中的内容，后重新执行`install.sh`脚本即可。
+修改`env`、`values.yml`文件内容后，重新执行`install.sh`脚本即可。
 
 卸载应用
 ---
