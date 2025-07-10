@@ -3,8 +3,6 @@
 set -e
 set -o pipefail
 
-set -x
-
 # --- 加载变量 ---
 if [ -f .env ]; then
     source .env
