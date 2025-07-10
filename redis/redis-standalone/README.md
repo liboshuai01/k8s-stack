@@ -50,6 +50,12 @@ kubectl run ${RELEASE_NAME}-client --namespace ${NAMESPACE} --rm --tty -i \
 redis-cli -c -h ${RELEASE_NAME}-master.${NAMESPACE}.svc.cluster.local -a "$REDIS_PASSWORD_ENV"
 ```
 
+**5. 执行 info 命令**
+
+```shell
+info
+```
+
 ### 监控验证
 
 **1. 访问`prometheus`的`/targets`页面，查看`redis-exporter`是否正常 scrape metrics**
