@@ -25,7 +25,7 @@ bash install.sh
 执行完`install.sh`脚本后，请手动执行下面的命令选择指定节点让`ingress controller`调度到对应的节点。
 ```shell
 # 命令格式
-# kubectl label node [节点名称] ingress=true --overwrite
+kubectl label node [节点名称] ingress=true --overwrite
 
 # 命令示例
 kubectl label node master ingress=true --overwrite

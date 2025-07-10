@@ -15,10 +15,11 @@ bash install.sh
 **2. 配置`hosts`文件，添加以下内容**
 
 ```
+# 格式
 [任意ingress-nginx节点IP] prometheus.lbs.com grafana.lbs.com alertmanager.lbs.com
 
-# 例如
-# 192.168.6.202 prometheus.lbs.com grafana.lbs.com alertmanager.lbs.com
+# 示例
+192.168.6.202 prometheus.lbs.com grafana.lbs.com alertmanager.lbs.com
 ```
 
 验证应用
