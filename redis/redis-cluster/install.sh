@@ -3,11 +3,17 @@
 set -e
 set -o pipefail
 
-# --- 加载变量 ---
+# --- 加载环境变量 ---
 if [ -f .env ]; then
     source .env
 else
     echo "错误: .env 文件不存在!"
+    exit 1
+fi
+
+# --- 检查 values.yml 文件是否存在 ---
+if [ ! -f values.yml ]; then
+    echo "错误: values.yml 文件不存在!"
     exit 1
 fi
 
@@ -18,31 +24,6 @@ helm repo update
 # --- 安装 / 升级 ---
 helm upgrade --install "${RELEASE_NAME}" bitnami/redis-cluster \
   --version "${CHART_VERSION}" --namespace "${NAMESPACE}" --create-namespace \
-  --set-string global.defaultStorageClass="${STORAGE_CLASS_NAME}" \
-  --set-string global.redis.password="${REDIS_PASSWORD}" \
-  \
-  --set persistence.size=8Gi \
-  \
-  --set redis.resources.requests.cpu=100m \
-  --set redis.resources.requests.memory=128Mi \
-  --set redis.resources.limits.cpu=512m \
-  --set redis.resources.limits.memory=2048Mi \
-  \
-  --set updateJob.resources.requests.cpu=100m \
-  --set updateJob.resources.requests.memory=128Mi \
-  --set updateJob.resources.limits.cpu=512m \
-  --set updateJob.resources.limits.memory=2048Mi \
-  \
-  --set rbac.create=true \
-  \
-  --set metrics.enabled=true \
-  --set metrics.serviceMonitor.enabled=true \
-  --set metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
-  --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL}" \
-  --set metrics.resources.requests.cpu=100m \
-  --set metrics.resources.requests.memory=128Mi \
-  --set metrics.resources.limits.cpu=256m \
-  --set metrics.resources.limits.memory=1024Mi \
-  \
-  --set extraEnvVars[0].name=TZ \
-  --set extraEnvVars[0].value=Asia/Shanghai
+  -f values.yml
+
+echo "Helm Chart '${RELEASE_NAME}' 已成功部署到命名空间 '${NAMESPACE}' 中。"

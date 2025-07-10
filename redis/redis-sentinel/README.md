@@ -36,7 +36,7 @@ REDIS_PASSWORD=$(kubectl get secret --namespace ${NAMESPACE} ${RELEASE_NAME} -o 
 **3. 启动一个临时的 Redis 客户端 Pod 来连接实例**
 
 ```shell
-kubectl run my-redis-sentinel-client --namespace redis --rm --tty -i \
+kubectl run ${RELEASE_NAME}-client --namespace ${NAMESPACE} --rm --tty -i \
 --env NAMESPACE="${NAMESPACE}" \
 --env RELEASE_NAME="${RELEASE_NAME}" \
 --env REDIS_PASSWORD_ENV="$REDIS_PASSWORD" \
