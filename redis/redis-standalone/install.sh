@@ -22,8 +22,8 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
 # --- 安装 / 升级 ---
-helm upgrade --install ${RELEASE_NAME} bitnami/redis \
-  --version ${CHART_VERSION} --namespace ${NAMESPACE} --create-namespace \
+helm upgrade --install "${RELEASE_NAME}" bitnami/redis \
+  --version "${CHART_VERSION}" --namespace "${NAMESPACE}" --create-namespace \
   -f values.yml
 
 echo "Helm Chart '${RELEASE_NAME}' 已成功部署到命名空间 '${NAMESPACE}' 中。"

@@ -2,25 +2,24 @@
 # Helm Chart 的自定义配置值
 # -------------------------------------------------------------------
 
-# Redis 架构设置
+# Redis 架构配置
 architecture: standalone
 
-# 全局配置 (例如密码)
+# Redis 全局密码配置
+# 使用 Base64 编码的密码，或者直接明文（不推荐用于生产）
 global:
   redis:
-    # Redis 连接密码
-    password: YOUR_PASSWORD
+    password: YOUR_PASSWORD # 请替换为你的实际密码
 
-# Master 节点配置
+# 主节点配置
 master:
-  # 是否启用持久化
+  # 持久化配置
   persistence:
     enabled: true
-    # 存储类名称
-    storageClass: nfs
-    # 持久化存储大小
+    storageClass: nfs # 替换为你的存储类名称
     size: 8Gi
-  # Master 节点资源请求与限制
+
+  # 资源请求与限制
   resources:
     requests:
       cpu: 100m
@@ -29,9 +28,8 @@ master:
       cpu: 512m
       memory: 2048Mi
 
-# Replica 节点配置 (如果 architecture 不是 standalone，这个部分会生效，但 standalone 模式下可以保留或移除)
+# 副本节点配置 (即便 standalone 模式下，也可能存在副本相关的默认配置，这里保留以防万一)
 replica:
-  # Replica 节点资源请求与限制
   resources:
     requests:
       cpu: 100m
@@ -42,23 +40,19 @@ replica:
 
 # RBAC (Role-Based Access Control) 配置
 rbac:
-  # 是否创建 RBAC 相关的资源
   create: true
 
-# Metrics 监控配置 (Prometheus Exporter)
+# Metrics (Prometheus) 配置
 metrics:
-  # 是否启用指标导出
   enabled: true
-  # ServiceMonitor 配置 (Prometheus Operator)
+  # ServiceMonitor 配置，用于 Prometheus 自动发现
   serviceMonitor:
-    # 是否启用 ServiceMonitor
     enabled: true
-    # ServiceMonitor 所在的命名空间
-    namespace: monitoring
-    # ServiceMonitor 用于发现服务的标签
-    additionalLabels:
-      release: kube-prom-stack
-  # Metrics Exporter 资源请求与限制
+    namespace: monitoring # Prometheus 监控组件所在的命名空间
+    labels:
+      release: kube-prom-stack # Prometheus Operator 用于发现 ServiceMonitor 的标签值
+
+  # Metrics exporter 的资源请求与限制
   resources:
     requests:
       cpu: 100m
@@ -67,7 +61,7 @@ metrics:
       cpu: 256m
       memory: 1024Mi
 
-# 额外环境变量
+# 额外的环境变量
 extraEnvVars:
   - name: TZ
     value: Asia/Shanghai
