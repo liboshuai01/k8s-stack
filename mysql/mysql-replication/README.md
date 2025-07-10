@@ -57,16 +57,6 @@ mysql -h ${RELEASE_NAME}-primary.${NAMESPACE}.svc.cluster.local -uroot -p"$MYSQL
 mysql -h ${RELEASE_NAME}-secondary.${NAMESPACE}.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
 ```
 
-**6. k8s 内部访问 MySQL 实例**
-
-```
-# 格式
-<service>.<namespace>.svc.cluster.local:3306
-# 示例
-- 主节点：my-mysql-replication-primary.mysql.svc.cluster.local:3306
-- 从节点：my-mysql-replication-secondary.mysql.svc.cluster.local:3306
-```
-
 ### 监控验证
 
 **1. 访问`prometheus`的`/targets`页面，查看`mysql-exporter`是否正常 scrape metrics**
@@ -98,6 +88,17 @@ kubectl get pvc -n ${NAMESPACE}
 
 # 删除pvc（可能有多个pvc要删除）
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
+```
+
+## 如何访问
+
+```markdown
+> 格式
+<service>.<namespace>.svc.cluster.local:3306
+
+> 示例
+主节点：my-mysql-replication-primary.mysql.svc.cluster.local:3306
+从节点：my-mysql-replication-secondary.mysql.svc.cluster.local:3306
 ```
 
 > 更详细的教程请查看：[K8s采用Helm部署mysql-replication](https://lbs.wiki/pages/e9954717/)

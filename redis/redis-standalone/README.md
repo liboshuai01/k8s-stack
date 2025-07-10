@@ -50,16 +50,6 @@ kubectl run ${RELEASE_NAME}-client --namespace ${NAMESPACE} --rm --tty -i \
 redis-cli -c -h ${RELEASE_NAME}-master.${NAMESPACE}.svc.cluster.local -a "$REDIS_PASSWORD_ENV"
 ```
 
-**5. k8s 内部访问 Redis 实例**
-
-```shell
-# 方式一：<service>.<namespace>.svc.cluster.local:6379（大多数 Redis Cluster 客户端库只需要这个地址和密码即可自动发现所有节点）
-my-redis-standalone-master.redis.svc.cluster.local:6379
-
-# 方式二：<pod>.<headless-service>.<namespace>.svc.cluster.local:6379
-my-redis-standalone-master-0.my-redis-standalone-headless.redis.svc.cluster.local:6379
-```
-
 ### 监控验证
 
 **1. 访问`prometheus`的`/targets`页面，查看`redis-exporter`是否正常 scrape metrics**
@@ -92,6 +82,24 @@ kubectl get pvc -n ${NAMESPACE}
 
 # 删除pvc（可能有多个pvc要删除）
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
+```
+
+## 如何访问
+
+```markdown
+方式一
+---
+> 格式
+<service>.<namespace>.svc.cluster.local:6379
+> 示例
+my-redis-standalone-master.redis.svc.cluster.local:6379
+
+方式二
+---
+> 格式
+<pod>.<headless-service>.<namespace>.svc.cluster.local:6379
+> 示例
+my-redis-standalone-master-0.my-redis-standalone-headless.redis.svc.cluster.local:6379
 ```
 
 > 更详细的教程请查看：[K8s采用Helm部署redis-standalone](https://lbs.wiki/pages/fb011a6c/)
