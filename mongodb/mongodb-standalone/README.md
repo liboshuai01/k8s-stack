@@ -1,7 +1,7 @@
 前提准备
 ---
 
-修改`.env`文件中配置的变量为自定义内容，如安装的命名空间、helm实例名称、char版本号等（可选）。
+复制文件`.env.example`为`.env`，复制文件`values-example.yml`为`values.yml`，并根据需求修改配置内容。
 
 安装应用
 ---
@@ -21,29 +21,38 @@ bash status.sh
 
 ### 进阶验证
 
-**1. 获取root用户密码**
+**1. 加载环境变量**
 
 ```shell
-export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongodb my-mongodb-standalone -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
+source .env
 ```
 
-**2. 启动MongoDB客户端Pod**
+**2. 获取root用户密码**
 
 ```shell
-kubectl run --namespace mongodb my-mongodb-standalone-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash 
+MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace ${NAMESPACE} ${RELEASE_NAME} -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
 ```
 
-**3. 连接MongoDB**
+**3. 启动MongoDB客户端Pod**
 
 ```shell
-mongosh admin --host "my-mongodb-standalone" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+kubectl run --namespace ${NAMESPACE} ${RELEASE_NAME}-client --rm --tty -i --restart='Never' \
+--env NAMESPACE=${NAMESPACE} \
+--env RELEASE_NAME=${RELEASE_NAME} \
+--env MONGODB_ROOT_PASSWORD=${MONGODB_ROOT_PASSWORD} \
+--image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash 
 ```
 
-**4. k8s 内部访问 Mongodb 实例**
+**4. 连接MongoDB**
 
 ```shell
-# <service>.<namespace>.svc.cluster.local:27017
-my-mongodb-standalone.mongodb.svc.cluster.local:27017
+mongosh admin --host ${RELEASE_NAME}.${NAMESPACE}.svc.cluster.local --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+```
+
+**5. 查看数据库列表**
+
+```shell
+show databases;
 ```
 
 ### 监控验证
@@ -55,7 +64,7 @@ my-mongodb-standalone.mongodb.svc.cluster.local:27017
 更新应用
 ---
 
-修改`.env`或`install.sh`文件中的内容，后重新执行`install.sh`脚本即可。
+修改`env`、`values.yml`文件内容后，重新执行`install.sh`脚本即可。
 
 卸载应用
 ---
@@ -77,6 +86,16 @@ kubectl get pvc -n ${NAMESPACE}
 
 # 删除pvc（可能有多个pvc要删除）
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
+```
+
+## 如何访问
+
+```markdown
+> 格式
+<service>.<namespace>.svc.cluster.local:27017
+
+> 示例
+my-mongodb-standalone.mongodb.svc.cluster.local:27017
 ```
 
 > 更详细的教程请查看：[K8s采用Helm部署mongodb-standalone](https://lbs.wiki/pages/f2948077/)

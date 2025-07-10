@@ -1,0 +1,69 @@
+# -------------------------------------------------------------------
+# Helm Chart 的自定义配置值
+# -------------------------------------------------------------------
+
+# 架构配置为独立模式
+architecture: standalone
+useStatefulSet: true
+
+# 全局存储类配置
+global:
+  defaultStorageClass: "nfs" # 使用实际的存储类名称
+
+# 认证配置
+auth:
+  rootPassword: "YOUR_PASSWORD" # 替换为你的实际密码
+  databases:
+    - "test" # 应用数据库名称
+  usernames:
+    - "lbs" # 应用用户名称
+  passwords:
+    - "YOUR_PASSWORD" # 替换为你的实际密码
+
+# 持久化存储配置
+persistence:
+  size: 16Gi
+
+# 资源请求与限制
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 512m
+    memory: 2048Mi
+
+# 仲裁节点资源配置 (如果使用副本集，这里会有仲裁节点配置，但standalone模式通常不需要)
+# arbiter:
+#   resources:
+#     requests:
+#       cpu: 100m
+#       memory: 128Mi
+#     limits:
+#       cpu: 512m
+#       memory: 2048Mi
+
+# RBAC (Role-Based Access Control) 配置
+rbac:
+  create: true
+
+# 监控配置
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring # Prometheus Operator 所在的命名空间
+    labels:
+      release: kube-prom-stack # Prometheus Operator 用于发现 ServiceMonitor 的标签值
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 1024Mi
+
+# 额外环境变量
+extraEnvVars:
+  - name: TZ
+    value: Asia/Shanghai
