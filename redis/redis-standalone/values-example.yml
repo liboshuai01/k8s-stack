@@ -56,7 +56,7 @@ metrics:
     # ServiceMonitor 所在的命名空间
     namespace: monitoring
     # ServiceMonitor 用于发现服务的标签
-    labels:
+    additionalLabels:
       release: kube-prom-stack
   # Metrics Exporter 资源请求与限制
   resources:

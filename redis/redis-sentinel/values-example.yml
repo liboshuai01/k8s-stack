@@ -75,7 +75,7 @@ metrics:
   serviceMonitor:
     enabled: true
     namespace: "monitoring" # Prometheus 监控组件所在的命名空间
-    labels:
+    additionalLabels:
       release: "kube-prom-stack" # Prometheus Operator 用于发现 ServiceMonitor 的标签值
   # 资源限制与请求
   resources:
