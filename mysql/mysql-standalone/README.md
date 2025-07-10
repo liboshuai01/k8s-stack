@@ -23,25 +23,37 @@ bash status.sh
 
 > 需要注意除了root用户外，并没有创建其他用户，请自行创建。
 
-**1. 获取root用户密码**
+**1. 加载环境变量**
 
 ```shell
-MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace mysql my-mysql-standalone -o jsonpath="{.data.mysql-root-password}" | base64 -d)
+source .env
 ```
 
-**2. 启动MySQL客户端Pod**
+**2. 获取root用户密码**
 
 ```shell
-kubectl run my-mysql-standalone-client --rm --tty -i --restart='Never' --image  docker.io/bitnami/mysql:8.0.37-debian-12-r2 --namespace mysql --env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --command -- bash
+MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace ${NAMESPACE} ${RELEASE_NAME} -o jsonpath="{.data.mysql-root-password}" | base64 -d)
 ```
 
-**3. 连接MySQL**
+**3. 启动MySQL客户端Pod**
 
 ```shell
-mysql -h my-mysql-standalone.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+kubectl run ${RELEASE_NAME}-client --rm --tty -i --restart='Never' \
+--image docker.io/bitnami/mysql:8.0.37-debian-12-r2 \
+--namespace ${NAMESPACE} \
+--env NAMESPACE=$NAMESPACE \
+--env RELEASE_NAME=$RELEASE_NAME \
+--env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
+--command -- bash
 ```
 
-**4. k8s 内部访问 MySQL 实例**
+**4. 连接MySQL**
+
+```shell
+mysql -h ${RELEASE_NAME}.${NAMESPACE}.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+```
+
+**5. k8s 内部访问 MySQL 实例**
 
 ```shell
 # 格式
