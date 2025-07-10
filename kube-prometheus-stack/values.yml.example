@@ -1,0 +1,77 @@
+# -------------------------------------------------------------------
+# Helm Chart 的自定义配置值
+# -------------------------------------------------------------------
+
+# 存储类名称，用于持久化存储
+storageClassName: nfs
+
+# Ingress Controller 的 Class 名称，用于 Ingress 资源
+ingressClassName: nginx
+
+# Grafana 管理员密码
+# !! 生产环境请务必修改为强密码，并考虑使用 Kubernetes Secret 管理 !!
+grafanaAdminPassword: YOUR_PASSWORD
+
+# Alertmanager 配置
+alertmanager:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: "{{ .Values.ingressClassName }}" # 使用上面定义的ingressClassName
+    hosts:
+      - alertmanager.lbs.com
+    paths:
+      - /
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "{{ .Values.storageClassName }}" # 使用上面定义的storageClassName
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 8Gi
+
+# Prometheus 配置
+prometheus:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: "{{ .Values.ingressClassName }}" # 使用上面定义的ingressClassName
+    hosts:
+      - prometheus.lbs.com
+    paths:
+      - /
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "{{ .Values.storageClassName }}" # 使用上面定义的storageClassName
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 32Gi
+
+# Grafana 配置
+grafana:
+  enabled: true
+  adminPassword: "{{ .Values.grafanaAdminPassword }}" # 使用上面定义的grafanaAdminPassword
+  ingress:
+    enabled: true
+    ingressClassName: "{{ .Values.ingressClassName }}" # 使用上面定义的ingressClassName
+    hosts:
+      - grafana.lbs.com
+    path: "/" # 注意这里是 path，不是 paths
+  persistence:
+    enabled: true
+    storageClassName: "{{ .Values.storageClassName }}" # 使用上面定义的storageClassName
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+
+# Prometheus Operator 配置
+prometheusOperator:
+  enabled: true
+
