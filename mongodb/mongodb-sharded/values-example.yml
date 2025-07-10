@@ -1,0 +1,109 @@
+# -------------------------------------------------------------------
+# Helm Chart 的自定义配置值
+# -------------------------------------------------------------------
+
+global:
+  # 设置默认的 StorageClass 名称，适用于所有需要持久化的组件
+  defaultStorageClass: nfs
+
+auth:
+  # 启用认证
+  enabled: true
+  # MongoDB root用户的密码
+  rootPassword: "YOUR_PASSWORD"
+  # 副本集内部通信认证密钥
+  replicaSetKey: "k/ftJNlwgcIFGjx2GHujlV4yFr9Ee5Qwq59EpfZWNozs/MsSu7BsNOFKDKA2TWmV
+                       fzuJ3ybYGajZCt7Vst7Qyff3O3NNOG7/jqLNmUE0x2LN10lD6tARmdCk1WofuPaK
+                       bs8uiesiVk+dFXc8mIRlWhuB4WO420FTyHsWlxSVZvV7UNqZcy/oPKk8MuZZuJvQ
+                       JhkZNW6YeLK7Pn0IOqaGCeRZZNbnDieC9MBf3OEvThoirCsheSpQYiAE1Dp/zDCn
+                       f5E0W9uBB/MiXgiHiPqBxjlmC2RkBtYSYDHYzNij41DN+38sdzyHixzE02mWoUU/
+                       Wp8BK2i1tkoWhtbtBl2h09cj0xj/43/7rK8pjL625/jooMoD0j3WLsdPV20jYGXy
+                       Nx8/7q05a+wSqoo7tU/TCECbtskdgH4c/GY9PdOdNnFenOGvL1TCsCnLJS3jE6ts
+                       Rj+mvKy9xqsAzde+QKbHY7CxQP6Aah5zx400LIjQELYDeqXKG5Xmt1jfKWh1uZQv
+
+                       cD0bDUVJbcNJGe6UUY//0D9woqslcDLZl55lWB/AL7Ndl700s1SFzaDUSmwYjYqF
+                       vnYkJoU1PVzTrKu8K7mGzBBRgS97+FXHLvt1y420+AKgHQeFeYU1x8qA3P0Xz7Lb
+                       5nDz5mb2IUUwV4bYJjueP+Ixixr78aqYIYKyHtCcKSsVzhAzxA2ycoWDWYzd49em
+                       dJrtnWMj5ZNTpXzR4dVm2Br55p7TZRQtVGXC+2nqj+jQ/Icx1rZ7DA0U/n8ne1n0
+                       Y/p/0mhbm72lN2Jap0PEf69dWpsiqIRIDtm+hbWMXdwGVpsg0wU6uTklCE7E5U52
+                       +YlJzVKjc9+AyKigpd69Igc1A6G25/Nq8eneeBsKwbVSKwyaYaJshtdi77U+xDfL
+                       E0fKN0rg787ItQC8cgGPGBZQKZ60TlkoxmbBDD6dIlmA24EQoBq95GgLFyQeWkOn
+                       /o3BKkLqGQPmy9qX2eRW+W/MHIkfHvkT2T8NKJLZkpvfjHNQ"
+
+# 分片数量
+shards: 2
+
+mongos:
+  # mongos实例数量
+  replicaCount: 2
+  # pod反亲和性配置，软方式，尽量分散
+  podAntiAffinityPreset: soft
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 512m
+      memory: 2048Mi
+
+configsvr:
+  # 配置服务器副本集节点数量
+  replicaCount: 3
+  # pod反亲和性配置，软方式，尽量分散
+  podAntiAffinityPreset: soft
+  persistence:
+    # 启用数据持久化
+    enabled: true
+    # 持久化存储大小
+    size: 8Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 512m
+      memory: 2048Mi
+
+shardsvr:
+  dataNode:
+    # 每个Shard副本集中的数据节点数量
+    replicaCount: 3
+    # pod反亲和性配置，软方式，尽量分散
+    podAntiAffinityPreset: soft
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 512m
+        memory: 2048Mi
+  persistence:
+    # 启用数据持久化
+    enabled: true
+    # 持久化存储大小
+    size: 16Gi
+
+metrics:
+  # 启用Prometheus metrics导出
+  enabled: true
+  serviceMonitor:
+    # 启用ServiceMonitor，用于Prometheus Operator自动发现
+    enabled: true
+    # Prometheus Operator所在的命名空间
+    namespace: monitoring
+    labels:
+      # Prometheus Operator用于发现PodMonitor的标签值
+      release: kube-prom-stack
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 1024Mi
+
+extraEnvVars:
+  # 额外注入的环境变量，例如时区设置
+  - name: TZ
+    value: Asia/Shanghai
+
