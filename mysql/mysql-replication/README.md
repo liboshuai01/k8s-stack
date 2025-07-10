@@ -1,7 +1,7 @@
 前提准备
 ---
 
-修改`.env`文件中配置的变量为自定义内容，如安装的命名空间、helm实例名称、char版本号等（可选）。
+复制文件`.env.example`为`.env`，复制文件`values-example.yml`为`values.yml`，并根据需求修改配置内容。
 
 安装应用
 ---
@@ -21,31 +21,43 @@ bash status.sh
 
 ### 进阶验证
 
-**1. 获取root用户密码**
+**1. 加载环境变量**
 
 ```shell
-MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace mysql my-mysql-replication -o jsonpath="{.data.mysql-root-password}" | base64 -d)
+source .env
 ```
 
-**2. 启动MySQL客户端Pod**
+**2. 获取root用户密码**
 
 ```shell
-kubectl run my-mysql-replication-client --rm --tty -i --restart='Never' --image  docker.io/bitnami/mysql:8.0.37-debian-12-r2 --namespace mysql --env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --command -- bash
+MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace ${NAMESPACE} ${RELEASE_NAME} -o jsonpath="{.data.mysql-root-password}" | base64 -d)
 ```
 
-**3. 连接MySQL主节点**
+**3. 启动MySQL客户端Pod**
 
 ```shell
-mysql -h my-mysql-replication-primary.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+kubectl run ${RELEASE_NAME}-client --rm --tty -i --restart='Never' \
+--image docker.io/bitnami/mysql:8.0.37-debian-12-r2 \
+--namespace ${NAMESPACE} \
+--env NAMESPACE=$NAMESPACE \
+--env RELEASE_NAME=$RELEASE_NAME \
+--env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
+--command -- bash
 ```
 
-**4. 连接MySQL从节点**
+**4. 连接MySQL主节点**
 
 ```shell
-mysql -h my-mysql-replication-secondary.mysql.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+mysql -h ${RELEASE_NAME}-primary.${NAMESPACE}.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
 ```
 
-**5. k8s 内部访问 MySQL 实例**
+**5. 连接MySQL从节点**
+
+```shell
+mysql -h ${RELEASE_NAME}-secondary.${NAMESPACE}.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+```
+
+**6. k8s 内部访问 MySQL 实例**
 
 ```
 # 格式
@@ -64,7 +76,7 @@ mysql -h my-mysql-replication-secondary.mysql.svc.cluster.local -uroot -p"$MYSQL
 更新应用
 ---
 
-修改`.env`或`install.sh`文件中的内容，后重新执行`install.sh`脚本即可。
+修改`env`、`values.yml`文件内容后，重新执行`install.sh`脚本即可。
 
 卸载应用
 ---
