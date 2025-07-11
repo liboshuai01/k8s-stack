@@ -64,7 +64,7 @@ show databases;
 更新应用
 ---
 
-修改`env`、`values.yml`文件内容后，重新执行`install.sh`脚本即可。
+修改`.env`、`values.yml`文件内容后，重新执行`install.sh`脚本即可。
 
 卸载应用
 ---

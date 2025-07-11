@@ -80,7 +80,7 @@ nginx-service   LoadBalancer   10.101.5.123   192.168.6.240    80:31234/TCP   1m
 更新应用
 ---
 
-修改`env`、`values.yml`文件内容后，重新执行`install.sh`脚本即可。
+修改`.env`、`config.yml`文件内容后，重新执行`install.sh`脚本即可。
 
 卸载应用
 ---
