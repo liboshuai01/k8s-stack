@@ -1,0 +1,68 @@
+# -------------------------------------------------------------------
+# Helm Chart 的自定义配置值
+# -------------------------------------------------------------------
+
+# Jenkins 配置
+replicaCount: 1
+
+# Jenkins 管理员密码 (请务必修改为一个强密码)
+# 默认用户名为 'user'
+# 部署后可以通过 minikube service jenkins 查找到端口信息
+# 或者 kubectl get secret <RELEASE-NAME>-jenkins -o jsonpath="{.data.jenkins-password}" | base64 --decode
+jenkinsPassword: "YOUR_PASSWORD" # 注意：请务必替换为你的管理员密码！！！
+
+# 服务类型配置
+service:
+  type: ClusterIP
+
+# Ingress 配置 (用于外部访问Jenkins)
+ingress:
+  enabled: true
+  # Ingress Class 名称，例如 "nginx" 或 "traefik"
+  ingressClassName: "nginx"
+  # Jenkins 访问的主机名/域名
+  hostname: "jenkins.lbs.com"
+
+# 持久化存储配置
+persistence:
+  # 是否启用持久化
+  enabled: true
+  # 存储卷大小
+  size: 16Gi
+  # 存储类名称，确保你的集群中存在此 StorageClass
+  storageClass: "nfs" # 这里使用你的NFS StorageClass
+
+# 全局配置
+global:
+  # 设置默认的StorageClass，PV/PVC创建时如果未指定StorageClass会使用此值
+  defaultStorageClass: "nfs" # 确保与 persistence.storageClass 一致
+
+# 资源请求与限制
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 1000m
+    memory: 4096Mi
+
+# TLS Sidecar 资源请求与限制 (如果你的Jenkins Chart启用了TLS sidecar)
+# Bitnami Jenkins Chart通常不直接配置名为'tls'的独立资源部分，
+# 这里的配置可能需要根据实际Chart结构调整或移除。
+# 如果不确定，可以暂时保留，或者根据报错信息调整。
+# 通常TLS配置会是在ingress或controller级别。
+# 这里假设可能与某些内部组件有关，如果报错，请删除此部分。
+tls:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 1024Mi
+
+# 额外的环境变量
+extraEnvVars:
+  - name: TZ
+    value: Asia/Shanghai
+

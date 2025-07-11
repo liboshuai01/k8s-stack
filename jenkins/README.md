@@ -1,7 +1,7 @@
 前提准备
 ---
 
-修改`.env`文件中配置的变量为自定义内容，如安装的命名空间、helm实例名称、char版本号等（可选）。
+复制文件`.env.example`为`.env`，复制文件`values-example.yml`为`values.yml`，并根据需求修改配置内容。
 
 安装应用
 ---
@@ -12,13 +12,25 @@
 bash install.sh
 ```
 
-**2. 配置`hosts`文件，添加以下内容**
+**2. 获取`ingress`的`EXTERNAL-IP`**
+
+```shell
+# EXTERNAL-IP 为 192.168.6.241
+[lbs@master ingress-nginx]$ kubectl get svc -n ingress-nginx
+NAME                                 TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                      AGE
+ingress-nginx-controller             LoadBalancer   10.43.51.133    192.168.6.241   80:32443/TCP,443:30784/TCP   26s
+ingress-nginx-controller-admission   ClusterIP      10.43.230.20    <none>          443/TCP                      26s
+ingress-nginx-controller-metrics     ClusterIP      10.43.141.155   <none>          10254/TCP                    26s
+```
+
+**3. 配置客户端机器`hosts`文件，添加一下内容**
 
 ```
-[任意ingress-nginx节点IP] jenkins.lbs.com
+> 格式
+EXTERNAL-IP    jenkins.lbs.com
 
-# 例如
-# 192.168.6.202 jenkins.lbs.com
+> 示例
+192.168.6.241  jenkins.lbs.com
 ```
 
 验证应用
@@ -39,7 +51,7 @@ bash status.sh
 更新应用
 ---
 
-修改`.env`或`install.sh`文件中的内容，后重新执行`install.sh`脚本即可。
+修改`.env`、`values.yml`文件内容后，重新执行`install.sh`脚本即可。
 
 卸载应用
 ---

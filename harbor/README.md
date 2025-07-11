@@ -12,13 +12,25 @@
 bash install.sh
 ```
 
-**2. 配置`hosts`文件，添加以下内容**
+**2. 获取`ingress`的`EXTERNAL-IP`**
+
+```shell
+# EXTERNAL-IP 为 192.168.6.241
+[lbs@master ingress-nginx]$ kubectl get svc -n ingress-nginx
+NAME                                 TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                      AGE
+ingress-nginx-controller             LoadBalancer   10.43.51.133    192.168.6.241   80:32443/TCP,443:30784/TCP   26s
+ingress-nginx-controller-admission   ClusterIP      10.43.230.20    <none>          443/TCP                      26s
+ingress-nginx-controller-metrics     ClusterIP      10.43.141.155   <none>          10254/TCP                    26s
+```
+
+**3. 配置客户端机器`hosts`文件，添加一下内容**
 
 ```
-[任意ingress-nginx节点IP] harbor.lbs.com
+> 格式
+EXTERNAL-IP    harbor.lbs.com
 
-# 例如
-# 192.168.6.202 harbor.lbs.com
+> 示例
+192.168.6.241  harbor.lbs.com
 ```
 
 验证应用
