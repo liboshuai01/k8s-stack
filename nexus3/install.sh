@@ -3,7 +3,7 @@
 set -e
 set -o pipefail
 
-# --- 加载变量 ---
+# --- 加载环境变量 ---
 if [ -f .env ]; then
     source .env
 else
@@ -11,58 +11,41 @@ else
     exit 1
 fi
 
+# --- 检查 values.yml 文件是否存在 ---
+if [ ! -f values.yml ]; then
+    echo "错误: values.yml 文件不存在!"
+    exit 1
+fi
+
 # --- 添加仓库并更新 ---
 helm repo add stevehipwell https://stevehipwell.github.io/helm-charts/
 helm repo update
 
-# -- 创建  namespace --
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: ${NAMESPACE}
-EOF
+# --- 创建命名空间 (如果不存在) ---
+# 注意：helm upgrade --create-namespace 也能创建命名空间，但提前创建可以确保 secret 先于 helm release 被创建
+kubectl get ns "${NAMESPACE}" >/dev/null 2>&1 || kubectl create namespace "${NAMESPACE}"
 
-# -- 创建 secret --
-kubectl create secret generic "${RELEASE_NAME}-secret" \
-  --from-literal=password="${NEXUS_ADMIN_PASSWORD}" \
-  --namespace "${NAMESPACE}" --dry-run=client -o yaml | kubectl apply -f -
+# --- 创建 Nexus admin 密码的 Secret ---
+# 这个 Secret 必须在 Helm Chart 部署之前存在
+PASSWORD_SECRET_NAME="${RELEASE_NAME}-secret"
+NEXUS_ADMIN_PASSWORD=${NEXUS_ADMIN_PASSWORD}
+
+# 检查 Secret 是否已存在，避免重复创建报错
+if ! kubectl get secret "${PASSWORD_SECRET_NAME}" -n "${NAMESPACE}" >/dev/null 2>&1; then
+    echo "创建 Secret '${PASSWORD_SECRET_NAME}' 到命名空间 '${NAMESPACE}'..."
+    kubectl create secret generic "${PASSWORD_SECRET_NAME}" \
+      --from-literal=password="${NEXUS_ADMIN_PASSWORD}" \
+      --namespace "${NAMESPACE}" || { echo "错误: 创建 Secret 失败!"; exit 1; }
+else
+    echo "Secret '${PASSWORD_SECRET_NAME}' 已存在于命名空间 '${NAMESPACE}'，跳过创建。"
+    # 如果你需要更新密码，请手动删除 Secret 后重新运行此脚本，或者使用 kubectl patch/edit secret
+fi
+
 
 # --- 安装 / 升级 ---
 helm upgrade --install "${RELEASE_NAME}" stevehipwell/nexus3 \
   --version "${CHART_VERSION}" --namespace "${NAMESPACE}" --create-namespace \
-  \
-  --set ingress.enabled=true \
-  --set ingress.ingressClassName="${INGRESS_CLASS_NAME}" \
-  --set "ingress.hosts[0]=${NEXUS_HOST}" \
-  \
-  --set replicas=${REPLICAS} \
-  \
-  --set persistence.enabled=true \
-  --set persistence.storageClass="${STORAGE_CLASS_NAME}" \
-  --set persistence.size=32Gi \
-  --set persistence.retainDeleted=true \
-  --set persistence.retainScaled=true \
-  \
-  --set install4jAddVmParams="-Xms2g -Xmx2g -XX:MaxDirectMemorySize=3g" \
-  \
-  --set resources.requests.cpu=100m \
-  --set resources.requests.memory=128Mi \
-  --set resources.limits.cpu=1000m \
-  --set resources.limits.memory=4096Mi \
-  \
-  --set tailLogs.resources.requests.cpu=100m \
-  --set tailLogs.resources.requests.memory=128Mi \
-  --set tailLogs.resources.limits.cpu=250m \
-  --set tailLogs.resources.limits.memory=1024Mi \
-  \
-  --set rootPassword.secret="${RELEASE_NAME}-secret" \
-  --set config.enabled=true \
-  \
-  --set metrics.enabled=true \
-  --set metrics.serviceMonitor.enabled=true \
-  --set metrics.serviceMonitor.namespace="${PROMETHEUS_NAMESPACE}" \
-  --set metrics.serviceMonitor.labels.release="${PROMETHEUS_RELEASE_LABEL}" \
-  \
-  --set env[0].name=TZ \
-  --set env[0].value=Asia/Shanghai
+  -f values.yml
+
+echo "Helm Chart '${RELEASE_NAME}' 已成功部署到命名空间 '${NAMESPACE}' 中。"
+

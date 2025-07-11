@@ -1,0 +1,76 @@
+# -------------------------------------------------------------------
+# Helm Chart 的自定义配置值
+# -------------------------------------------------------------------
+
+# Nexus 部署副本数量
+replicas: 1
+
+# 持久化存储配置
+persistence:
+  enabled: true
+  storageClass: "nfs" # 持久化存储的 StorageClass 名称
+  size: 32Gi
+  retainDeleted: true # Pod 删除后是否保留 PVC
+  retainScaled: true  # 副本缩减后是否保留 PVC
+
+# Ingress 配置
+ingress:
+  enabled: true
+  # Ingress Controller 的 Class 名称 (例如：nginx)
+  ingressClassName: "nginx"
+  # Nexus UI 访问域名
+  hosts:
+    - nexus.lbs.com
+
+# Java 虚拟机参数
+install4jAddVmParams: "-Xms2g -Xmx2g -XX:MaxDirectMemorySize=3g"
+
+# Nexus 容器资源请求与限制
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 1000m
+    memory: 4096Mi
+
+# Tail Logs 容器资源请求与限制 (如果有)
+tailLogs:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 1024Mi
+
+# Nexus admin 用户的初始密码配置
+# 注意：密码将从一个 Kubernetes Secret 中获取。
+# 在安装前，需要手动创建这个 Secret。
+# 例如：kubectl create secret generic "nexus-secret" --from-literal=password="YOUR_PASSWORD" --namespace nexus
+rootPassword:
+  secret: "nexus-secret" # 引用前面 install.sh 中创建的 Secret 名称
+
+# Nexus 配置 (如果 Chart 支持通过 values.yml 注入自定义配置)
+config:
+  enabled: true
+  # 如果 Chart 允许，可以在这里添加自定义的 nexus.properties 配置，例如：
+  # nexus.properties: |
+  #   nexus.data.dir=${NEXUS_DATA}/sonatype-work/nexus3
+
+# Metrics (Prometheus) 配置
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    # 注意: PROMETHEUS_NAMESPACE 和 PROMETHEUS_RELEASE_LABEL 在这里无法直接引用 `.env` 或 `helm upgrade`。
+    # 如果需要动态化，需要确保 Chart 提供了相应的 value，或者手动调整。
+    # 假设你的 Prometheus ServiceMonitor 部署在 'monitoring' 命名空间，并且 release 标签为 'prometheus-stack'
+    namespace: "monitoring" # Prometheus ServiceMonitor 部署的命名空间
+    labels:
+      release: "prometheus-stack" # Prometheus ServiceMonitor 的共同标签
+
+# 环境变量
+env:
+  - name: TZ
+    value: Asia/Shanghai
