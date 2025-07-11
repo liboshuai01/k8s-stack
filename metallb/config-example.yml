@@ -1,0 +1,25 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: default-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    # ！！！重要！！！
+    # 请将这里的 IP 地址范围修改为您自己局域网中可用的、未被占用的 IP 段。
+    # 这个 IP 段不能包含您的 K8s 节点 IP。
+    # 例如，如果您的网络是 192.168.6.0/24，您可以选择一段末尾的地址。
+    - 192.168.6.240-192.168.6.250
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: default-l2-advertisement
+  namespace: metallb-system
+spec:
+  # 引用上面创建的 IPAddressPool
+  # 如果您有多个 Pool，可以都写在这里，或者创建多个 L2Advertisement
+  ipAddressPools:
+    - default-pool
+

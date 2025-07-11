@@ -1,26 +1,38 @@
 # -------------------------------------------------------------------
 # Helm Chart 的自定义配置值
+# 适用于 MetalLB 环境
 # -------------------------------------------------------------------
 
 controller:
-  # 设置为主机网络模式，使得 Pod 可以直接使用主机网络接口
-  hostNetwork: true
+  # 使用 Deployment 类型，这是 LoadBalancer 模式下的标准做法
+  # 你可以根据需要调整副本数量 (replicas)
+  kind: Deployment
 
-  # 当使用 hostNetwork 时，设置 DNS 策略以确保 DNS 解析正常工作
-  dnsPolicy: ClusterFirstWithHostNet
+  # 在 Deployment 模式下，我们不再需要 hostNetwork
+  # hostNetwork: false # (这是默认值，可以省略)
+
+  # dnsPolicy 也不再需要特殊设置
+  # dnsPolicy: ClusterFirst # (这是默认值，可以省略)
 
   # 通过节点选择器，将 Ingress Controller Pod 部署到特定的节点上
+  # 这仍然是一个好习惯，可以将 Ingress 流量集中在特定节点
   nodeSelector:
     ingress: "true"
-
-  # 将 Ingress Controller 部署为 DaemonSet 类型
-  # 这确保了每个符合 nodeSelector 的节点上都运行一个 Ingress Controller 实例
-  kind: DaemonSet
 
   # 配置 Ingress Controller 的 Service
   service:
     # 启用 Service
     enabled: true
-    # 将 Service 类型设置为 NodePort，以便通过节点 IP 和端口暴露服务
-    type: NodePort
+    # 关键改动：将 Service 类型设置为 LoadBalancer
+    # MetalLB 会检测到这个 Service 并为其分配一个外部 IP 地址
+    type: LoadBalancer
+
+    # (可选) 如果你想从 MetalLB 的地址池中指定一个固定的 IP 地址
+    # 取消下面的注释并填入你想要的 IP
+    # 注意: 这个IP必须在 MetalLB 的 IPAddressPool 配置范围内
+    # annotations:
+    #   metallb.universe.tf/load-balancer-ip: "192.168.5.200"
+
+# --- 你可以添加以下配置来控制 Deployment 的副本数量 ---
+replicaCount: 2 # 例如，运行 2 个 Ingress Controller 实例以实现高可用
 
