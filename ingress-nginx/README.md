@@ -1,15 +1,17 @@
 前提准备
 ---
 
-**1. 确保`k8s`集群中的各节点中的`80/443`端口均没有被占用。**
+**1. 确保`k8s`集群中已经安装了`Metallb`用于提供负载均衡服务。**
 
-**2. 如果应该存在了其他`ingress controller`请先卸载，下面为卸载`traefik`的示例命令。**
+**2. 确保`k8s`集群中的各节点中的`80/443`端口均没有被占用。**
+
+**3. 如果应该存在了其他`ingress controller`请先卸载，下面为卸载`traefik`的示例命令。**
 ```shell
 helm uninstall traefik -n kube-system
 helm uninstall traefik-crd -n kube-system
 ```
 
-**3. 复制文件`.env.example`为`.env`，复制文件`values-example.yml`为`values.yml`，并根据需求修改配置内容**
+**4. 复制文件`.env.example`为`.env`，复制文件`values-example.yml`为`values.yml`，并根据需求修改配置内容**
 
 安装应用
 ---
@@ -62,19 +64,27 @@ helm upgrade --install nginx-test-app bitnami/nginx \
   --set resources.limits.cpu=250m \
   --set resources.limits.memory=512Mi
 ```
-   
-**2. 配置`hosts`文件，添加一下内容**
 
-```
-[任意ingress-nginx节点IP]    nginx.lbs.com
+**2. 获取`ingress`的`EXTERNAL-IP`**
 
-# 例如
-# 192.168.6.202    nginx.lbs.com
+```shell
+source .env
+kubectl get svc ${RELEASE_NAME}-controller -n ${NAMESPACE} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
    
-**3. 访问`nginx.lbs.com`，如果访问成功，则说明安装成功**
+**3. 配置客户端机器`hosts`文件，添加一下内容**
+
+```
+> 格式
+EXTERNAL-IP    nginx.lbs.com
+
+> 示例
+192.168.6.241  nginx.lbs.com
+```
    
-**4. 测试成功后，删除测试应用**
+**4. 访问`nginx.lbs.com`，如果访问成功，则说明安装成功**
+   
+**5. 测试成功后，删除测试应用**
 
 ```shell
 helm uninstall nginx-test-app -n default
