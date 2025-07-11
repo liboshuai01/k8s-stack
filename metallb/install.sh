@@ -25,7 +25,4 @@ helm repo update
 helm upgrade --install ${RELEASE_NAME} metallb/metallb \
   --version ${CHART_VERSION} --namespace ${NAMESPACE} --create-namespace
 
-# --- 配置 IP 地址池 ---
-kubectl apply -f config.yml
-
 echo "Helm Chart '${RELEASE_NAME}' 已成功部署到命名空间 '${NAMESPACE}' 中。"

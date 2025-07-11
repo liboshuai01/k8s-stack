@@ -1,13 +1,23 @@
 前提准备
 ---
 
-复制文件`.env.example`为`.env`，复制文件`config-example.yml`为`config.yml`，并根据需求修改配置内容。
+复制文件`.env.example`为`.env`，并根据需求修改配置内容。
 
 安装应用
 ---
 
+**1. 执行安装脚本**
+
 ```shell
 bash install.sh
+```
+
+**2. 复制文件`config-example.yml`为`config.yml`，并根据需求修改配置内容**
+
+**3. 应用配置文件**
+
+```shell
+kubectl apply -f config.yml
 ```
 
 验证应用
@@ -80,10 +90,24 @@ nginx-service   LoadBalancer   10.101.5.123   192.168.6.240    80:31234/TCP   1m
 更新应用
 ---
 
-修改`.env`、`config.yml`文件内容后，重新执行`install.sh`脚本即可。
+### 1. 若更新配置文件
+
+修改`config.yml`文件内容后，重新执行`kubectl apply -f config.yml`命令。
+
+### 2. 若更新metallb应用
+
+修改`.env`，重新执行`install.sh`脚本。
 
 卸载应用
 ---
+
+**1. 取消应用配置文件**
+
+```shell
+kubectl delete -f config.yml
+```
+
+**2. 执行卸载脚本**
 
 ```shell
 bash uninstall.sh

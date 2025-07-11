@@ -12,5 +12,4 @@ else
 fi
 
 # --- 执行卸载命令 ---
-kubectl delete -f config.yml
 helm uninstall ${RELEASE_NAME} -n ${NAMESPACE}
