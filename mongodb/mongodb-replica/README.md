@@ -96,6 +96,15 @@ rs0
 
 mongodb地址
 ---
+复制集名称
+---
+> 配置项
+replicaSetName
+> 示例
+rs0
+
+地址
+---
 > 格式
 <pod>.<headless-service>.<namespace>.svc.cluster.local:27017
 > 示例
