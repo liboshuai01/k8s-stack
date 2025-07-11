@@ -39,7 +39,7 @@ kubectl create -f ./examples/basic.yaml -n flink
 ```shell
 kubectl logs -f deploy/basic-example -n flink
 ```
-> 日志中出现: `Completed checkpoint...`之类的内容，表示测试应用正常启动。
+> 日志中出现: `Completed checkpoint...`之类的内容（刚开始为Failed to trigger checkpoint for job，多等待一会儿就行了），表示测试应用正常启动。
 
 **3. 删除测试应用**
 ```shell
