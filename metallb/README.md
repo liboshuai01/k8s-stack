@@ -33,7 +33,7 @@ bash status.sh
    
 ### 进阶验证
 
-**1. 创建一个 `test-metallb.yaml` 文件**
+**1. 创建一个 `test-metallb.yml` 文件**
 
 ```yaml
 apiVersion: apps/v1
@@ -73,7 +73,7 @@ spec:
 **2. 应用这个测试文件**
 
 ```shell
-kubectl apply -f test-metallb.yaml
+kubectl apply -f test-metallb.yml
 ```
 
 **3. 等待片刻，然后检查 Service 的状态**
@@ -88,6 +88,12 @@ NAME            TYPE           CLUSTER-IP     EXTERNAL-IP      PORT(S)        AG
 nginx-service   LoadBalancer   10.101.5.123   192.168.6.240    80:31234/TCP   1m
 ```
 现在，您可以从局域网内的任何其他机器上通过 http://192.168.6.240 访问到这个 Nginx 服务了。
+
+**4. 删除测试应用**
+
+```shell
+kubectl delete -f test-metallb.yml
+```
 
 更新应用
 ---
