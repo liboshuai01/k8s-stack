@@ -54,4 +54,14 @@ bash status.sh
 bash uninstall.sh
 ```
 
+## 如何访问
+
+```markdown
+> 配置项
+ingress.hostname
+
+> 示例
+nginx.lbs.com
+```
+
 > 更详细的教程请查看：[K8s采用Helm部署nginx(https://lbs.wiki/pages/fdb2064a/)
