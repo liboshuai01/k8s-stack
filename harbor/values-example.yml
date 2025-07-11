@@ -68,7 +68,7 @@ persistence:
       ## 指定使用你的 nfs storage class
       storageClass: "nfs"
       ## 存储大小。默认的 5Gi 对于实际使用来说太小了，建议根据需求调大。
-      size: 50Gi # <-- 建议根据你的需求调整大小
+      size: 16Gi # <-- 建议根据你的需求调整大小
     
     ## Job Service 的存储
     jobservice:
