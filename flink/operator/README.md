@@ -2,6 +2,7 @@
 ---
 
 **1. 首先安装`cert-manager`**
+
 ```shell
 kubectl create -f cert-manager.yaml
 watch kubectl get all -n cert-manager
@@ -9,13 +10,13 @@ watch kubectl get all -n cert-manager
 
 > 安装`cert-manger`等待所有pod处于running后，再多等待一会哦，不然直接部署flink-operator会报错！
 
+**2. 复制文件`.env.example`为`.env`，并根据需求修改配置内容。**
+
 安装应用
 ---
 
 ```shell
-helm repo add flink-operator-repo https://downloads.apache.org/flink/flink-kubernetes-operator-1.12.0/
-helm repo update
-helm install flink-kubernetes-operator flink-operator-repo/flink-kubernetes-operator -n flink --create-namespace
+bash install.sh
 ```
 
 验证应用
@@ -24,7 +25,7 @@ helm install flink-kubernetes-operator flink-operator-repo/flink-kubernetes-oper
 ### 初步验证
 
 ```shell
-kubectl get all -n flink
+bash status.sh
 ```
 
 ### 进阶验证
@@ -48,25 +49,25 @@ kubectl delete -f ./examples/basic.yaml -n flink
 更新应用
 ---
 
-先卸载旧operator，然后安装新的operator。
+先执行`uninstall.sh`脚本卸载旧的operator，然后修改`.env`文件，最后执行`install.sh`脚本安装新的operator。
 
 卸载应用
 ---
 
-**1. 卸载operator**
+**1. 执行卸载脚本**
 
 ```shell
-helm uninstall flink-kubernetes-operator -n flink
+bash uninstall.sh
 ```
 
-**2. 卸载cert-manager**
-
-```shell
-kubectl delete -f cert-manager.yaml
-```
-
-**3. 删除命名空间（可选）**
+**2. [可选] 删除命名空间**
 
 ```shell
 kubectl delete ns flink
+```
+
+**3. [可选] 卸载cert-manager**
+
+```shell
+kubectl delete -f cert-manager.yaml
 ```
