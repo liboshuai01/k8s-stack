@@ -3,7 +3,7 @@
 
 **1. 首先安装`cert-manager`**
 ```shell
-kubectl create -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
+kubectl create -f cert-manager.yaml
 kubectl get all -n cert-manager
 ```
 
@@ -62,7 +62,7 @@ helm uninstall flink-kubernetes-operator -n flink
 **2. 卸载cert-manager**
 
 ```shell
-kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
+kubectl delete -f cert-manager.yaml
 ```
 
 **3. 删除命名空间（可选）**
