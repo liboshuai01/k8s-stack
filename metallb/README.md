@@ -84,8 +84,8 @@ kubectl get svc nginx-test-service
 
 您应该会看到类似下面的输出，其中 EXTERNAL-IP 已经被分配了一个来自您地址池的 IP（例如 192.168.6.240）。
 ```shell
-NAME            TYPE           CLUSTER-IP     EXTERNAL-IP      PORT(S)        AGE
-nginx-service   LoadBalancer   10.101.5.123   192.168.6.240    80:31234/TCP   1m
+NAME                 TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)        AGE
+nginx-test-service   LoadBalancer   10.43.212.16   192.168.6.240   80:31593/TCP   5s
 ```
 现在，您可以从局域网内的任何其他机器上通过 http://192.168.6.240 访问到这个 Nginx 服务了。
 
