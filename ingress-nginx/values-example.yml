@@ -1,38 +1,43 @@
-# -------------------------------------------------------------------
-# Helm Chart 的自定义配置值
-# 适用于 MetalLB 环境
-# -------------------------------------------------------------------
-
 controller:
-  # 使用 Deployment 类型，这是 LoadBalancer 模式下的标准做法
-  # 你可以根据需要调整副本数量 (replicas)
+  # 使用 Deployment 部署，这是默认值，但为了明确，我们保留它
   kind: Deployment
+  service:
+    # 启用外部控制器服务，这将是 MetalLB 负载均衡器暴露的服务
+    enabled: true
+    # 将外部服务类型设置为 LoadBalancer，MetalLB 会响应该请求并分配 IP
+    type: LoadBalancer
+    # 如果 MetalLB 配置了 `loadBalancerIP`，你可以在此指定
+    # loadBalancerIP: "YOUR_METAL_LB_ALLOCATED_IP" # 可选，如果你想指定一个固定的MetalLB IP
+    # 如果你使用了 MetalLB 的 Source Ranges 限制，可以在这里配置
+    # loadBalancerSourceRanges:
+    #   - 192.168.1.0/24 # 根据你的网络环境修改
 
-  # 在 Deployment 模式下，我们不再需要 hostNetwork
-  # hostNetwork: false # (这是默认值，可以省略)
-
-  # dnsPolicy 也不再需要特殊设置
-  # dnsPolicy: ClusterFirst # (这是默认值，可以省略)
-
-  # 通过节点选择器，将 Ingress Controller Pod 部署到特定的节点上
-  # 这仍然是一个好习惯，可以将 Ingress 流量集中在特定节点
+  # 根据你的节点操作系统，确保 nodeSelector 设置正确。
   nodeSelector:
     ingress: "true"
 
-  # 配置 Ingress Controller 的 Service
-  service:
-    # 启用 Service
+  # 建议保留 replicaCount > 1 实现高可用性
+  replicaCount: 2 # 示例：设置为2，以实现高可用性
+  # 建议配置 PodDisruptionBudget 以确保在节点维护时仍有可用性
+  minAvailable: 1 # 确保至少有一个 Pod 可用
+  # 或 maxUnavailable: 1 # 确保最多有一个 Pod 不可用
+
+  # 建议为控制器 Pod 设置资源请求/限制，以确保稳定运行
+#  resources:
+#    requests:
+#      cpu: 100m
+#      memory: 90Mi
+    # limits: # 根据你的集群资源和负载考虑是否设置 limits
+    #   cpu: 500m
+    #   memory: 500Mi
+
+  # 建议为控制器启用指标导出，以便 Prometheus 抓取
+  metrics:
     enabled: true
-    # 关键改动：将 Service 类型设置为 LoadBalancer
-    # MetalLB 会检测到这个 Service 并为其分配一个外部 IP 地址
-    type: LoadBalancer
-
-    # (可选) 如果你想从 MetalLB 的地址池中指定一个固定的 IP 地址
-    # 取消下面的注释并填入你想要的 IP
-    # 注意: 这个IP必须在 MetalLB 的 IPAddressPool 配置范围内
-    # annotations:
-    #   metallb.universe.tf/load-balancer-ip: "192.168.5.200"
-
-# --- 你可以添加以下配置来控制 Deployment 的副本数量 ---
-controller.replicaCount: 2 # 例如，运行 2 个 Ingress Controller 实例以实现高可用
-
+    service:
+      enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
+      additionalLabels:
+        release: kube-prom-stack
