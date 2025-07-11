@@ -1,0 +1,149 @@
+# -------------------------------------------------------------------
+# Helm Chart 的自定义配置值
+# -------------------------------------------------------------------
+
+# 全局配置
+global:
+  # 设置默认的StorageClass名称，用于所有需要持久化的组件
+  defaultStorageClass: nfs
+
+# Harbor Core 配置
+# Harbor 外部访问URL（会自动添加https://）
+externalURL: "https://harbor.lbs.com"
+# Harbor 管理员 (admin) 的初始密码
+adminPassword: "YOUR_PASSWORD" # 请务必修改为强密码
+# 日志级别
+logLevel: info
+
+# Ingress 配置
+exposureType: ingress
+ingress:
+  core:
+    # Ingress Controller 的 Class 名称
+    ingressClassName: nginx
+    # Harbor 的访问域名
+    hostname: harbor.lbs.com
+  # 可以根据需要添加其他组件的Ingress配置，例如registry等
+
+# 持久化存储配置
+persistence:
+  persistentVolumeClaim:
+    registry:
+      size: 32Gi
+    jobservice:
+      size: 1Gi
+    trivy:
+      size: 5Gi
+
+# PostgreSQL 数据库配置
+postgresql:
+  auth:
+    # Harbor 内部 PostgreSQL 数据库的 postgres 用户密码
+    postgresPassword: "YOUR_PASSWORD" # 请务必修改为强密码
+  primary:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 256m
+        memory: 1024Mi
+
+# Redis 配置
+redis:
+  master:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 256m
+        memory: 1024Mi
+
+# Harbor 各组件资源限制
+certificateVolume:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 1024Mi
+
+nginx:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 1024Mi
+
+portal:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 1024Mi
+
+core:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 1024Mi
+
+jobservice:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 1024Mi
+
+registry:
+  server:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 256m
+        memory: 1024Mi
+  controller:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 256m
+        memory: 1024Mi
+
+trivy:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 1024Mi
+
+exporter:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 1024Mi
+
+# 额外的环境变量
+extraEnvVars:
+  - name: TZ
+    value: Asia/Shanghai
+
