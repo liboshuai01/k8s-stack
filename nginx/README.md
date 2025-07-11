@@ -65,3 +65,7 @@ nginx.lbs.com
 ```
 
 > 更详细的教程请查看：[K8s采用Helm部署nginx(https://lbs.wiki/pages/fdb2064a/)
+
+> 如果您在Kubernetes集群中已经安装并配置了 ingress-nginx，那么它将作为您集群的统一入口和反向代理。在这种情况下，您通常不需要在项目的Pod内部单独部署额外的Nginx实例。
+> 
+> 所以此处我们安装的Nginx实例只是为了测试，并没有提供完整的配置文件挂载、网站静态文件挂载等配置项。
