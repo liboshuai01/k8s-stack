@@ -1,0 +1,59 @@
+# -------------------------------------------------------------------
+# Helm Chart 的自定义配置值
+# -------------------------------------------------------------------
+
+# 副本数配置
+replicaCount: 1
+
+# 资源请求与限制
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 512m
+    memory: 2048Mi
+
+# Service 配置
+service:
+  type: ClusterIP
+
+# Ingress 配置
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: nginx.lbs.com
+  path: / # 默认路径
+
+# Git 同步静态站点配置
+cloneStaticSiteFromGit:
+  gitSync:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 256m
+        memory: 1024Mi
+
+# Metrics (Prometheus) 配置
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring # Prometheus 监控组件所在的命名空间
+    labels:
+      release: kube-prom-stack # Prometheus Operator 用于发现 ServiceMonitor 的标签值
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 1024Mi
+
+# 额外环境变量
+extraEnvVars:
+  - name: TZ
+    value: Asia/Shanghai
+
