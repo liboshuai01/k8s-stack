@@ -4,7 +4,7 @@
 **1. 首先安装`cert-manager`**
 ```shell
 kubectl create -f cert-manager.yaml
-kubectl get all -n cert-manager
+watch kubectl get all -n cert-manager
 ```
 
 > 安装`cert-manger`等待所有pod处于running后，再多等待一会哦，不然直接部署flink-operator会报错！
