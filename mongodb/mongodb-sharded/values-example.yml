@@ -86,12 +86,12 @@ shardsvr:
 metrics:
   # 启用Prometheus metrics导出
   enabled: true
-  serviceMonitor:
+  podMonitor:
     # 启用ServiceMonitor，用于Prometheus Operator自动发现
     enabled: true
     # Prometheus Operator所在的命名空间
     namespace: monitoring
-    labels:
+    additionalLabels:
       # Prometheus Operator用于发现PodMonitor的标签值
       release: kube-prom-stack
   resources:
