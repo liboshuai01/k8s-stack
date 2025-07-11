@@ -6,85 +6,34 @@
 global:
   # 设置默认的StorageClass名称，用于所有需要持久化的组件
   defaultStorageClass: nfs
-  
-# ------------------------------------------------------------------
-# 1. 核心配置：Harbor管理员密码和外部访问地址
-# ------------------------------------------------------------------
 
-## Harbor 管理员初始密码。请务必修改为一个强密码！
-## 格式：必须是字符串。
-adminPassword: "YOUR_PASSWORD" # <-- 修改这里
+# Harbor Core 配置
+# Harbor 外部访问URL（会自动添加https://）
+externalURL: "https://harbor.lbs.com"
+# Harbor 管理员 (admin) 的初始密码
+adminPassword: "YOUR_PASSWORD" # 请务必修改为强密码
+# 日志级别
+logLevel: info
 
-## Harbor 的外部访问 URL。这个 URL 用于UI显示、API调用和 Docker/Helm 客户端交互。
-## 协议必须是 https，域名必须与下面的 ingress.core.hostname 保持一致。
-externalURL: https://harbor.lbs.com # <-- 修改这里
-
-# ------------------------------------------------------------------
-# 2. 流量暴露配置：使用 Ingress-NGINX
-# ------------------------------------------------------------------
-
-## 暴露类型。因为你已经安装了 ingress-nginx，所以我们使用 'ingress'。
+# Ingress 配置
 exposureType: ingress
-
-## Ingress-NGINX 相关配置
 ingress:
   core:
-    ## 指定要使用的 IngressClass 的名称。对于 ingress-nginx，通常是 "nginx"。
-    ingressClassName: "nginx"
+    # Ingress Controller 的 Class 名称
+    ingressClassName: nginx
+    # Harbor 的访问域名
+    hostname: harbor.lbs.com
+  # 可以根据需要添加其他组件的Ingress配置，例如registry等
 
-    ## Ingress 的主机名，必须与上面的 externalURL 匹配。
-    ## 你需要为此域名创建一条 DNS A 记录，指向你的 Ingress Controller 的外部 IP (由 MetalLB 提供)。
-    hostname: harbor.lbs.com # <-- 修改这里
-
-    ## 为此 Ingress 启用 TLS (HTTPS)。
-    tls: true
-    # 注意: 启用 tls 后，你需要提供一个有效的 TLS 证书。
-    # 你可以手动创建一个名为 "harbor.lbs.com-tls" 的 Secret，
-    # 或者使用 cert-manager 并通过下面的 annotations 自动申请证书。
-    
-    ## Ingress annotations. 下面的配置适用于 ingress-nginx。
-    ## 如果你使用 cert-manager，可以取消注释并配置 cluster-issuer。
-    annotations:
-      # cert-manager.io/cluster-issuer: "letsencrypt-prod" # <-- 如果使用 cert-manager，取消注释并配置
-      nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/proxy-body-size: "0" # 允许上传大镜像
-
-# ------------------------------------------------------------------
-# 3. 持久化存储配置：使用 NFS StorageClass
-# ------------------------------------------------------------------
-
+# 持久化存储配置
 persistence:
-  ## 是否启用持久化。保持 true。
-  enabled: true
-
-  ## 资源策略。设置为 "keep" 可以防止在 'helm uninstall' 时意外删除 PVCs (和数据)。
-  ## 强烈建议在生产环境中保持此设置。
-  resourcePolicy: "keep"
-
-  ## 配置各个组件的 PersistentVolumeClaim (PVC)。
   persistentVolumeClaim:
-    ## 镜像仓库的存储
     registry:
-      ## 指定使用你的 nfs storage class
-      storageClass: "nfs"
-      ## 存储大小。默认的 5Gi 对于实际使用来说太小了，建议根据需求调大。
-      size: 16Gi # <-- 建议根据你的需求调整大小
-    
-    ## Job Service 的存储
+      size: 32Gi
     jobservice:
-      ## 指定使用你的 nfs storage class
-      storageClass: "nfs"
       size: 1Gi
-    
-    ## Trivy (漏洞扫描) 的存储
     trivy:
-      ## 指定使用你的 nfs storage class
-      storageClass: "nfs"
       size: 5Gi
-
-# ------------------------------------------------------------------
-# 4. 内部组件配置：数据库和缓存 (使用默认值)
-# ------------------------------------------------------------------
 
 # PostgreSQL 数据库配置
 postgresql:
