@@ -16,6 +16,8 @@ bash install.sh
 
 **3. 应用配置文件**
 
+> 一定要等待metallb启动完成
+
 ```shell
 kubectl apply -f config.yml
 ```
