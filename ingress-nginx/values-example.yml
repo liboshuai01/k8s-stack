@@ -34,5 +34,5 @@ controller:
     #   metallb.universe.tf/load-balancer-ip: "192.168.5.200"
 
 # --- 你可以添加以下配置来控制 Deployment 的副本数量 ---
-replicaCount: 2 # 例如，运行 2 个 Ingress Controller 实例以实现高可用
+controller.replicaCount: 2 # 例如，运行 2 个 Ingress Controller 实例以实现高可用
 
