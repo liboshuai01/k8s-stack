@@ -36,13 +36,19 @@ export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace ${NAMESPACE} ${REL
 **3. 启动MongoDB客户端Pod**
 
 ```shell
-kubectl run --namespace ${NAMESPACE} ${RELEASE_NAME}-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash
+kubectl run --namespace ${NAMESPACE} ${RELEASE_NAME}-client --rm --tty -i --restart='Never' \
+--env NAMESPACE=${NAMESPACE} \
+--env RELEASE_NAME=${RELEASE_NAME} \
+--env MONGODB_ROOT_PASSWORD=${MONGODB_ROOT_PASSWORD} \
+--image docker.io/bitnami/mongodb:8.0.10-debian-12-r1 --command -- bash
 ```
 
 **4. 连接MongoDB**
 
 ```shell
-mongosh admin --host "${RELEASE_NAME}-0.${RELEASE_NAME}-headless.${NAMESPACE}.svc.cluster.local:27017,${RELEASE_NAME}-1.${RELEASE_NAME}-headless.${NAMESPACE}.svc.cluster.local:27017,${RELEASE_NAME}-2.${RELEASE_NAME}-headless.${NAMESPACE}.svc.cluster.local:27017" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+mongosh admin --host \
+"${RELEASE_NAME}-0.${RELEASE_NAME}-headless.${NAMESPACE}.svc.cluster.local:27017,${RELEASE_NAME}-1.${RELEASE_NAME}-headless.${NAMESPACE}.svc.cluster.local:27017,${RELEASE_NAME}-2.${RELEASE_NAME}-headless.${NAMESPACE}.svc.cluster.local:27017" \
+--authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
 ```
 
 ### 监控验证

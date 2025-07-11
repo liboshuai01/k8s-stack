@@ -1,7 +1,7 @@
 前提准备
 ---
 
-修改`.env`文件中配置的变量为自定义内容，如安装的命名空间、helm实例名称、char版本号等（可选）。
+复制文件`.env.example`为`.env`，复制文件`values-example.yml`为`values.yml`，并根据需求修改配置内容。
 
 安装应用
 ---
@@ -21,50 +21,48 @@ bash status.sh
 
 ### 进阶验证
 
-**1. 启动临时 Pod**
+**1. 加载环境变量**
 
 ```shell
-kubectl run my-kafka-cluster-client  --rm --tty -i --restart='Never' --image docker.io/bitnami/kafka:4.0.0-debian-12-r5 --namespace kafka --command -- bash
+source .env
+```
+
+**2. 启动临时 Pod**
+
+```shell
+kubectl run ${RELEASE_NAME}-client  --rm --tty -i --restart='Never' \
+--env NAMESPACE=${NAMESPACE} \
+--env RELEASE_NAME=${RELEASE_NAME} \
+--image docker.io/bitnami/kafka:4.0.0-debian-12-r5 \
+--namespace ${NAMESPACE} --command -- bash
 ```
     
-**2. 创建一个测试topic**
+**3. 创建一个测试topic**
 
 ```shell
 kafka-topics.sh \
     --create \
-    --bootstrap-server my-kafka-cluster:9092 \
+    --bootstrap-server ${RELEASE_NAME}.${NAMESPACE}.svc.cluster.local:9092 \
     --topic test_topic \
     --partitions 6 \
     --replication-factor 3
 ```
     
-**3. 启动生产者发送消息**
+**4. 启动生产者发送消息**
 
 ```shell
 kafka-console-producer.sh \
-    --bootstrap-server my-kafka-cluster:9092 \
+    --bootstrap-server ${RELEASE_NAME}.${NAMESPACE}.svc.cluster.local:9092 \
     --topic test_topic
 ```
 
-**4. 启动消费者接收消息**
+**5. 启动消费者接收消息**
 
 ```shell
 kafka-console-consumer.sh \
-    --bootstrap-server my-kafka-cluster:9092 \
+    --bootstrap-server ${RELEASE_NAME}.${NAMESPACE}.svc.cluster.local:9092 \
     --topic test_topic \
     --from-beginning
-```
-
-**5. k8s 内部访问 Kafka 实例**
-
-```shell
-# 方式一：<service>.<namespace>.svc.cluster.local:9092
-my-kafka-cluster.kafka.svc.cluster.local:9092
-
-# 方式二：<pod>.<headless-service>.<namespace>.svc.cluster.local:9092
-my-kafka-cluster-controller-0.my-kafka-cluster-controller-headless.kafka.svc.cluster.local:9092
-my-kafka-cluster-controller-1.my-kafka-cluster-controller-headless.kafka.svc.cluster.local:9092
-my-kafka-cluster-controller-2.my-kafka-cluster-controller-headless.kafka.svc.cluster.local:9092
 ```
 
 ### 监控验证
@@ -76,7 +74,7 @@ my-kafka-cluster-controller-2.my-kafka-cluster-controller-headless.kafka.svc.clu
 更新应用
 ---
 
-修改`.env`或`install.sh`文件中的内容，后重新执行`install.sh`脚本即可。
+修改`env`、`values.yml`文件内容后，重新执行`install.sh`脚本即可。
 
 卸载应用
 ---
@@ -98,6 +96,26 @@ kubectl get pvc -n ${NAMESPACE}
 
 # 删除pvc（可能有多个pvc要删除）
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
+```
+
+## 如何访问
+
+```markdown
+方式一
+---
+> 格式
+<service>.<namespace>.svc.cluster.local:9092
+> 示例
+my-kafka-cluster.kafka.svc.cluster.local:9092
+
+方式二
+---
+> 格式
+<pod>.<headless-service>.<namespace>.svc.cluster.local:9092
+> 示例
+my-kafka-cluster-controller-0.my-kafka-cluster-controller-headless.kafka.svc.cluster.local:9092
+my-kafka-cluster-controller-1.my-kafka-cluster-controller-headless.kafka.svc.cluster.local:9092
+my-kafka-cluster-controller-2.my-kafka-cluster-controller-headless.kafka.svc.cluster.local:9092
 ```
 
 > 更详细的教程请查看：[K8s采用Helm部署kafka-cluster](https://lbs.wiki/pages/c4730ed2/)
