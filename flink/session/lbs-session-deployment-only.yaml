@@ -9,7 +9,7 @@ spec:
   flinkVersion: v1_20
   imagePullPolicy: IfNotPresent
   ingress:
-    template: "flink.k8s.io/{{namespace}}/{{name}}(/|$)(.*)"
+    template: "flink.lbs.com/{{namespace}}/{{name}}(/|$)(.*)"
     className: "nginx"
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: "/$2"
