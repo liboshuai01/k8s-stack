@@ -5,8 +5,8 @@ metadata:
   namespace: flink
   name: basic-session-deployment-example
 spec:
-  image: flink:1.20
-  flinkVersion: v1_20
+  image: flink:1.18
+  flinkVersion: v1_18
   jobManager:
     resource:
       memory: "2048m"
