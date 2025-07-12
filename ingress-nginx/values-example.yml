@@ -35,12 +35,12 @@ controller:
     #   memory: 500Mi
 
   # 建议为控制器启用指标导出，以便 Prometheus 抓取
-  metrics:
-    enabled: true
-    service:
-      enabled: true
-    serviceMonitor:
-      enabled: true
-      namespace: monitoring
-      additionalLabels:
-        release: kube-prom-stack
+#  metrics:
+#    enabled: true
+#    service:
+#      enabled: true
+#    serviceMonitor:
+#      enabled: true
+#      namespace: monitoring
+#      additionalLabels:
+#        release: kube-prom-stack
