@@ -2,7 +2,7 @@ controller:
   # 使用 Deployment 部署，这是默认值，但为了明确，我们保留它
   kind: Deployment
   config:
-    client-max-body-size: "1024m"
+    proxy-body-size: "1024m"
   service:
     # 启用外部控制器服务，这将是 MetalLB 负载均衡器暴露的服务
     enabled: true
