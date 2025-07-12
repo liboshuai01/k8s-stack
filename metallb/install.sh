@@ -11,12 +11,6 @@ else
     exit 1
 fi
 
-# --- 检查 config.yml 文件是否存在 ---
-if [ ! -f config.yml ]; then
-    echo "错误: config.yml 文件不存在!"
-    exit 1
-fi
-
 # --- 添加仓库并更新 ---
 helm repo add metallb https://metallb.github.io/metallb --force-update
 
