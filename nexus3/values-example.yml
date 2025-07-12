@@ -17,6 +17,7 @@ persistence:
 ingress:
   enabled: true
   annotations:
+    # nginx文件传输大小限制
     nginx.ingress.kubernetes.io/proxy-body-size: "10G"
   # Ingress Controller 的 Class 名称 (例如：nginx)
   ingressClassName: "nginx"
