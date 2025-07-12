@@ -74,7 +74,7 @@ spec:
     entryClass: com.liboshuai.demo.FlinkWordCountDemo
     args:   # 传递到作业main方法的参数
       - "--hostname"
-      - "192.168.6.149"
+      - "master"
       - "--port"
       - "9999"
     parallelism: 1
