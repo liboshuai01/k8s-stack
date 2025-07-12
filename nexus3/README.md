@@ -44,7 +44,9 @@ bash status.sh
 
 ### 进阶验证
 
-1. 访问`http://nexus.lbs.com`（ingress.hosts值），如果访问成功，则说明`nexus`安装成功。
+> 注意：一定要为https，而不是http。
+
+1. 访问`https://nexus.lbs.com`（ingress.hosts值），如果访问成功，则说明`nexus`安装成功。
 
 更新应用
 ---
