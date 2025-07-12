@@ -1,12 +1,7 @@
 前提准备
 ---
 
-**1. 首先安装`cert-manager`**
-
-```shell
-kubectl create -f cert-manager.yaml
-watch kubectl get all -n cert-manager
-```
+**1. 首先安装k8s集群中安装了`cert-manager`**
 
 > 安装`cert-manger`等待所有pod处于running后，再多等待一会哦，不然直接部署flink-operator会报错！
 
@@ -64,10 +59,4 @@ bash uninstall.sh
 
 ```shell
 kubectl delete ns flink
-```
-
-**3. [可选] 卸载cert-manager**
-
-```shell
-kubectl delete -f cert-manager.yaml
 ```
