@@ -18,8 +18,7 @@ if [ ! -f values.yml ]; then
 fi
 
 # --- 添加仓库并更新 ---
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts --force-update
 
 # --- 安装 / 升级 ---
 helm upgrade --install ${RELEASE_NAME} prometheus-community/kube-prometheus-stack \

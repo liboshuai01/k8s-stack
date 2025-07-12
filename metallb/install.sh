@@ -18,8 +18,7 @@ if [ ! -f config.yml ]; then
 fi
 
 # --- 添加仓库并更新 ---
-helm repo add metallb https://metallb.github.io/metallb
-helm repo update
+helm repo add metallb https://metallb.github.io/metallb --force-update
 
 # --- 安装 / 升级 ---
 helm upgrade --install ${RELEASE_NAME} metallb/metallb \

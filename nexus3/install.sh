@@ -18,8 +18,7 @@ if [ ! -f values.yml ]; then
 fi
 
 # --- 添加仓库并更新 ---
-helm repo add stevehipwell https://stevehipwell.github.io/helm-charts/
-helm repo update
+helm repo add stevehipwell https://stevehipwell.github.io/helm-charts/ --force-update
 
 # --- 创建命名空间 (如果不存在) ---
 # 注意：helm upgrade --create-namespace 也能创建命名空间，但提前创建可以确保 secret 先于 helm release 被创建

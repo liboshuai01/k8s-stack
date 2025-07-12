@@ -18,8 +18,7 @@ if [ ! -f values.yml ]; then
 fi
 
 # --- 添加仓库并更新 ---
-helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
-helm repo update
+helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/ --force-update
 
 # --- 安装 / 升级 ---
 helm upgrade --install ${RELEASE_NAME} nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
