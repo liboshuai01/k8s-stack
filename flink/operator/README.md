@@ -32,7 +32,7 @@ bash status.sh
 
 **1. 部署测试应用**
 ```shell
-kubectl create -f ./examples/basic.yaml -n flink
+kubectl create -f ./basic.yaml -n flink
 ```
 
 **2. 查看测试应用日志**
@@ -43,7 +43,7 @@ kubectl logs -f deploy/basic-example -n flink
 
 **3. 删除测试应用**
 ```shell
-kubectl delete -f ./examples/basic.yaml -n flink
+kubectl delete -f ./basic.yaml -n flink
 ```
 
 更新应用
