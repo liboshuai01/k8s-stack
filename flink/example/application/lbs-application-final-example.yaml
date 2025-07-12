@@ -10,7 +10,7 @@ spec:
   flinkVersion: v1_20
   imagePullPolicy: IfNotPresent
   ingress:
-    template: "flink.lbs.com/flink/application-deployment-checkpoint-ha"
+    template: "flink.lbs.com/{{namespace}}/{{name}}(/|$)(.*)"
     className: "nginx"
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: "/$2"
@@ -20,7 +20,6 @@ spec:
     high-availability.type: kubernetes
     high-availability: org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory # JobManager HA
     high-availability.storageDir: file:///opt/flink/flink_recovery  # JobManager HA数据保存路径
-    rest.base-url: http://flink.lbs.com/flink/application-deployment-checkpoint-ha  # 添加这一行
   serviceAccount: flink
   jobManager:
     replicas: 2  # HA下， jobManger的副本数要大于1
