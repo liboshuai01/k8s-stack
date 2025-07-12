@@ -12,8 +12,7 @@ else
 fi
 
 # --- 添加仓库并更新 ---
-helm repo add flink-operator-repo https://downloads.apache.org/flink/flink-kubernetes-operator-${OPERATOR_VERSION}/
-helm repo update
+helm repo add flink-operator-repo https://downloads.apache.org/flink/flink-kubernetes-operator-${OPERATOR_VERSION}/  --force-update
 
 # --- 安装 / 升级 ---
 helm upgrade --install ${RELEASE_NAME} flink-operator-repo/flink-kubernetes-operator \
