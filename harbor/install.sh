@@ -17,7 +17,7 @@ if [ ! -f values.yml ]; then
     exit 1
 fi
 
-# --- 添加 Bitnami Helm 仓库并更新 ---
+# --- 添加仓库并更新 ---
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
