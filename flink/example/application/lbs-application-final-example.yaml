@@ -6,8 +6,8 @@ metadata:
   namespace: flink
   name: application-deployment-checkpoint-ha  # flink 集群名称
 spec:
-  image: flink:1.20
-  flinkVersion: v1_20
+  image: flink:1.18
+  flinkVersion: v1_18
   imagePullPolicy: IfNotPresent
   ingress:
     template: "flink.lbs.com/{{namespace}}/{{name}}(/|$)(.*)"
