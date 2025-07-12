@@ -26,8 +26,6 @@ kubectl get ns "${NAMESPACE}" >/dev/null 2>&1 || kubectl create namespace "${NAM
 
 # --- 创建 Nexus admin 密码的 Secret ---
 # 这个 Secret 必须在 Helm Chart 部署之前存在
-PASSWORD_SECRET_NAME="nexus-secret"
-NEXUS_ADMIN_PASSWORD=${NEXUS_ADMIN_PASSWORD}
 
 # 检查 Secret 是否已存在，避免重复创建报错
 if ! kubectl get secret "${PASSWORD_SECRET_NAME}" -n "${NAMESPACE}" >/dev/null 2>&1; then

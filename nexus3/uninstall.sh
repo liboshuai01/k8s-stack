@@ -12,3 +12,4 @@ else
 fi
 
 helm uninstall ${RELEASE_NAME} -n ${NAMESPACE}
+kubectl delete secret ${PASSWORD_SECRET_NAME} -n ${NAMESPACE}
