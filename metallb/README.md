@@ -33,50 +33,13 @@ bash status.sh
    
 ### 进阶验证
 
-**1. 创建一个 `test-metallb.yml` 文件**
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-test-deployment
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: nginx-test
-  template:
-    metadata:
-      labels:
-        app: nginx-test
-    spec:
-      containers:
-      - name: nginx-test
-        image: nginx:1.25
-        ports:
-        - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-test-service
-spec:
-  type: LoadBalancer # 关键：类型必须是 LoadBalancer
-  selector:
-    app: nginx-test
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-```
-
-**2. 应用这个测试文件**
+**1. 创建测试应用**
 
 ```shell
-kubectl apply -f test-metallb.yml
+kubectl apply -f test.yml
 ```
 
-**3. 等待片刻，然后检查 Service 的状态**
+**2. 等待片刻，然后检查 Service 的状态**
 
 ```shell
 kubectl get svc nginx-test-service
@@ -89,10 +52,10 @@ nginx-test-service   LoadBalancer   10.43.212.16   192.168.6.240   80:31593/TCP 
 ```
 现在，您可以从局域网内的任何其他机器上通过 http://192.168.6.240 访问到这个 Nginx 服务了。
 
-**4. 删除测试应用**
+**3. 删除测试应用**
 
 ```shell
-kubectl delete -f test-metallb.yml
+kubectl delete -f test.yml
 ```
 
 更新应用
