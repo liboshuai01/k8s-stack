@@ -31,10 +31,15 @@ kubectl create -f ./basic.yaml -n flink
 ```
 
 **2. 查看测试应用日志**
+
+> 等待一会儿，Flink应用部署成功后，再进行日志查看。
+
 ```shell
 kubectl logs -f deploy/basic-example -n flink
 ```
-> 日志中出现: `Completed checkpoint...`之类的内容（刚开始为Failed to trigger checkpoint for job，多等待一会儿就行了），表示测试应用正常启动。
+> 刚开始为`Failed to trigger checkpoint for job ......`，多等待一会儿。
+> 
+> 若后续日志中出现: `Completed checkpoint...`之类的内容，则表示测试应用正常启动。
 
 **3. 删除测试应用**
 ```shell
