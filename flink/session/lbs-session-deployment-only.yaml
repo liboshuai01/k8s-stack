@@ -2,6 +2,7 @@
 apiVersion: flink.apache.org/v1beta1
 kind: FlinkDeployment
 metadata:
+  namespace: flink
   name: session-only-example
 spec:
   image: flink:1.20
