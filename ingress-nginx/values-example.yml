@@ -3,7 +3,7 @@ controller:
   kind: Deployment
   config:
     # 文件传输大小限制
-    proxy-body-size: "1024m"
+    proxy-body-size: "20M"
   service:
     # 启用外部控制器服务，这将是 MetalLB 负载均衡器暴露的服务
     enabled: true
