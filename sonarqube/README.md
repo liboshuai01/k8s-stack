@@ -27,10 +27,10 @@ ingress-nginx-controller-metrics     ClusterIP      10.43.141.155   <none>      
 
 ```
 > 格式
-EXTERNAL-IP    jenkins.lbs.com
+EXTERNAL-IP    sonarqube.lbs.com
 
 > 示例
-192.168.6.241  jenkins.lbs.com
+192.168.6.241  sonarqube.lbs.com
 ```
 
 验证应用
@@ -44,9 +44,9 @@ bash status.sh
 
 ### 进阶验证
 
-**1. 访问`http://jenkins.lbs.com`，如果访问成功，则说明`jenkins`安装成功。**
+**1. 访问`http://sonarqube.lbs.com`，如果访问成功，则说明`sonarqube`安装成功。**
 
-> 默认用户：user，密码：`$(kubectl get secret --namespace jenkins jenkins -o jsonpath="{.data.jenkins-password}" | base64 -d)`
+> 默认用户：user，密码：`$(kubectl get secret --namespace sonarqube sonarqube -o jsonpath="{.data.sonarqube-password}" | base64 -d)`
 
 更新应用
 ---
@@ -75,4 +75,4 @@ kubectl get pvc -n ${NAMESPACE}
 kubectl delete pvc [pvc名称] -n ${NAMESPACE}
 ```
 
-> 更详细的教程请查看：[K8s采用Helm部署Jenkins](https://lbs.wiki/pages/32b0bac/)
+> 更详细的教程请查看：[K8s采用Helm部署sonarqube](https://lbs.wiki/pages/32b0bac/)
