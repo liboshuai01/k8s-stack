@@ -1,0 +1,78 @@
+# -------------------------------------------------------------------
+# SonarQube Helm Chart 自定义配置文件
+# -------------------------------------------------------------------
+
+# SonarQube 管理员密码。
+# 默认用户名为 'admin'，强烈建议修改此密码。
+# 如果留空，首次部署后可获取随机生成的密码。
+sonarqubePassword: "your-strong-password"
+
+# SonarQube 主进程的 JVM 堆大小配置。
+# 请根据您的服务器能力和预期负载进行调整。
+minHeapSize: "1024m"
+maxHeapSize: "2048m"
+
+# 计算引擎进程的 JVM 堆大小。
+jvmCeOpts: "-Xmx1024m -Xms512m"
+
+# 用于暴露 SonarQube 的服务配置。
+# 类型可以是 ClusterIP、NodePort 或 LoadBalancer。
+service:
+  type: ClusterIP
+
+# 用于外部访问的 Ingress 配置。
+# 设置为 true 以通过 Ingress 控制器暴露 SonarQube。
+ingress:
+  enabled: true
+  # 您的 IngressClass 名称，例如 "nginx"、"traefik"。
+  ingressClassName: "nginx"
+  # 访问 SonarQube 的主机名。
+  hostname: "sonarqube.lbs.com"
+  # annotations:
+  #   cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  # tls:
+  #   - secretName: sonarqube-tls
+  #     hosts:
+  #       - sonarqube.your-domain.com
+
+# SonarQube 数据 (扩展、日志等) 的持久化配置。
+# 生产环境强烈建议启用持久化。
+persistence:
+  enabled: true
+  # 持久卷的大小。
+  size: 20Gi
+  # 要使用的 StorageClass 名称，必须在您的集群中存在。
+  # 例如: "nfs-client", "longhorn", "standard" (云服务商提供)。
+  storageClass: "nfs"
+
+# SonarQube 使用 PostgreSQL 数据库，此 Chart 可为您部署一个。
+# 生产环境建议使用外部独立的数据库。
+postgresql:
+  # 设置为 true 以部署 PostgreSQL 容器。
+  enabled: true
+  primary:
+    persistence:
+      # 强烈建议为数据库启用持久化。
+      enabled: true
+      # 数据库持久卷的大小。
+      size: 15Gi
+      # 数据库的 StorageClass 名称。
+      storageClass: "nfs"
+
+# SonarQube Pod 的资源请求和限制。
+# 请根据您集群的资源和预期负载调整这些值。
+resources:
+  requests:
+    cpu: "800m"
+    memory: "2Gi"
+  limits:
+    cpu: "2000m"
+    memory: "4Gi"
+
+# 安装自定义插件。
+# 在此处添加您需要安装的插件的下载 URL。
+plugins:
+  install:
+    # 示例: 中文语言包
+    - "https://github.com/Sonar-Global/sonar-l10n-zh/releases/download/sonar-l10n-zh-plugin-9.9/sonar-l10n-zh-plugin-9.9.jar"
+    # - "https://another-plugin-url.jar"
