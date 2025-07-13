@@ -9,8 +9,8 @@ sonarqubePassword: "YOUR_PASSWORD"
 
 # SonarQube 主进程的 JVM 堆大小配置。
 # 请根据您的服务器能力和预期负载进行调整。
-minHeapSize: "512m"
-maxHeapSize: "1024m"
+minHeapSize: "1024m"
+maxHeapSize: "2048m"
 
 # 计算引擎进程的 JVM 堆大小。
 jvmCeOpts: "-Xmx1024m -Xms512m"
@@ -63,11 +63,11 @@ postgresql:
 # 请根据您集群的资源和预期负载调整这些值。
 resources:
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 500m
+    memory: 2Gi
   limits:
-    cpu: 256m
-    memory: 1024Mi
+    cpu: "1"
+    memory: 4Gi
 
 sysctl:
   resources:
