@@ -69,10 +69,22 @@ resources:
     cpu: "2000m"
     memory: "4Gi"
 
+sysctl:
+  resources:
+    requests:
+      cpu: "800m"
+      memory: "2Gi"
+    limits:
+      cpu: "2000m"
+      memory: "4Gi"
+
 # 安装自定义插件。
 # 在此处添加您需要安装的插件的下载 URL。
 plugins:
-  install:
-    # 示例: 中文语言包
-    - "https://github.com/Sonar-Global/sonar-l10n-zh/releases/download/sonar-l10n-zh-plugin-9.9/sonar-l10n-zh-plugin-9.9.jar"
-    # - "https://another-plugin-url.jar"
+  resources:
+    requests:
+      cpu: "800m"
+      memory: "2Gi"
+    limits:
+      cpu: "2000m"
+      memory: "4Gi"
