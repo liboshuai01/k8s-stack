@@ -5,7 +5,7 @@
 # SonarQube 管理员密码。
 # 默认用户名为 'admin'，强烈建议修改此密码。
 # 如果留空，首次部署后可获取随机生成的密码。
-sonarqubePassword: "your-strong-password"
+sonarqubePassword: "YOUR_PASSWORD"
 
 # SonarQube 主进程的 JVM 堆大小配置。
 # 请根据您的服务器能力和预期负载进行调整。
