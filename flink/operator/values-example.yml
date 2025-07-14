@@ -1,4 +1,4 @@
-# 副本数大于等于2
+# 开启高可用
 replicas: 2
 
 # 配置时区
@@ -24,6 +24,7 @@ defaultConfiguration:
     kubernetes.operator.reconcile.interval: 60 s
     kubernetes.operator.reconcile.parallelism: 30
     kubernetes.operator.observer.progress-check.interval: 5 s
+    # 开启高可用
     kubernetes.operator.leader-election.enabled: true
     kubernetes.operator.leader-election.lease-name: flink-operator-lease
 
