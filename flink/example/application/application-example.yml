@@ -36,13 +36,13 @@ spec:
   podTemplate:
     spec:
       hostAliases:
-        - ip: "192.168.6.149"
+        - ip: "192.168.6.132"
           hostnames:
             - "master"
-        - ip: "192.168.6.150"
+        - ip: "192.168.6.135"
           hostnames:
             - "node1"
-        - ip: "192.168.6.151"
+        - ip: "192.168.6.136"
           hostnames:
             - "node2"
       containers:
