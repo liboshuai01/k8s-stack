@@ -11,11 +11,18 @@ else
     exit 1
 fi
 
+# --- 检查 values.yml 文件是否存在 ---
+if [ ! -f values.yml ]; then
+    echo "错误: values.yml 文件不存在!"
+    exit 1
+fi
+
 # --- 添加仓库并更新 ---
 helm repo add flink-operator-repo https://downloads.apache.org/flink/flink-kubernetes-operator-${OPERATOR_VERSION}/  --force-update
 
 # --- 安装 / 升级 ---
 helm upgrade --install ${RELEASE_NAME} flink-operator-repo/flink-kubernetes-operator \
-  --namespace ${NAMESPACE} --create-namespace
+  --namespace ${NAMESPACE} --create-namespace \
+  -f values.yml
 
 echo "Helm Chart '${RELEASE_NAME}' 已成功部署到命名空间 '${NAMESPACE}' 中。"
