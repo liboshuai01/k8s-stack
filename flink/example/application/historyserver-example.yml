@@ -25,7 +25,7 @@ spec:
         - ip: "192.168.6.135"
           hostnames:
             - "node1"
-        - ip: "192.168.6.135"
+        - ip: "192.168.6.136"
           hostnames:
             - "node2"
       containers:
