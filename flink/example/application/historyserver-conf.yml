@@ -17,7 +17,7 @@ data:
     taskmanager.rpc.port: 6122
     kubernetes.service-account: flink
     kubernetes.cluster-id: flink-historyserver
-    kubernetes.container.image: flink-hdfs:1.18.0-scala_2.12-java8
+    kubernetes.container.image: flink-hdfs:flink:1.18.0-java8
     parallelism.default: 2
     kubernetes.namespace: flink
     taskmanager.numberOfTaskSlots: 2
