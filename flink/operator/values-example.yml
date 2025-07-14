@@ -13,13 +13,12 @@ jvmArgs:
   operator: "-Xms1024m -Xmx1024m"
 
 defaultConfiguration:
-  create: true
-  append: true
   flink-conf.yaml: |+
     # Flink Config Overrides
     kubernetes.operator.metrics.reporter.slf4j.factory.class: org.apache.flink.metrics.slf4j.Slf4jReporterFactory
     kubernetes.operator.metrics.reporter.slf4j.interval: 5 MINUTE
 
+    # 参数配置（其他参数参考`flink-kubernetes-operator/conf/flink-conf.yaml`）
     kubernetes.operator.flink.client.timeout: 30 s
     kubernetes.operator.reconcile.interval: 60 s
     kubernetes.operator.reconcile.parallelism: 30
