@@ -23,6 +23,8 @@ spec:
     jobmanager.archive.fs.dir: file:///opt/flink/flink_history      # JobManager 归档路径
     historyserver.archive.fs.dir: file:///opt/flink/flink_history      # Historyserver 归档路径
     historyserver.archive.fs.refresh-interval: "10000"              # Historyserver 文件刷新间隔
+    taskmanager.memory.managed.size: 0m  # 配置托管内存为0（状态后端为内存时启用）
+    rest.flamegraph.enabled: true  # 开启火焰图
   serviceAccount: flink
   jobManager:
     replicas: 2  # HA下， jobManger的副本数要大于1
