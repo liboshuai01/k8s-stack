@@ -33,7 +33,7 @@ spec:
           env:
             - name: TZ
               value: Asia/Shanghai
-          image: flink:1.18.0-java8.0-scala_2.12-java8
+          image: flink:1.18.0-java8
           command: [ 'sh','-c','/docker-entrypoint.sh history-server' ]
           ports:
             - containerPort: 8082
