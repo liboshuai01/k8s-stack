@@ -5,7 +5,7 @@
 
 > 安装`cert-manger`等待所有pod处于running后，再多等待一会哦，不然直接部署flink-operator会报错！
 
-**2. 复制文件`.env.example`为`.env`，并根据需求修改配置内容。**
+**2. 复制文件`.env.example`为`.env`，复制文件`values-example.yml`为`values.yml`，并根据需求修改配置内容。**
 
 安装应用
 ---
@@ -49,7 +49,7 @@ kubectl delete -f ./basic.yaml -n flink
 更新应用
 ---
 
-先执行`uninstall.sh`脚本卸载旧的operator，然后修改`.env`文件，最后执行`install.sh`脚本安装新的operator。
+先执行`uninstall.sh`脚本卸载旧的operator，然后修改`.env`、`values.yml`文件，最后执行`install.sh`脚本安装新的operator。
 
 卸载应用
 ---

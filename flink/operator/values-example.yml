@@ -1,0 +1,29 @@
+# 副本数大于等于2
+replicas: 2
+
+# 配置时区
+operatorPod:
+  env:
+    - name: TZ
+      value: Asia/Shanghai
+
+# 设置JVM参数
+jvmArgs:
+  webhook: "-Xms256m -Xmx256m"
+  operator: "-Xms1024m -Xmx1024m"
+
+defaultConfiguration:
+  create: true
+  append: true
+  flink-conf.yaml: |+
+    # Flink Config Overrides
+    kubernetes.operator.metrics.reporter.slf4j.factory.class: org.apache.flink.metrics.slf4j.Slf4jReporterFactory
+    kubernetes.operator.metrics.reporter.slf4j.interval: 5 MINUTE
+
+    kubernetes.operator.flink.client.timeout: 30 s
+    kubernetes.operator.reconcile.interval: 60 s
+    kubernetes.operator.reconcile.parallelism: 30
+    kubernetes.operator.observer.progress-check.interval: 5 s
+    kubernetes.operator.leader-election.enabled: true
+    kubernetes.operator.leader-election.lease-name: flink-operator-lease
+
