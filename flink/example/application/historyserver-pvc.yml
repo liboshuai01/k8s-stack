@@ -1,0 +1,14 @@
+---
+# Flink Historyserver 持久化存储pvc
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: flink-historyserver-pvc  # historyserver pvc名称
+  namespace: flink   # 指定归属的名命空间
+spec:
+  storageClassName: nfs   #sc名称，更改为实际的sc名称
+  accessModes:
+    - ReadWriteMany   #采用ReadWriteMany的访问模式
+  resources:
+    requests:
+      storage: 1Gi    #存储容量，根据实际需要更改

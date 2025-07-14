@@ -6,7 +6,7 @@ metadata:
   namespace: flink
   name: application-deployment-checkpoint-ha  # flink 集群名称
 spec:
-  image: flink:1.18
+  image: flink:1.18.0-scala_2.12-java8
   flinkVersion: v1_18
   imagePullPolicy: IfNotPresent
   ingress:
@@ -20,6 +20,9 @@ spec:
     high-availability.type: kubernetes
     high-availability: org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory # JobManager HA
     high-availability.storageDir: file:///opt/flink/flink_recovery  # JobManager HA数据保存路径
+    jobmanager.archive.fs.dir: file:///opt/flink/flink_history      # JobManager 归档路径
+    historyserver.archive.fs.dir: file:///opt/flink/flink_history      # Historyserver 归档路径
+    historyserver.archive.fs.refresh-interval: "10000"              # Historyserver 文件刷新间隔
   serviceAccount: flink
   jobManager:
     replicas: 2  # HA下， jobManger的副本数要大于1
@@ -56,6 +59,10 @@ spec:
               mountPath: /opt/flink/log
             - name: flink-ha    # HA pvc配置
               mountPath: /opt/flink/flink_recovery
+            - name: flink-historyserver
+              mountPath: /opt/flink/flink_history
+            - name: flink-historyserver # 历史服务器 pvc配置
+              mountPath: /opt/flink/flink_history
       volumes:
         - name: flink-jar
           persistentVolumeClaim:
@@ -69,6 +76,9 @@ spec:
         - name: flink-ha
           persistentVolumeClaim:
             claimName: flink-ha-pvc
+        - name: flink-historyserver
+          persistentVolumeClaim:
+            claimName: flink-historyserver-pvc
   job:
     jarURI: local:///opt/flink/jar/flink-wordcount.jar # 使用pv方式挂载jar包
     entryClass: com.liboshuai.demo.FlinkWordCountDemo

@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: flink
+  labels:
+    app: flink-historyserver
+    name: flink-historyserver
+  name: flink-historyserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: flink-historyserver
+  template:
+    metadata:
+      namespace: flink
+      labels:
+        app: flink-historyserver
+        name: flink-historyserver
+    spec:
+      hostAliases:  # hosts配置
+        - ip: "192.168.6.132"
+          hostnames:
+            - "master"
+        - ip: "192.168.6.135"
+          hostnames:
+            - "node1"
+        - ip: "192.168.6.135"
+          hostnames:
+            - "node2"
+      containers:
+        - name: flink-historyserver
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+          image: flink:1.18.0-scala_2.12-java8.0-scala_2.12-java8
+          command: [ 'sh','-c','/docker-entrypoint.sh history-server' ]
+          ports:
+            - containerPort: 8082
+          volumeMounts:
+            - name: flink-historyserver-conf
+              mountPath: /opt/flink/conf/flink-conf.yaml
+              subPath: flink-conf.yaml
+            - name: flink-historyserver-conf
+              mountPath: /opt/flink/conf/log4j.properties
+              subPath: log4j.properties
+            - name: flink-historyserver-conf
+              mountPath: /opt/flink/conf/log4j-console.properties
+              subPath: log4j-console.properties
+            - name: flink-historyserver
+              mountPath: /opt/flink/flink_history
+      volumes:  # 挂载卷配置
+        - name: flink-historyserver-conf
+          configMap:
+            name: flink-historyserver-conf
+        - name: flink-historyserver
+          persistentVolumeClaim:
+            claimName: flink-historyserver-pvc
+# ---
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   namespace: flink
+#   name: flink-historyserver
+# spec:
+#   type: NodePort
+#   ports:
+#     - port: 8082
+#       nodePort: 31082
+#   selector:
+#     name: flink-historyserver
+
+# ingress按实际情况配置
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: flink-historyserver
+    name: flink-historyserver
+  name: flink-historyserver
+  namespace: flink
+spec:
+  selector:
+    app: flink-historyserver
+  ports:
+    - port: 8082
+      protocol: TCP
+      targetPort: 8082
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: flink
+  name: flink-historyserver
+  annotations:
+    nginx.ingress.kubernetes.io/default-backend: ingress-nginx-controller
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "flink-hs.lbs.com"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: flink-historyserver
+                port:
+                  number: 8082
