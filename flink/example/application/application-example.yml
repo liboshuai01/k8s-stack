@@ -57,8 +57,9 @@ spec:
               mountPath: /opt/flink/jar
             - name: flink-checkpoints  # 挂载checkpoint pvc
               mountPath: /opt/flink/checkpoints
-            - name: flink-log  # 挂载日志 pvc
-              mountPath: /opt/flink/log
+              # 取消本地持久化日志，转用elk采集
+#            - name: flink-log  # 挂载日志 pvc
+#              mountPath: /opt/flink/log
             - name: flink-ha    # HA pvc配置
               mountPath: /opt/flink/flink_recovery
             - name: flink-historyserver # 历史服务器 pvc配置
@@ -70,9 +71,10 @@ spec:
         - name: flink-checkpoints
           persistentVolumeClaim:
             claimName: flink-checkpoint-application-pvc
-        - name: flink-log
-          persistentVolumeClaim:
-            claimName: flink-log-pvc
+          # 取消本地持久化日志，转用elk采集
+#        - name: flink-log
+#          persistentVolumeClaim:
+#            claimName: flink-log-pvc
         - name: flink-ha
           persistentVolumeClaim:
             claimName: flink-ha-pvc

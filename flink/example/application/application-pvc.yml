@@ -28,20 +28,21 @@ spec:
     requests:
       storage: 1Gi    #存储容量，根据实际需要更改
 
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: flink-log-pvc  # jar pvc名称
-  namespace: flink
-spec:
-  storageClassName: nfs   #sc名称
-  accessModes:
-    - ReadWriteMany   #采用ReadWriteMany的访问模式
-  resources:
-    requests:
-      storage: 1Gi    #存储容量，根据实际需要更改
+# 取消本地持久化日志，转用elk采集
+#---
+#
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: flink-log-pvc  # jar pvc名称
+#  namespace: flink
+#spec:
+#  storageClassName: nfs   #sc名称
+#  accessModes:
+#    - ReadWriteMany   #采用ReadWriteMany的访问模式
+#  resources:
+#    requests:
+#      storage: 1Gi    #存储容量，根据实际需要更改
 
 ---
 
