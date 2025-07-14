@@ -59,8 +59,6 @@ spec:
               mountPath: /opt/flink/log
             - name: flink-ha    # HA pvc配置
               mountPath: /opt/flink/flink_recovery
-            - name: flink-historyserver
-              mountPath: /opt/flink/flink_history
             - name: flink-historyserver # 历史服务器 pvc配置
               mountPath: /opt/flink/flink_history
       volumes:
