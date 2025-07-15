@@ -90,6 +90,6 @@ spec:
       - "master"
       - "--port"
       - "9999"
-    parallelism: 2
+    parallelism: 4
     upgradeMode: stateless
 
