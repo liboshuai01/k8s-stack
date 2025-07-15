@@ -29,13 +29,17 @@ spec:
   jobManager:
     replicas: 2  # HA下， jobManger的副本数要大于1
     resource:
+      # 推荐生产环境最小配置为4g
       memory: "1024m"
-      cpu: 1
+      # 推荐生产环境最小配置为1
+      cpu: 0.5
   taskManager:
     replicas: 1
     resource:
+      # 推荐生产环境最小配置为4g
       memory: "1024m"
-      cpu: 1
+      # 推荐生产环境最小配置为1
+      cpu: 0.5
   podTemplate:
     spec:
       hostAliases:
@@ -85,13 +89,14 @@ spec:
   job:
     jarURI: local:///opt/flink/jar/flink-wordcount.jar # 使用pv方式挂载jar包
     entryClass: com.liboshuai.demo.FlinkWordCountDemo
-    args:   # 传递到作业main方法的参数
+    args:   # 传递到作业main方法的参数（parallelism为并行度关键参数）
       - "--parallelism"
       - "4"
       - "--hostname"
       - "master"
       - "--port"
       - "9999"
+    # （默认使用1即可，不需要修改）
     parallelism: 1
     upgradeMode: stateless
 
