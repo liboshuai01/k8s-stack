@@ -9,6 +9,6 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: application-example
+      app: application-example
   podMetricsEndpoints:
     - port: metrics
