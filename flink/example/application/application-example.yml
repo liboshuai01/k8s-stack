@@ -32,6 +32,7 @@ spec:
       memory: "1024m"
       cpu: 1
   taskManager:
+    replicas: 1
     resource:
       memory: "1024m"
       cpu: 1
