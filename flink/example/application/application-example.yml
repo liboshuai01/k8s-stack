@@ -15,7 +15,7 @@ spec:
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: "/$2"
   flinkConfiguration:
-    taskmanager.numberOfTaskSlots: "4"
+    taskmanager.numberOfTaskSlots: "2"
     state.checkpoints.dir: file:///opt/flink/checkpoints
     high-availability.type: kubernetes
     high-availability: org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory # JobManager HA
@@ -86,10 +86,12 @@ spec:
     jarURI: local:///opt/flink/jar/flink-wordcount.jar # 使用pv方式挂载jar包
     entryClass: com.liboshuai.demo.FlinkWordCountDemo
     args:   # 传递到作业main方法的参数
+      - "--parallelism"
+      - "4"
       - "--hostname"
       - "master"
       - "--port"
       - "9999"
-    parallelism: 4
+    parallelism: 1
     upgradeMode: stateless
 
