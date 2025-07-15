@@ -5,7 +5,7 @@ metadata:
   namespace: flink
   name: flink-kubernetes-operator
   labels:
-    release: prometheus
+    release: kube-prom-stack
 spec:
   selector:
     matchLabels:
