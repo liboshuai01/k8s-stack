@@ -39,9 +39,9 @@ spec:
     # 其他参数配置
     taskmanager.memory.managed.size: 0m  # 配置托管内存为0（状态后端为内存时启用）
     rest.flamegraph.enabled: true  # 开启火焰图
-    # 监控
-    metrics.reporter.prom.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory
-    metrics.reporter.prom.port: 9249
+    # 监控（不生效，原因带排查）
+#    metrics.reporter.prom.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory
+#    metrics.reporter.prom.port: 9249-9250
   serviceAccount: flink
   jobManager:
     replicas: 2  # HA下， jobManger的副本数要大于1
