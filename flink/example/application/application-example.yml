@@ -15,14 +15,28 @@ spec:
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: "/$2"
   flinkConfiguration:
+    # 槽
     taskmanager.numberOfTaskSlots: "2"
+    # checkpoint 路径
     state.checkpoints.dir: file:///opt/flink/checkpoints
+    # 高可用
     high-availability.type: kubernetes
     high-availability: org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory # JobManager HA
     high-availability.storageDir: file:///opt/flink/flink_recovery  # JobManager HA数据保存路径
     jobmanager.archive.fs.dir: file:///opt/flink/flink_history      # JobManager 归档路径
+    # 历史服务器
     historyserver.archive.fs.dir: file:///opt/flink/flink_history      # Historyserver 归档路径
     historyserver.archive.fs.refresh-interval: "10000"              # Historyserver 文件刷新间隔
+    # 自动扩缩容
+    job.autoscaler.enabled: "true"  # 开启autoscaling
+    job.autoscaler.stabilization.interval: 1m #稳定窗口。在此期间，不会收集任何指标，也不会采取任何缩放操作
+    job.autoscaler.metrics.window: 2m #指标采集时间窗口
+    job.autoscaler.target.utilization: "0.5"  #目标利用率，扩缩容后尽量确保作业或chained operator groups的利用率在此值以下
+    job.autoscaler.target.utilization.boundary: "0.1"  #利用率边界，避免负载波动时立即扩缩容。0.1意味着在触发缩放操作之前，允许与目标利用率有10%的偏差
+    job.autoscaler.restart.time: 1m #重新启动应用程序需要的时间
+    job.autoscaler.catch-up.duration: 2m #扩容后，作业有望赶上的时间
+    pipeline.max-parallelism: "24" # 扩容到的最大并行度
+    # 其他参数配置
     taskmanager.memory.managed.size: 0m  # 配置托管内存为0（状态后端为内存时启用）
     rest.flamegraph.enabled: true  # 开启火焰图
   serviceAccount: flink
