@@ -4,7 +4,7 @@ apiVersion: flink.apache.org/v1beta1
 kind: FlinkDeployment
 metadata:
   namespace: flink
-  name: application-deployment-checkpoint-ha  # flink 集群名称
+  name: application-example  # flink 集群名称
 spec:
   image: flink:1.18.0-java8
   flinkVersion: v1_18
