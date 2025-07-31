@@ -31,8 +31,7 @@ TMP_PASSWORD=$(kubectl get secret my-es-cluster-es-elastic-user -n elastic-syste
 **2. 启动临时 Pod，验证 es 集群状态**
 ```shell
 kubectl run es-health-check -n elastic-system --rm -it --image=curlimages/curl --restart=Never \
---env PASSWORD=${TMP_PASSWORD} \
--- curl -k -u "elastic:${PASSWORD}" "https://my-es-cluster-es-http.elastic-system.svc:9200/_cluster/health?pretty"
+-- curl -k -u "elastic:${TMP_PASSWORD}" "https://my-es-cluster-es-http.elastic-system.svc:9200/_cluster/health?pretty"
 ```
 
 更新应用
