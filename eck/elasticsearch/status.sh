@@ -3,4 +3,4 @@
 set -e
 set -o pipefail
 
-kubectl get all -n elastic-system | grep elastic-system
+kubectl get all -n elastic-system
