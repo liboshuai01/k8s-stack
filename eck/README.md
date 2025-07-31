@@ -12,23 +12,6 @@
 bash install.sh
 ```
 
-**2. 获取`ingress`的`EXTERNAL-IP`**
-
-```shell
-# EXTERNAL-IP 为 192.168.6.241
-[lbs@master ingress-nginx]$ kubectl get svc -n ingress-nginx
-NAME                                 TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                      AGE
-ingress-nginx-controller             LoadBalancer   10.43.51.133    192.168.6.241   80:32443/TCP,443:30784/TCP   26s
-ingress-nginx-controller-admission   ClusterIP      10.43.230.20    <none>          443/TCP                      26s
-ingress-nginx-controller-metrics     ClusterIP      10.43.141.155   <none>          10254/TCP                    26s
-```
-
-**3. 配置客户端机器`hosts`文件，添加一下内容**
-
-```
-# 待补充
-```
-
 验证应用
 ---
 
@@ -40,7 +23,20 @@ bash status.sh
 
 ### 进阶验证
 
-> 待补充
+通过查看`eck-operator`的 Pod 日志，可以验证 Operator 是否正常运行。
+
+```shell
+# 加载 .env 文件中的变量
+source .env
+
+# 查看 Pod 状态
+kubectl get pods -n ${NAMESPACE}
+
+# 查看 Operator 日志
+kubectl logs -f -n ${NAMESPACE} $(kubectl get pods -n ${NAMESPACE} -l control-plane=elastic-operator -o name)
+```
+
+当您看到类似 "Starting reconciliation" 或 "Successfully reconciled" 的日志时，说明 Operator 已成功启动并正在工作。
 
 更新应用
 ---
@@ -56,15 +52,20 @@ bash status.sh
 bash uninstall.sh
 ```
 
-**2. （可选）删除pvc**
+**2. （可选）删除 CRDs**
+
+> **警告：** 此操作将删除所有由 ECK 管理的 Elastic 资源（Elasticsearch, Kibana, APM Server 等）。请谨慎操作。
+
+如果确定不再需要 ECK 及其管理的资源，可以手动删除 CRDs：
 
 ```shell
-# 加载变量
-source .env
-
-# 查看pvc
-kubectl get pvc -n ${NAMESPACE}
-
-# 删除pvc（可能有多个pvc要删除）
-kubectl delete pvc [pvc名称] -n ${NAMESPACE}
+kubectl delete crd elasticsearches.elasticsearch.k8s.elastic.co
+kubectl delete crd kibanas.kibana.k8s.elastic.co
+kubectl delete crd apmservers.apm.k8s.elastic.co
+kubectl delete crd enterprisesearches.enterprisesearch.k8s.elastic.co
+kubectl delete crd beats.beat.k8s.elastic.co
+kubectl delete crd agents.agent.k8s.elastic.co
+kubectl delete crd stacks.stack.k8s.elastic.co
 ```
+
+> 更详细的教程请查看：[Elastic Cloud on Kubernetes (ECK) 官方文档](https://www.elastic.co/guide/en/cloud-on-k8s/current/index.html)
