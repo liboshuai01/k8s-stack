@@ -18,7 +18,7 @@ bash install.sh
 ### 初步验证
 
 ```shell
-kubectl get all -n eck-system | grep my-es-cluster
+bash status.sh
 ```
 
 更新应用
