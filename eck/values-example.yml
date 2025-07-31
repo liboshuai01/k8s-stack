@@ -23,15 +23,12 @@ installCRDs: true
 # 这是一个关键的生产实践，可以确保 Operator Pod 获得稳定运行所需的资源，
 # 同时防止其过度消耗节点资源，影响其他应用。
 resources:
-  # requests: Pod 启动时向 Kubernetes 请求的资源量，用于调度决策。
-  # 官方默认值为 cpu: 100m, memory: 150Mi。这里提供一个稍显宽松的建议值。
   requests:
-    cpu: 200m
-    memory: 256Mi
-  # limits: Pod 可使用的资源上限，防止资源滥用。
+    cpu: 100m
+    memory: 128Mi
   limits:
-    cpu: 1
-    memory: 1Gi
+    cpu: 512m
+    memory: 2048Mi
 
 # Operator 的配置项
 config:
