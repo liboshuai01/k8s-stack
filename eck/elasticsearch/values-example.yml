@@ -5,12 +5,12 @@ metadata:
   name: my-es-cluster
 spec:
   version: 8.16.1
+  volumeClaimDeletePolicy: DeleteOnScaledownOnly
   nodeSets:
     - name: master-nodes
       count: 1
       config:
         node.roles: ["master"]
-      volumeClaimDeletePolicy: Retain
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data
@@ -25,7 +25,6 @@ spec:
       count: 2
       config:
         node.roles: ["data"]
-      volumeClaimDeletePolicy: Retain
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data
