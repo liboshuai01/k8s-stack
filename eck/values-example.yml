@@ -1,0 +1,66 @@
+# -------------------------------------------------------------------
+# Helm Chart 的自定义配置值
+# -------------------------------------------------------------------
+
+# Alertmanager 配置
+alertmanager:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    hosts:
+      - alertmanager.lbs.com
+    paths:
+      - /
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "nfs"
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 8Gi
+
+# Prometheus 配置
+prometheus:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    hosts:
+      - prometheus.lbs.com
+    paths:
+      - /
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "nfs"
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 32Gi
+
+# Grafana 配置
+grafana:
+  enabled: true
+  adminPassword: "YOUR_PASSWORD"
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    hosts:
+      - grafana.lbs.com
+    path: "/"
+  persistence:
+    enabled: true
+    storageClassName: "nfs"
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+
+# Prometheus Operator 配置
+prometheusOperator:
+  enabled: true
