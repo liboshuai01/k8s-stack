@@ -1,7 +1,7 @@
 前提准备
 ---
 
-复制文件`.env.example`为`.env`，复制文件`values-example.yml`为`values.yml`，并根据需求修改配置内容。
+复制文件`values-example.yml`为`values.yml`，并根据需求修改配置内容。
 
 安装应用
 ---
@@ -23,25 +23,21 @@ bash status.sh
 
 ### 进阶验证
 
-通过查看`eck-operator`的 Pod 日志，可以验证 Operator 是否正常运行。
-
+**1. 获取`elastic`密码**
 ```shell
-# 加载 .env 文件中的变量
-source .env
-
-# 查看 Pod 状态
-kubectl get pods -n ${NAMESPACE}
-
-# 查看 Operator 日志
-kubectl logs -f -n ${NAMESPACE} $(kubectl get pods -n ${NAMESPACE} -l control-plane=elastic-operator -o name)
+TMP_PASSWORD=$(kubectl get secret my-es-cluster-es-elastic-user -n elastic-system -o go-template='{{.data.elastic | base64decode}}')
 ```
 
-当您看到类似 "Starting reconciliation" 或 "Successfully reconciled" 的日志时，说明 Operator 已成功启动并正在工作。
+**2. 启动临时 Pod，验证 es 集群状态**
+```shell
+kubectl run es-health-check -n elastic-system --rm -it --image=curlimages/curl --restart=Never \
+-- curl -k -u "elastic:${TMP_PASSWORD}" "https://my-es-cluster-es-http.elastic-system.svc:9200/_cluster/health?pretty"
+```
 
 更新应用
 ---
 
-修改`.env`、`values.yml`文件内容后，重新执行`install.sh`脚本即可。
+修改`values.yml`文件内容后，重新执行`install.sh`脚本即可。
 
 卸载应用
 ---
@@ -50,4 +46,14 @@ kubectl logs -f -n ${NAMESPACE} $(kubectl get pods -n ${NAMESPACE} -l control-pl
 
 ```shell
 bash uninstall.sh
+```
+
+**2. （可选）删除 PVC**
+
+```shell
+# 查看pvc
+kubectl get pvc -n elastic-system
+
+# 删除pvc（可能有多个pvc要删除）
+kubectl delete pvc [pvc名称] -n elastic-system
 ```

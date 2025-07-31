@@ -3,12 +3,13 @@
 set -e
 set -o pipefail
 
-# --- 加载变量 ---
-if [ -f .env ]; then
-    source .env
-else
-    echo "错误: .env 文件不存在!"
+# --- 检查 values.yml 文件是否存在 ---
+if [ ! -f values.yml ]; then
+    echo "错误: values.yml 文件不存在!"
     exit 1
 fi
 
-helm uninstall ${RELEASE_NAME} -n ${NAMESPACE}
+# --- 卸载 ---
+kubectl delete -f values.yml
+
+echo "ElasticSearch 实例 已成功卸载"
