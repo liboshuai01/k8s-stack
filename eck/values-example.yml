@@ -35,7 +35,7 @@ config:
   # 为 Operator 管理的应用（如 Elasticsearch, Kibana）设置默认的容器镜像仓库。
   # 默认是 docker.elastic.co，在国内访问可能较慢或不稳定。
   # 建议修改为公共的镜像源，如 docker.io/elastic，以提高拉取速度和稳定性。
-  containerRegistry: "docker.io/elastic"
+#  containerRegistry: "docker.io/elastic"
 
   # 启用 Operator 自身的 metrics 端点，以便被 Prometheus 监控。
   # 设置一个非零端口来暴露 metrics。
