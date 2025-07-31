@@ -1,5 +1,4 @@
 {
-  "model": "gemini-2.5-pro",
   "git_integration": true,
   "excluded_files": [
     "node_modules/**",
