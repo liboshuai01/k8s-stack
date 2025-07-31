@@ -10,6 +10,7 @@ spec:
       count: 1
       config:
         node.roles: ["master"]
+      volumeClaimDeletePolicy: Retain
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data
@@ -24,6 +25,7 @@ spec:
       count: 2
       config:
         node.roles: ["data"]
+      volumeClaimDeletePolicy: Retain
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data
