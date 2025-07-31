@@ -23,7 +23,7 @@ spec:
     - name: data-nodes
       count: 2
       config:
-        node.roles: ["worker"]
+        node.roles: ["data"]
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data
