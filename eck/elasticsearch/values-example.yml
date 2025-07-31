@@ -1,0 +1,36 @@
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  namespace: eck-system
+  name: my-es-cluster
+spec:
+  version: 8.16.1
+  nodeSets:
+    - name: master-nodes
+      count: 1
+      config:
+        node.roles: ["master"]
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi
+            storageClassName: nfs
+    - name: data-nodes
+      count: 2
+      config:
+        node.roles: ["worker"]
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 20Gi
+            storageClassName: nfs
