@@ -23,7 +23,7 @@ bash status.sh
 
 ### 进阶验证
 
-**1. 获取`elastic`密码**
+**1. 获取`elastic`用户密码**
 ```shell
 TMP_PASSWORD=$(kubectl get secret my-es-cluster-es-elastic-user -n elastic-system -o go-template='{{.data.elastic | base64decode}}')
 ```

@@ -23,15 +23,15 @@ bash status.sh
 
 ### 进阶验证
 
-**1. 获取`elastic`密码**
+**1. 获取`elastic`用户密码**
 ```shell
-TMP_PASSWORD=$(kubectl get secret my-es-cluster-es-elastic-user -n elastic-system -o go-template='{{.data.elastic | base64decode}}')
+TMP_PASSWORD=$(kubectl get secret my-es-cluster-es-elastic-user -n elastic-system -o=jsonpath='{.data.elastic}' | base64 --decode)
 ```
 
-**2. 启动临时 Pod，验证 es 集群状态**
+**2. 启动临时 Pod，访问 kibana 登录页面（也可以使用浏览器）**
 ```shell
 kubectl run es-health-check -n elastic-system --rm -it --image=curlimages/curl --restart=Never \
--- curl -k -u "elastic:${TMP_PASSWORD}" "https://my-es-cluster-es-http.elastic-system.svc:9200/_cluster/health?pretty"
+-- curl -Lku "elastic:${TMP_PASSWORD}" "https://my-kibana-kb-http:5601"
 ```
 
 更新应用
