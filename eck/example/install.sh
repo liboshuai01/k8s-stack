@@ -12,4 +12,4 @@ fi
 # --- 安装 / 升级 ---
 kubectl apply -f values.yml
 
-echo "Kibana 实例 已成功部署"
+echo "eck 实例 已成功部署"
