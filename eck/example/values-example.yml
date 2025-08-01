@@ -8,10 +8,24 @@ spec:
   count: 1
   elasticsearchRef:
     name: elasticsearch
-    namespace: elastic-system
+  http:
+    service:
+      spec:
+        type: ClusterIP
+  podTemplate:
+    spec:
+      containers:
+        - name: kibana
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 500m
+            limits:
+              memory: 2Gi
+              cpu: 1000m
   config:
-    xpack.fleet.agents.elasticsearch.hosts: ["https://elasticsearch-es-http.default.svc:9200"]
-    xpack.fleet.agents.fleet_server.hosts: ["https://fleet-server-agent-http.default.svc:8220"]
+    xpack.fleet.agents.elasticsearch.hosts: ["https://elasticsearch-es-http.elastic-system.svc:9200"]
+    xpack.fleet.agents.fleet_server.hosts: ["https://fleet-server-agent-http.elastic-system.svc:8220"]
     xpack.fleet.packages:
       - name: system
         version: latest
@@ -51,29 +65,6 @@ spec:
               name: kubernetes
             name: kubernetes-1
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: kibana-ingress
-  namespace: elastic-system
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
-spec:
-  ingressClassName: nginx
-  rules:
-    - host: kibana.lbs.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: kibana-kb-http
-                port:
-                  number: 5601
----
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
@@ -81,11 +72,50 @@ metadata:
   namespace: elastic-system
 spec:
   version: 9.0.0
+  monitoring:
+    metrics:
+      elasticsearchRefs:
+        - name: elasticsearch
+    logs:
+      elasticsearchRefs:
+        - name: elasticsearch
+  nodeSets:
+    - name: default
+      count: 3
+      config:
+        node.store.allow_mmap: false
+        xpack.monitoring.collection.enabled: true
+        xpack.monitoring.elasticsearch.collection.enabled: false
+      podTemplate:
+        spec:
+          containers:
+            - name: elasticsearch
+              resources:
+                requests:
+                  memory: 2Gi
+                  cpu: 500m
+                limits:
+                  memory: 4Gi
+                  cpu: 2000m
+              env:
+                - name: ES_JAVA_OPTS
+                  value: "-Xms1g -Xmx1g"
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi
+            storageClassName: nfs
 ---
 apiVersion: agent.k8s.elastic.co/v1alpha1
 kind: Agent
 metadata:
   name: fleet-server
+  namespace: elastic-system
 spec:
   version: 9.0.0
   kibanaRef:
@@ -103,29 +133,27 @@ spec:
         automountServiceAccountToken: true
         securityContext:
           runAsUser: 0
+        containers:
+          - name: agent
+            resources:
+              requests:
+                memory: 512Mi
+                cpu: 200m
+              limits:
+                memory: 1Gi
+                cpu: 500m
 ---
 apiVersion: agent.k8s.elastic.co/v1alpha1
 kind: Agent
 metadata:
   name: elastic-agent
+  namespace: elastic-system
 spec:
   version: 9.0.0
   kibanaRef:
     name: kibana
   fleetServerRef:
     name: fleet-server
-  # Advanced configuration is possible in Fleet mode to
-  # customize the agent's providers.
-  # See https://www.elastic.co/docs/reference/fleet/advanced-kubernetes-managed-by-fleet
-  # for more information.
-  # Note: the sample configuration below enables deployment metadata collection which is not
-  # enabled by default because it has a performance impact.
-  # config:
-  #   fleet:
-  #     enabled: true
-  #   providers.kubernetes:
-  #     add_resource_metadata:
-  #       deployment: true
   mode: fleet
   policyID: eck-agent
   daemonSet:
@@ -137,6 +165,129 @@ spec:
         automountServiceAccountToken: true
         securityContext:
           runAsUser: 0
+        containers:
+          - name: agent
+            resources:
+              requests:
+                memory: 256Mi
+                cpu: 100m
+              limits:
+                memory: 512Mi
+                cpu: 200m
+            securityContext:
+              runAsUser: 0
+              privileged: true
+            volumeMounts:
+              - name: proc
+                mountPath: /hostfs/proc
+                readOnly: true
+              - name: cgroup
+                mountPath: /hostfs/sys/fs/cgroup
+                readOnly: true
+              - name: varlibdockercontainers
+                mountPath: /var/lib/docker/containers
+                readOnly: true
+              - name: varlog
+                mountPath: /var/log
+                readOnly: true
+            env:
+              - name: NODE_NAME
+                valueFrom:
+                  fieldRef:
+                    fieldPath: spec.nodeName
+        volumes:
+          - name: proc
+            hostPath:
+              path: /proc
+          - name: cgroup
+            hostPath:
+              path: /sys/fs/cgroup
+          - name: varlibdockercontainers
+            hostPath:
+              path: /var/lib/docker/containers
+          - name: varlog
+            hostPath:
+              path: /var/log
+---
+# Kibana Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kibana-ingress
+  namespace: elastic-system
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/proxy-ssl-verify: "false"
+    nginx.ingress.kubernetes.io/proxy-ssl-server-name: "on"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: kibana.lbs.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kibana-kb-http
+                port:
+                  number: 5601
+---
+# ServiceMonitor for Elasticsearch
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: elasticsearch-metrics
+  namespace: monitoring
+  labels:
+    app: elasticsearch
+    release: kube-prom-stack
+spec:
+  selector:
+    matchLabels:
+      elasticsearch.k8s.elastic.co/cluster-name: elasticsearch
+  endpoints:
+    - port: https
+      scheme: https
+      tlsConfig:
+        insecureSkipVerify: true
+      path: /_prometheus/metrics
+      interval: 30s
+      basicAuth:
+        username:
+          name: elasticsearch-es-elastic-user
+          key: elastic
+        password:
+          name: elasticsearch-es-elastic-user
+          key: elastic
+  namespaceSelector:
+    matchNames:
+      - elastic-system
+---
+# ServiceMonitor for Kibana
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kibana-metrics
+  namespace: monitoring
+  labels:
+    app: kibana
+    release: kube-prom-stack
+spec:
+  selector:
+    matchLabels:
+      kibana.k8s.elastic.co/name: kibana
+  endpoints:
+    - port: https
+      scheme: https
+      tlsConfig:
+        insecureSkipVerify: true
+      path: /api/status
+      interval: 30s
+  namespaceSelector:
+    matchNames:
+      - elastic-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -178,7 +329,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: fleet-server
-  namespace: default
+  namespace: elastic-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -187,7 +338,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: fleet-server
-    namespace: default
+    namespace: elastic-system
 roleRef:
   kind: ClusterRole
   name: fleet-server
@@ -271,7 +422,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: elastic-agent
-  namespace: default
+  namespace: elastic-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -280,7 +431,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: elastic-agent
-    namespace: default
+    namespace: elastic-system
 roleRef:
   kind: ClusterRole
   name: elastic-agent
