@@ -1,60 +1,62 @@
 # -------------------------------------------------------------------
-# Helm Chart 'eck-operator' 的自定义配置值
+# ECK Operator Helm Chart 的自定义配置值
 # -------------------------------------------------------------------
 
-# 覆盖完整的 release 名称，确保所有资源的命名可预测且一致。
-# 这与 .env 文件中的 RELEASE_NAME="elastic-operator" 保持一致。
-fullnameOverride: "elastic-operator"
+# 副本数配置
+replicaCount: 1
 
-# 明确指定 Operator 管理的命名空间。
-# 设置为 ["elastic-system"] 表示 Operator 将只管理其自身所在的命名空间 "elastic-system"。
-# 这是一个推荐的最佳实践，可以限制 Operator 的权限范围，避免它管理集群中其他不相关的命名空间。
-# 如果留空（[]），Operator 将默认管理集群中的所有命名空间。
-managedNamespaces:
-  - "elastic-system"
+# 镜像配置
+image:
+  repository: docker.elastic.co/eck/eck-operator
+  pullPolicy: IfNotPresent
 
-# 是否由 Helm Chart 安装 CRD（自定义资源定义）。
-# 设置为 true，因为这是首次安装。
-# 注意：在多租户集群中，如果其他用户也安装了 ECK，可能会有版本冲突风险。
-# 对于专用集群或首次安装，true 是合适的。
-installCRDs: true
-
-# 为 Operator Pod 配置资源请求和限制 (requests and limits)。
-# 这是一个关键的生产实践，可以确保 Operator Pod 获得稳定运行所需的资源，
-# 同时防止其过度消耗节点资源，影响其他应用。
+# 资源限制配置
 resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
   requests:
     cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 512m
-    memory: 2048Mi
+    memory: 150Mi
 
-# Operator 的配置项
+# Webhook 配置
+webhook:
+  enabled: true
+  manageCerts: true
+
+# 配置项
 config:
-  # 为 Operator 管理的应用（如 Elasticsearch, Kibana）设置默认的容器镜像仓库。
-  # 默认是 docker.elastic.co，在国内访问可能较慢或不稳定。
-  # 建议修改为公共的镜像源，如 docker.io/elastic，以提高拉取速度和稳定性。
-#  containerRegistry: "docker.io/elastic"
-
-  # 启用 Operator 自身的 metrics 端点，以便被 Prometheus 监控。
-  # 设置一个非零端口来暴露 metrics。
+  # 日志级别 (0: 信息级别, 1: 调试级别)
+  logVerbosity: "0"
+  # 最大并发协调操作数
+  maxConcurrentReconciles: "3"
+  # 容器镜像仓库
+  containerRegistry: docker.elastic.co
+  # 启用存储类验证
+  validateStorageClass: true
+  # 启用领导者选举
+  enableLeaderElection: true
+  # 指标配置
   metrics:
-    port: "8080" # Operator 的 metrics 端口
+    # 启用指标端口
+    port: "8080"
 
 # Prometheus PodMonitor 配置
-# 由于你已经部署了 kube-prometheus-stack，启用此项可以让 Prometheus 自动发现并抓取 ECK Operator 的 metrics。
 podMonitor:
   # 启用 PodMonitor
   enabled: true
-
-  # 指定 PodMonitor 资源应该被创建在哪个命名空间。
-  # 这必须是你安装 kube-prometheus-stack 的命名空间，即 "monitoring"，
-  # 这样 Prometheus Operator 才能发现它。
-  namespace: "monitoring"
-
-  # 添加额外的标签，这有助于 Prometheus 根据标签选择器来发现这个 PodMonitor。
-  # 例如，如果你的 Prometheus CRD 配置了 `podMonitorSelector`，可以通过这个标签来匹配。
+  # 添加标签便于 Prometheus 发现
   labels:
-    release: "kube-prom-stack" # 与你的 Prometheus release 关联
+    app: eck-operator
+    release: kube-prom-stack
+  # 部署到 monitoring 命名空间（与你的 Prometheus 在同一命名空间）
+  namespace: monitoring
+  # 抓取间隔
+  interval: 30s
+  # 抓取超时
+  scrapeTimeout: 10s
+  # 将 Pod 标签转移到指标目标
+  podTargetLabels:
+    - app
+    - version
 
