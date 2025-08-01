@@ -26,17 +26,16 @@ spec:
 #      nodeSelector:
 #        type: frontend
 ---
-# 新增的 Ingress 资源，用于暴露 Kibana 服务
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: my-kibana-ingress
-  namespace: elastic-system # Ingress 和 Service 必须在同一个命名空间
+  namespace: elastic-system
   annotations:
-    # 指定使用 ingress-nginx 控制器
     kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
 spec:
-  # 如果你的 ingress-nginx 控制器要求使用 ingressClassName，请使用这个字段
   ingressClassName: nginx
   rules:
     - host: kibana.lbs.com
@@ -46,8 +45,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                # 这个名字来自你的 status.sh 输出: service/my-kibana-kb-http
                 name: my-kibana-kb-http
                 port:
-                  # 这个端口号也来自 status.sh 输出: 5601/TCP
                   number: 5601
