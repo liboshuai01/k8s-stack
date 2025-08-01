@@ -1,8 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: eck
+---
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
   name: kibana
-  namespace: elastic-system
+  namespace: eck
 spec:
   version: 9.0.0
   count: 1
@@ -24,8 +29,8 @@ spec:
               memory: 2Gi
               cpu: 1000m
   config:
-    xpack.fleet.agents.elasticsearch.hosts: ["https://elasticsearch-es-http.elastic-system.svc:9200"]
-    xpack.fleet.agents.fleet_server.hosts: ["https://fleet-server-agent-http.elastic-system.svc:8220"]
+    xpack.fleet.agents.elasticsearch.hosts: ["https://elasticsearch-es-http.eck.svc:9200"]
+    xpack.fleet.agents.fleet_server.hosts: ["https://fleet-server-agent-http.eck.svc:8220"]
     xpack.fleet.packages:
       - name: system
         version: latest
@@ -38,7 +43,7 @@ spec:
     xpack.fleet.agentPolicies:
       - name: Fleet Server on ECK policy
         id: eck-fleet-server
-        namespace: elastic-system
+        namespace: eck
         is_managed: true
         monitoring_enabled:
           - logs
@@ -51,7 +56,7 @@ spec:
               name: fleet_server
       - name: Elastic Agent on ECK policy
         id: eck-agent
-        namespace: elastic-system
+        namespace: eck
         is_managed: true
         monitoring_enabled:
           - logs
@@ -69,10 +74,9 @@ apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
   name: elasticsearch
-  namespace: elastic-system
+  namespace: eck
 spec:
   version: 9.0.0
-  volumeClaimDeletePolicy: DeleteOnScaledownOnly
   monitoring:
     metrics:
       elasticsearchRefs:
@@ -116,7 +120,7 @@ apiVersion: agent.k8s.elastic.co/v1alpha1
 kind: Agent
 metadata:
   name: fleet-server
-  namespace: elastic-system
+  namespace: eck
 spec:
   version: 9.0.0
   kibanaRef:
@@ -148,7 +152,7 @@ apiVersion: agent.k8s.elastic.co/v1alpha1
 kind: Agent
 metadata:
   name: elastic-agent
-  namespace: elastic-system
+  namespace: eck
 spec:
   version: 9.0.0
   kibanaRef:
@@ -215,7 +219,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: kibana-ingress
-  namespace: elastic-system
+  namespace: eck
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
@@ -264,7 +268,7 @@ spec:
           key: elastic
   namespaceSelector:
     matchNames:
-      - elastic-system
+      - eck
 ---
 # ServiceMonitor for Kibana
 apiVersion: monitoring.coreos.com/v1
@@ -288,7 +292,7 @@ spec:
       interval: 30s
   namespaceSelector:
     matchNames:
-      - elastic-system
+      - eck
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -330,7 +334,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: fleet-server
-  namespace: elastic-system
+  namespace: eck
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -339,7 +343,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: fleet-server
-    namespace: elastic-system
+    namespace: eck
 roleRef:
   kind: ClusterRole
   name: fleet-server
@@ -423,7 +427,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: elastic-agent
-  namespace: elastic-system
+  namespace: eck
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -432,7 +436,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: elastic-agent
-    namespace: elastic-system
+    namespace: eck
 roleRef:
   kind: ClusterRole
   name: elastic-agent
