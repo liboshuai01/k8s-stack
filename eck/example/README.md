@@ -46,7 +46,7 @@ bash status.sh
 
 **1. 获取`elastic`用户密码**
 ```shell
-TMP_PASSWORD=$(kubectl get secret my-es-cluster-es-elastic-user -n elastic-system -o=jsonpath='{.data.elastic}' | base64 --decode)
+TMP_PASSWORD=$(kubectl get secret elasticsearch-es-elastic-user -n elastic-system -o=jsonpath='{.data.elastic}' | base64 --decode)
 ```
 
 **2. 启动临时 Pod，访问 kibana 登录页面（也可以使用浏览器）**
