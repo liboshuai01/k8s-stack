@@ -46,12 +46,12 @@ bash status.sh
 
 **1. 获取`elastic`用户密码**
 ```shell
-TMP_PASSWORD=$(kubectl get secret elasticsearch-es-elastic-user -n elastic-system -o=jsonpath='{.data.elastic}' | base64 --decode)
+TMP_PASSWORD=$(kubectl get secret elasticsearch-es-elastic-user -n eck -o=jsonpath='{.data.elastic}' | base64 --decode)
 ```
 
 **2. 启动临时 Pod，访问 kibana 登录页面（也可以使用浏览器）**
 ```shell
-kubectl run es-health-check -n elastic-system --rm -it --image=curlimages/curl --restart=Never \
+kubectl run es-health-check -n eck --rm -it --image=curlimages/curl --restart=Never \
 -- curl -Lku "elastic:${TMP_PASSWORD}" "https://my-kibana-kb-http:5601"
 ```
 
@@ -73,8 +73,8 @@ bash uninstall.sh
 
 ```shell
 # 查看pvc
-kubectl get pvc -n elastic-system
+kubectl get pvc -n eck
 
 # 删除pvc（可能有多个pvc要删除）
-kubectl delete pvc [pvc名称] -n elastic-system
+kubectl delete pvc [pvc名称] -n eck
 ```

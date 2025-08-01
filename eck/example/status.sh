@@ -3,4 +3,4 @@
 set -e
 set -o pipefail
 
-kubectl get all,pvc -n elastic-system
+kubectl get all,pvc -n eck
