@@ -47,7 +47,7 @@ podMonitor:
   enabled: true
   # 添加标签便于 Prometheus 发现
   labels:
-    app: eck-operator
+    app: elastic-operator
     release: kube-prom-stack
   # 部署到 monitoring 命名空间（与你的 Prometheus 在同一命名空间）
   namespace: monitoring
