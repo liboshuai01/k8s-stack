@@ -3,4 +3,4 @@
 set -e
 set -o pipefail
 
-kubectl get all -n cert-manager
+kubectl get all,pvc -n cert-manager

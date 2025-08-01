@@ -12,4 +12,4 @@ else
 fi
 
 # --- 执行查询命令 ---
-kubectl get all -n ${NAMESPACE}
+kubectl get all,pvc -n ${NAMESPACE}

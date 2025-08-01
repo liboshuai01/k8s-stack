@@ -11,5 +11,4 @@ else
     exit 1
 fi
 
-kubectl get all -n ${NAMESPACE}
-kubectl get pvc -n ${NAMESPACE}
+kubectl get all,pvc -n ${NAMESPACE}

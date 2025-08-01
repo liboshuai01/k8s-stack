@@ -3,5 +3,5 @@
 set -e
 set -o pipefail
 
-kubectl get all -n elastic-system
+kubectl get all,pvc -n elastic-system
 kubectl get pvc -n elastic-system
